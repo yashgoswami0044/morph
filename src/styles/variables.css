@@ -1,0 +1,70 @@
+:root {
+  /* Brand Colors */
+  --primary: #A88944;
+  --primary-light: #C5A96A;
+  --primary-dark: #8A6D30;
+  --primary-bg: rgba(168, 137, 68, 0.15);
+
+  /* Neutrals — Sidebar is dark, content is lighter */
+  --bg-main: #0e1117;
+  --bg-content: #141820;
+  --bg-card: #1a1f2b;
+  --bg-sidebar: #080a0f;
+  --bg-elevated: #222835;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(168, 137, 68, 0.35);
+  --text-main: #FAFAFA;
+  --text-muted: #A1A1AA;
+  --text-dim: #71717A;
+
+  /* Status Colors */
+  --status-hot: #F87171;
+  --status-warm: #FBBF24;
+  --status-nurture: #60A5FA;
+  --status-success: #34D399;
+  --status-gray: #9CA3AF;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+
+  /* Sidebar Width */
+  --sidebar-w: 240px;
+
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.7), 0 4px 10px -2px rgba(0, 0, 0, 0.4);
+  --shadow-gold: 0 4px 20px rgba(168, 137, 68, 0.25);
+  --shadow-gold-hover: 0 8px 30px rgba(168, 137, 68, 0.45);
+  --shadow-inner-glass: inset 0 1px 1px rgba(255, 255, 255, 0.06);
+
+  /* Typography */
+  --font-family: 'Outfit', 'Inter', sans-serif;
+}
+
+/* Glassmorphism Utility */
+.glass {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-inner-glass), var(--shadow-md);
+}
+
+.glass-gold {
+  background: rgba(168, 137, 68, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-highlight);
+  box-shadow: var(--shadow-inner-glass), inset 0 0 20px rgba(168, 137, 68, 0.05);
+}

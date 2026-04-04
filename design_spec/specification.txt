@@ -1,0 +1,767 @@
+MORPH INTERIORS
+Presales CRM
+UX/UI Specification Document
+Page-by-Page Interface Design for Interior Design Post-Booking Presales
+Property
+Value
+Version
+1.0
+Date
+March 31, 2026
+Domain
+Interior design for real estate (post-booking)
+Users
+Presales Executive, Presales Manager, CRM Head
+Platforms
+Web interface (primary), Mobile PWA (recommended)
+Regions covered
+Mumbai, Bangalore (x4), Hyderabad, Kochi, Chennai, NCR, UP
+Table of contents
+1. Executive summary
+This document defines the complete UX/UI specification for the Morph Presales CRM system. Morph operates in the interior design and fit-out space for real estate, engaging with homebuyers after they have booked a property (flat, apartment, villa, or commercial space). The presales team is the first point of contact — they reach out to buyers, understand their interior design needs, qualify them based on property details and possession timeline, and hand off qualified leads to the sales team for site visits and design consultations.
+The system serves two primary user roles: the Presales Executive (who makes outbound calls, captures lead data, and qualifies homebuyers) and the Presales Manager (who reviews qualified leads, approves handoffs, and monitors team performance). Both roles report up to the CRM Head, who has oversight across all regions.
+Key design principle
+Every screen in this system is optimised for speed-to-contact. In interior design, the homebuyer who just booked a flat is the most receptive to an interiors conversation. A competitor calling first — even by 24 hours — can capture the deal. Every UI decision prioritises reducing time between lead arrival and first human contact.
+1.1 System overview — 8 core pages
+The Morph Presales CRM consists of eight distinct pages, each designed for a specific workflow:
+Login and role selection  — Authentication with role-based access (Executive vs Manager)
+Dashboard  — Daily snapshot with KPIs, priority calls, and possession wave forecast
+Lead queue  — Filterable list of all leads with status, region, and project grouping
+Lead detail and call interface  — Full lead record with property data, call form, live scoring, and disposition
+Lead creation (manual)  — Form for adding walk-in, referral, or expo leads not from builder lists
+Manager review queue  — Approval workflow for qualified leads awaiting handoff to sales
+Pipeline and analytics  — Funnel metrics, builder-wise conversion, regional performance, exec scorecards
+Settings and administration  — Region mapping, builder project master, team management, notification rules
+2. Page 1 — Login and role selection
+The login page is the entry point to the system. Since Morph operates across 10 regions with distinct presales teams, the login must identify both the user and their regional context.
+2.1 Screen layout
+The login screen uses a split layout: the left panel (40% width) displays the Morph brand identity with a subtle background pattern inspired by interior design motifs (geometric tile patterns, material textures). The right panel (60%) contains the login form.
+Login form fields
+Field name
+Type
+Required
+Description
+Email / Employee ID
+Text input
+Yes
+Accepts email or 6-digit employee code. Auto-detects format.
+Password
+Password
+Yes
+Minimum 8 characters. Show/hide toggle icon on right.
+Region
+Dropdown
+Yes
+Auto-populated from user profile. Manual override for multi-region managers.
+Remember me
+Checkbox
+No
+Persists session for 30 days. Default: unchecked.
+Role-based routing after login
+Presales Executive:  Routes to Dashboard (Page 2) with their personal lead queue pre-loaded for today.
+Presales Manager:  Routes to Dashboard with team overview and pending approval count badge.
+CRM Head:  Routes to Pipeline and Analytics (Page 7) with all-region view.
+UX recommendation: Mobile-first login
+Although presales currently operates web-only, the login should be built as a responsive PWA from day one. When mobile access is enabled (recommended in Phase 2), the same login URL works on mobile browsers with an “Add to Home Screen” prompt. This avoids building a separate mobile login.
+3. Page 2 — Dashboard
+The dashboard is the home screen for both roles. It provides a morning-ready snapshot that answers the question: “What do I need to do right now?”
+3.1 Executive dashboard layout
+The executive dashboard is structured in three horizontal bands:
+Band 1: KPI summary strip (top)
+A row of 4 metric cards spanning the full width:
+Metric card
+Value shown
+Colour coding
+Tap action
+Hot leads
+Count of score > 75 leads
+Red accent background
+Opens lead queue filtered to Hot
+Warm leads
+Count of score 50–74
+Amber accent background
+Opens queue filtered to Warm
+Nurture pool
+Count of score < 50
+Blue accent background
+Opens queue filtered to Nurture
+Pipeline value
+Sum of estimated project values (₹L)
+Green accent background
+Opens pipeline analytics
+Band 2: Priority calls and possession wave (middle)
+This band splits into two columns:
+Left column — Today’s priority calls:  A sorted list of leads requiring action today. Each card shows: lead name, project name, flat config, carpet area, estimated value, possession date, and score ring. Sorted by: (1) overdue leads first (red flag if >48 hours since assignment), (2) hot leads by score descending, (3) scheduled follow-ups due today. Tapping any card opens the Lead Detail page (Page 4).
+Right column — Possession wave chart:  A horizontal bar chart showing how many leads have possession dates in each of the next 12 months. Bars are colour-coded: red for 0–3 months (urgent), amber for 3–6 months (approaching), blue for 6–12 months (plan ahead). This gives the executive a visual forecast of upcoming demand.
+Band 3: Activity feed (bottom)
+A chronological feed showing: calls made today (with outcome), leads dispositioned, handoffs confirmed by manager, and system notifications (new builder list uploaded, lead re-entered from nurture). Each entry shows timestamp, action type icon, and a one-line summary.
+3.2 Manager dashboard additions
+The manager sees the same three bands plus two additional sections:
+Pending approvals card:  Prominently positioned at the top-right of Band 1, showing the count of leads awaiting manager review. Displays as a red badge if count > 0. Tapping opens the Manager Review Queue (Page 6).
+Team performance strip:  Below Band 1, a row of cards showing each executive’s daily stats: calls made, connect rate, leads qualified, and avg call duration. Colour-coded: green if above target, amber if approaching, red if below.
+UX recommendation: Morning briefing mode
+Add a “Morning briefing” button that generates a 30-second auto-scrolling summary: total new leads since yesterday, top 3 priority calls, any leads about to breach SLA, and team performance summary. This replaces the need to manually scan the dashboard and gets the executive calling within 2 minutes of login.
+4. Page 3 — Lead queue
+The lead queue is the primary workspace for the presales executive. It displays all assigned leads in a filterable, sortable list view optimised for rapid scanning and call initiation.
+4.1 Layout structure
+The page has three zones:
+Filter bar (top):  Horizontal strip with status filter pills (All, Hot, Warm, Nurture, No Answer), region dropdown, project dropdown, source filter (Builder list, Channel partner, Expo, Digital), and a search box for name/phone/project.
+Lead list (centre):  Scrollable card list. Each card is a single row showing all critical data at a glance. Cards are grouped by status with section headers.
+Quick stats sidebar (right):  Fixed sidebar showing today’s progress: calls made / target, leads qualified today, avg call duration, and next scheduled follow-up countdown timer.
+4.2 Lead card design
+Each lead card in the queue shows the following information in a single row:
+Field name
+Type
+Required
+Description
+Score ring
+Visual
+—
+Circular progress indicator. Red (>75), amber (50–74), blue (<50). 36px diameter.
+Lead name
+Text
+—
+Full name in 14px semi-bold. Primary clickable element — opens Lead Detail.
+Project + flat
+Text
+—
+Builder project name, tower, flat number. e.g., “Prestige Lakeside — B-1204”
+Config + area
+Badge
+—
+Flat configuration (2BHK/3BHK/4BHK) and carpet area. e.g., “3BHK · 1450 sq ft”
+Estimated value
+Text
+—
+Project value in lakhs. e.g., “₹22L”. Green colour for high-value (>20L).
+Possession date
+Date
+—
+Formatted as “Jun 2026”. Red text if < 3 months away.
+Status badge
+Badge
+—
+Hot (red), Warm (amber), Nurture (blue), No Answer (gray). Pill-shaped.
+Last contact
+Relative time
+—
+“2 days ago” or “Today 10:30 AM”. Red if > 48 hours.
+Quick call button
+Icon button
+—
+Phone icon on the right edge. Single tap initiates outbound call.
+4.3 Sorting options
+Sort option
+Logic
+Default
+Priority (default)
+Overdue first, then by score descending, then by possession proximity
+Yes
+Possession date
+Earliest possession first — surfaces urgent leads
+No
+Score
+Highest score first — surfaces best-qualified leads
+No
+Project name
+Alphabetical grouping by builder project
+No
+Last contact
+Oldest contact first — surfaces neglected leads
+No
+Value
+Highest estimated project value first
+No
+UX recommendation: Builder project grouping view
+Add a toggle to switch from flat list to grouped-by-project view. In this mode, leads are nested under project headers (e.g., “Prestige Lakeside Habitat — 12 leads”) with a mini-funnel for each project showing hot/warm/nurture counts. This helps executives who work builder-relationship-first rather than lead-by-lead.
+5. Page 4 — Lead detail and call interface
+This is the most complex and most-used page in the system. It serves as both the lead’s complete record and the live call interface. When the executive clicks a lead or initiates a call, this page opens.
+5.1 Page layout — Three-panel design
+The page splits into three vertical panels:
+Left panel (30% width) — Lead profile:  Static information about the lead and their property. This is reference data the executive glances at during the call.
+Centre panel (45% width) — Call form and scoring:  The active workspace during a call. Contains the need discovery form, live score indicator, and disposition buttons.
+Right panel (25% width) — History and context:  Call history, previous notes, drip engagement data, and competitor intelligence.
+5.2 Left panel — Lead profile
+Contact information section
+Field name
+Type
+Required
+Description
+Lead name
+Display + edit
+—
+Full name. Editable inline (pencil icon). 18px semi-bold.
+Phone (primary)
+Display + call
+—
+With click-to-call button. Shows call status indicator (available/busy/DND).
+Phone (alternate)
+Display + call
+—
+Secondary number. Often spouse’s number in residential interiors.
+Email
+Display + edit
+—
+For sending design inspiration emails and quotations.
+WhatsApp
+Display + action
+—
+WhatsApp number with “Send template” button for drip messages.
+Preferred language
+Dropdown
+—
+Hindi, English, Kannada, Tamil, Telugu, Malayalam. Helps match exec to lead.
+Property details section
+This is the most critical data block for interior design presales. It defines the physical space being designed.
+Field name
+Type
+Required
+Description
+Builder / developer
+Auto + dropdown
+Yes
+Builder name from master list. e.g., Prestige, Godrej, Brigade, Sobha, DLF.
+Project name
+Auto + dropdown
+Yes
+Specific project. e.g., “Lakeside Habitat”. Linked to builder.
+Tower / block
+Text
+Yes
+Tower letter or number. e.g., “Tower B”, “Block 7”.
+Floor
+Number
+No
+Floor number. Relevant for layout variations (ground floor = garden, top = terrace).
+Flat number
+Text
+Yes
+Unit identifier. e.g., “1204”. Combined with tower for unique identification.
+Configuration
+Select
+Yes
+1BHK, 2BHK, 2.5BHK, 3BHK, 3.5BHK, 4BHK, 4+BHK, Penthouse, Villa, Duplex.
+Carpet area
+Number + unit
+Yes
+In square feet. This is the base for budget calculation (budget = area × rate/sq ft).
+Possession status
+Select
+Yes
+Not yet / Possession letter received / Keys in hand / Already moved in.
+Expected possession
+Date picker
+Yes
+The #1 qualification field. Determines hot/warm/nurture classification.
+Property type
+Select
+Yes
+Residential, Commercial, Retail, Office. Defaults to Residential.
+UX recommendation: Pre-populate from builder list
+When a lead enters from a builder list upload, all property fields (builder, project, tower, flat, config, area, possession date) should be pre-filled from the builder data. The executive should ONLY need to fill in the contact details and need discovery section. This saves 60–90 seconds per lead and eliminates data entry errors.
+5.3 Centre panel — Call form and live scoring
+This is the active workspace during a call. It is designed to be filled top-to-bottom as the conversation flows naturally.
+Section A: Call controls (sticky header)
+A persistent strip at the top of the centre panel with:
+Call button:  Large green button labelled “Call [Name]”. Initiates outbound call. Changes to “On call — 04:23” with timer during active call. Red “End call” button appears.
+Call outcome quick-select:  Appears after call ends — Connected, No answer, Busy, Wrong number, DND. Single tap.
+Schedule callback:  Date-time picker that appears if “No answer” or “Busy” selected. Defaults to +2 hours.
+Section B: Need discovery form
+This form mirrors the natural flow of an interior design consultation call:
+Field name
+Type
+Required
+Description
+Scope of work
+Multi-select chips
+Yes
+Full home interiors, Modular kitchen, Wardrobes, Living room, Bedrooms, Study/home office, Bathroom renovation, False ceiling, Electrical/painting, Balcony/utility. Multiple selections allowed.
+Budget bracket
+Range slider
+Yes
+Slider from ₹5L to ₹1Cr+ in ₹1L increments. Also shows calculated rate per sq ft based on carpet area. e.g., “₹22L = ₹1,517/sq ft”.
+Decision maker
+Select
+Yes
+Husband, Wife, Both spouses, Parents, Tenant, Other. In residential interiors, “Both spouses” is the most common (65% of cases).
+Timeline urgency
+Select
+Yes
+Want to start immediately, Within 1 month, Within 3 months, After possession, Not decided. Distinct from possession date — captures buyer’s readiness.
+Style preference
+Multi-select chips
+No
+Modern minimalist, Contemporary, Italian luxury, South Indian traditional, Scandinavian, Industrial, Art deco, Bohemian, Classic Indian, Not decided.
+Competition check
+Text + select
+No
+Has the buyer spoken to competitors? Dropdown: None, HomeLane, Livspace, Design Cafe, Bonito, Local carpenter, Other (text field). Critical for sales strategy.
+Special requirements
+Textarea
+No
+Free text for anything non-standard: “Wants home theater”, “Needs vastu compliance”, “Wheelchair accessible kitchen”, “Joint family — needs extra storage”.
+Section C: Live score indicator
+As the executive fills in the form, a lead score calculates in real-time and displays as a prominent circular ring indicator. The scoring algorithm weights four dimensions:
+Dimension
+Weight
+Scoring logic
+Possession proximity
+35%
+< 3 months = 100, 3–6 months = 80, 6–12 months = 50, > 12 months = 20
+Budget alignment
+25%
+Above ₹15L = 100, ₹10–15L = 70, ₹5–10L = 40, < ₹5L = 10
+Scope breadth
+20%
+Full home = 100, Kitchen + wardrobes = 70, Single room = 40, Undecided = 20
+Buyer readiness
+20%
+Start immediately = 100, Within 1 month = 80, Within 3 months = 50, Not decided = 20
+Score thresholds determine the lead classification:
+Hot (score 75–100):  Red ring. Lead is ready for immediate handoff to sales. Site visit should be scheduled within 72 hours.
+Warm (score 50–74):  Amber ring. Lead is interested but not ready. Schedule follow-up call. Keep in active pipeline.
+Nurture (score below 50):  Blue ring. Lead is too far out. Add to automated drip. Re-engage when possession approaches.
+Section D: Disposition buttons
+After the call ends, the executive must disposition the lead. These are large, colour-coded buttons — not a dropdown — designed for single-tap speed:
+Button
+Colour
+Action triggered
+Hot — Ready for sales
+Red fill, white text
+Creates handoff packet. Moves to Manager Review Queue. Notification sent to Presales Manager.
+Warm — Follow up later
+Amber fill, white text
+Opens date picker to schedule next call. Lead stays in executive’s queue with reminder.
+Nurture — Not ready yet
+Blue fill, white text
+Enrolls lead in automated email/WhatsApp drip. Sets possession-date trigger for re-engagement.
+Not interested
+Gray fill, dark text
+Tags with reason (already hired, DIY, budget mismatch, wrong number). Archives lead. Can be reopened.
+Could not reach
+Gray outline
+Schedules automatic retry: attempt 2 in 4 hours, attempt 3 next day, attempt 4 in 3 days.
+UX critical: Auto-save during calls
+The call form MUST auto-save every 10 seconds. If the browser crashes, the network drops, or the executive accidentally navigates away during a call, all captured data must be preserved. Show a subtle “Saved” indicator with timestamp. Never lose call data — this is the single biggest usability risk in a call-centre interface.
+5.4 Right panel — History and context
+This panel provides the executive with all historical context about the lead. It has four collapsible sections:
+Call history
+Chronological list of all previous calls with: date/time, duration, outcome (connected/no answer/busy), and a summary of notes taken. If call recording is enabled, a play button appears next to each entry.
+Drip engagement
+Shows which automated emails/WhatsApp messages the lead has received and their engagement: opened, clicked link, replied. Highlights: “Opened kitchen design email 3 days ago” — this gives the executive a natural conversation starter.
+Builder project intelligence
+Auto-populated contextual information about the property: builder reputation notes, known construction delays, typical layout variations for this project, nearby Morph completed projects (for reference/site visit), and any builder partnership terms.
+Competitor intelligence
+If the lead mentioned competitors, this section shows: competitor name, typical pricing in this area, known strengths/weaknesses, and suggested talking points for the sales team. This data is maintained centrally and auto-populated.
+6. Page 5 — Lead creation (manual entry)
+While most leads arrive via builder list uploads (automated), some leads come from walk-ins at the Morph experience centre, referrals from existing clients, property expo interactions, or inbound calls. This page allows the executive to manually add these leads.
+6.1 Form structure
+The form is a single-page wizard with three sections that expand sequentially:
+Section 1: Source and contact (always visible)
+Field name
+Type
+Required
+Description
+Lead source
+Select
+Yes
+Channel partner referral, Property expo, Walk-in at experience centre, Inbound call, Website inquiry, Social media, Existing client referral, Other.
+Referrer name
+Text
+If referral
+Name of the channel partner, existing client, or agent who referred. For tracking referral incentives.
+Lead name
+Text
+Yes
+Full name of the homebuyer.
+Phone
+Phone
+Yes
+With country code dropdown (default +91). Validates Indian mobile format.
+Alternate phone
+Phone
+No
+Spouse or alternate contact.
+Email
+Email
+No
+For sending design portfolios and quotations.
+Section 2: Property details (expands after Section 1)
+Same property fields as the Lead Detail page (Section 5.2). Builder and project are searchable dropdowns from the master list. If the builder/project is not in the system, the executive can type it as free text and flag it for admin to add.
+Section 3: Initial notes (expands after Section 2)
+Field name
+Type
+Required
+Description
+Initial impression
+Select
+No
+Hot / Warm / Just browsing. Quick gut-feel assessment before any formal qualification.
+Notes
+Textarea
+No
+Free text capturing the initial interaction. e.g., “Met at Bangalore Property Expo booth 12. Wife very interested in modular kitchen. Husband wants to wait for possession.”
+Schedule first call
+Date-time
+No
+If the lead was met at an expo or walk-in, schedule the formal qualification call. Defaults to next business day 10 AM.
+UX recommendation: Business card scanner
+Add a camera icon that opens the phone camera (when mobile is enabled) to scan a business card. OCR extracts name, phone, and email. This is extremely common at property expos where executives collect 20–30 cards per event and would otherwise need to type each one manually.
+7. Page 6 — Manager review queue
+This page is exclusive to the Presales Manager role. It displays all leads that executives have marked as “Hot — Ready for sales” and are awaiting manager verification before handoff.
+7.1 Queue layout
+The review queue is a full-width card list, sorted by submission time (oldest first — FIFO). Each card is an expanded view showing enough information for the manager to make an approve/return decision without opening the full lead detail.
+Review card contents
+Field name
+Type
+Required
+Description
+Lead summary header
+Display
+—
+Name, project, config, area, estimated value, possession date. All in one glanceable row.
+Score breakdown
+Visual
+—
+Four mini-bars showing the score contribution from each dimension (possession, budget, scope, readiness).
+Call notes summary
+Text
+—
+The executive’s most recent call notes. Truncated to 3 lines with “Expand” option.
+Executive name
+Display
+—
+Which presales executive qualified this lead. Tap to see their recent performance stats.
+Time in queue
+Timer
+—
+Shows how long the lead has been awaiting review. Red if > 2 hours.
+Approve button
+Action
+—
+Green button. Triggers sales handoff workflow. Assigns to Sales Manager based on region.
+Return button
+Action
+—
+Amber button. Opens a “Return reason” text field. Sends lead back to executive for more information.
+Escalate button
+Action
+—
+Red button. For high-value leads (>25L) that need CRM Head attention. Rare but critical.
+7.2 Manager action: Approve
+When the manager taps “Approve”, the system:
+Creates a handoff packet with all lead data, property details, call notes, and score breakdown.
+Auto-assigns to the Sales Manager for the lead’s region based on the region mapping in settings.
+Sends a push notification (and email) to the Sales Manager with the lead summary.
+Updates the lead status from “Pending review” to “Handoff complete”.
+Notifies the originating Presales Executive that their lead was approved.
+Starts a 24-hour SLA timer for the Sales team to make first contact.
+7.3 Manager action: Return
+When the manager taps “Return”:
+A required text field appears for the return reason (e.g., “Score seems high — did you confirm budget directly with the buyer?”, “Possession date doesn’t match builder records — please verify”).
+The lead returns to the executive’s queue with a “Returned by manager” flag and the reason displayed prominently.
+The executive must address the concern and re-submit, or change the disposition.
+UX recommendation: Swipe to approve (mobile)
+When mobile access is enabled, the review queue should support swipe gestures: swipe right to approve, swipe left to return. This allows the manager to process the queue during commutes or between meetings without needing to tap small buttons. A confirmation modal prevents accidental approvals.
+8. Page 7 — Pipeline and analytics
+This page provides the Presales Manager and CRM Head with a comprehensive view of funnel performance, conversion metrics, and team productivity. It is the strategic decision-making page.
+8.1 Funnel view
+A visual funnel chart showing the conversion at each stage:
+Funnel stage
+Metric
+Benchmark target
+Builder list received
+Total leads uploaded this period
+Volume varies by builder
+Contacted
+Leads where first call was made
+90% within 48 hours
+Connected
+Calls where buyer answered
+55–65% connect rate
+Interest shown
+Buyer expressed interest in interiors
+40–50% of connected
+Qualified (hot + warm)
+Passed need discovery and scoring
+15–20% of total leads
+Handoff to sales
+Manager-approved and sent to sales team
+80–85% of qualified
+Site visit booked
+Sales team confirmed site visit
+70–80% of handoffs
+Design sign-up
+Customer signed design contract
+50–60% of site visits
+8.2 Builder-wise performance
+A table/chart showing conversion rates grouped by builder project. This is critical for two strategic decisions: (1) which builder partnerships to invest more in, and (2) which projects have quality issues (high drop-off indicates construction delays, buyer disillusionment, or poor lead data from the builder).
+8.3 Regional comparison
+Side-by-side performance metrics for each of the 10 regions. Key metrics: lead volume, contact rate, qualification rate, average deal size, and time-to-handoff. Helps the CRM Head allocate resources and identify underperforming regions.
+8.4 Executive scorecards
+Individual performance cards for each presales executive showing:
+Activity metrics:  Calls made, connect rate, average call duration, calls per lead.
+Quality metrics:  Qualification rate, average lead score, handoff approval rate (what percentage of their “hot” leads get manager approval vs returned).
+Outcome metrics:  What happened to their handed-off leads? Conversion to site visit, conversion to design sign-up. This closed-loop feedback is the most powerful coaching tool.
+8.5 Possession wave forecast
+An expanded version of the dashboard possession chart, showing a 12-month forecast of lead possession dates across all regions. This helps the business plan capacity: if 50 leads across Bangalore have possession in August 2026, the sales and design teams need to be staffed accordingly.
+UX recommendation: Automated weekly digest
+Generate a PDF report every Friday evening summarising: total leads this week, conversion funnel, top-performing builder projects, executives who beat/missed targets, and the upcoming possession wave. Auto-email to CRM Head and Business Head. This saves the manager 45 minutes of manual report compilation weekly.
+9. Page 8 — Settings and administration
+This page is accessible to the Presales Manager and CRM Head. It controls the system configuration that underpins all other pages.
+9.1 Region mapping
+Define which regions exist, which builder projects fall under each region, and which presales executives are assigned to each region. The auto-assignment engine uses this mapping to route new leads.
+Each region has a primary presales executive and an overflow backup.
+Builder projects are tagged to regions. When a builder list is uploaded, leads are auto-assigned based on the project-to-region mapping.
+9.2 Builder project master
+A master database of all builder projects that Morph works with. Each project entry contains:
+Field name
+Type
+Required
+Description
+Builder name
+Text
+Yes
+Developer company name. e.g., Prestige, Godrej, Brigade.
+Project name
+Text
+Yes
+Specific project. e.g., Lakeside Habitat.
+Region
+Dropdown
+Yes
+Which Morph region this project falls under.
+City
+Text
+Yes
+City name for display and filtering.
+Towers / blocks
+Text
+No
+List of tower names (A, B, C...) for dropdown population.
+Configurations available
+Multi-select
+No
+Which flat configs exist (2BHK, 3BHK, etc.).
+Typical carpet areas
+Text
+No
+Range of carpet areas for each config. e.g., “3BHK: 1300–1600 sq ft”.
+Expected possession dates
+Date range
+No
+Range of possession dates for different towers. Auto-populates lead forms.
+Partnership status
+Select
+Yes
+Active, Inactive, Pending. Only Active projects appear in lead forms.
+Notes
+Textarea
+No
+Any partnership terms, known delays, or special arrangements.
+9.3 Builder list upload
+The interface for uploading builder booking lists — the primary lead source. Accepts CSV or Excel files. The upload wizard:
+Previews the file and shows column mapping (auto-detects common headers like “Flat No”, “Owner Name”, “Contact No”).
+Allows manual column mapping if auto-detect fails.
+Validates phone numbers (Indian mobile format), flags duplicates against existing leads.
+Shows a summary: X new leads, Y duplicates skipped, Z invalid rows.
+On confirm, creates leads and auto-assigns to presales executives based on region mapping.
+9.4 Team management
+Add, edit, or deactivate presales team members. Each team member profile includes: name, employee ID, email, phone, assigned region(s), role (Executive/Manager), daily call target, and active/inactive status.
+9.5 Notification rules
+Configurable alerts that keep the team responsive:
+Notification
+Trigger
+Recipients
+Channel
+New lead assigned
+Builder list upload or manual creation
+Assigned executive
+In-app + push
+Lead SLA breach
+Lead not contacted within 48 hours
+Executive + manager
+In-app + email
+Review queue alert
+Lead waiting > 2 hours for manager review
+Manager
+Push notification
+Handoff confirmed
+Manager approves lead for sales
+Executive + sales manager
+In-app + email
+Possession approaching
+Lead’s possession date is now < 6 months away
+Assigned executive
+In-app
+Nurture re-engagement
+Nurture lead’s possession date enters 6-month window
+Executive + manager
+In-app + email
+Weekly digest
+Every Friday 5 PM
+Manager + CRM Head
+Email (PDF report)
+10. Navigation and information architecture
+The application uses a fixed left sidebar navigation pattern. The sidebar is always visible on desktop (240px wide) and collapsible to icons on tablet. On mobile (when PWA is enabled), it converts to a bottom tab bar with the 4 most-used pages.
+10.1 Sidebar navigation items
+Nav item
+Icon
+Exec visible
+Manager visible
+Badge
+Dashboard
+Home
+Yes
+Yes
+None
+Lead queue
+List
+Yes
+Yes
+Count of overdue leads (red)
+Add lead
+Plus
+Yes
+Yes
+None
+Review queue
+Checkmark
+No
+Yes
+Count of pending reviews (red)
+Pipeline
+Chart
+View-only
+Full access
+None
+Settings
+Gear
+No
+Yes (CRM Head: full)
+None
+10.2 Global search
+A search bar in the top header that searches across all leads by: name, phone number, email, project name, flat number, and builder name. Results display as a dropdown with grouped sections (Leads, Projects, Executives). Keyboard shortcut: Ctrl+K or Cmd+K.
+10.3 Notification centre
+A bell icon in the top-right header with a badge count for unread notifications. Clicking opens a dropdown panel showing the most recent 20 notifications grouped by type (Leads, Reviews, System). Each notification is tappable and navigates to the relevant page/lead.
+11. Mobile PWA recommendations (Phase 2)
+The current specification notes that presales has NO mobile access. This is the single biggest operational gap. Below is the recommended mobile strategy.
+11.1 Why mobile is critical for interior design presales
+Builder site visits: Presales executives attend builder events and project launches. They meet buyers face-to-face but cannot log leads until they return to their desk.
+Property expos: Morph has stalls at expos across all 10 regions. Executives collect 20–30 buyer contacts per event and currently write them on paper.
+Manager mobility: The presales manager visits builder offices, attends partner meetings, and travels between regions. Without mobile, the review queue stalls.
+Speed advantage: A competitor with mobile lead capture can call the buyer on the same day. Morph’s executives must wait until the next business day.
+11.2 Recommended mobile screens (priority order)
+Quick lead capture:  A 4-field form (name, phone, project, source) that takes 20 seconds to submit. Used at expos and events.
+Lead queue (simplified):  Today’s calls with swipe-to-call. No filters or sorting — just the priority list.
+Manager approve/return:  Swipe right to approve, left to return. Each card shows the lead summary and score.
+Dashboard KPIs:  Read-only view of the 4 metric cards and today’s priority calls.
+11.3 Offline capability
+For property expos and builder sites with poor connectivity, the PWA should support offline lead capture. Leads entered offline are queued locally and auto-synced when connectivity returns. A subtle indicator shows “3 leads pending sync”.
+Critical: Mobile is a Phase 2 must-have
+Based on the competitive landscape in Indian interior design (HomeLane, Livspace, and Design Cafe all have mobile-enabled sales teams), Morph’s lack of mobile access for presales is a measurable disadvantage. Every day of delay increases the risk of losing builder-sourced leads to faster competitors. Recommend launching the mobile PWA within 60 days of the web platform going live.
+12. Automation and integration recommendations
+12.1 Automated nurture sequences
+Leads in the nurture pool should receive automated touchpoints via WhatsApp and email. Recommended sequences:
+Day
+Channel
+Content
+Goal
+Day 3
+Email
+Welcome email with Morph portfolio relevant to their city/config
+Brand awareness
+Day 7
+WhatsApp
+Design inspiration images for their flat config (e.g., 3BHK modern)
+Visual engagement
+Day 14
+Email
+Blog: “5 things to plan before your flat possession”
+Position as expert
+Day 30
+WhatsApp
+Personalised message from executive: “Hi [Name], checking in on your [Project] flat.”
+Re-engagement
+Day 60
+Email
+Case study: Morph project in their builder/neighbourhood
+Social proof
+Day 90
+Call
+Executive callback. Lead re-enters active queue for qualification.
+Re-qualification
+Possession −6 mo
+WhatsApp + Call
+Triggered by possession date. “Your possession is approaching! Let’s plan your interiors.”
+Conversion trigger
+12.2 Builder list integration
+For high-volume builder partnerships, explore API integration where the builder’s CRM pushes new bookings directly into Morph’s system. This eliminates the manual CSV upload step and ensures leads arrive in real-time — within minutes of the buyer signing the booking form.
+12.3 WhatsApp Business API
+Integrate WhatsApp Business API for: automated drip messages, appointment confirmations, design sharing, and two-way chat. WhatsApp is the dominant communication channel for Indian homebuyers and using it systematically (rather than personal WhatsApp) ensures message tracking, compliance, and scalability.
+12.4 Sales feedback loop
+When the sales team marks a site visit outcome (won/lost/postponed), this must feed back to the presales executive and the analytics dashboard. Specifically:
+Win:  Executive gets credit. The lead’s qualification data is used to train the scoring algorithm (reinforce what “good” looks like).
+Loss:  Reason is captured (price too high, competitor won, buyer postponed, bad experience). Patterns are analysed: if a specific executive’s leads lose 50% of the time due to “budget mismatch”, they need coaching on budget qualification.
+Postponed:  Lead returns to the nurture pool with updated possession/timeline data. The cycle continues.
+13. Appendix
+13.1 Glossary of terms
+Term
+Definition
+BHK
+Bedroom, Hall, Kitchen. Standard Indian apartment configuration measure (2BHK = 2 bedrooms).
+Carpet area
+The actual usable floor area of a flat in square feet, excluding walls and common areas.
+Possession
+The date when the builder hands over the physical keys to the flat buyer.
+Modular kitchen
+Factory-manufactured kitchen cabinets, countertops, and accessories — a core product for Morph.
+Channel partner
+A real estate broker or agent who refers homebuyers to Morph in exchange for a commission.
+Builder list
+A spreadsheet of flat buyers shared by the builder/developer with Morph for outbound calling.
+GRE
+Ground-level Regional Executive. A field role that reports to the Regional Head.
+Experience centre
+A Morph showroom where customers can see and touch material samples and finished setups.
+BANT
+Budget, Authority, Need, Timeline. A standard sales qualification framework adapted for interiors.
+Drip sequence
+A series of automated messages (email/WhatsApp) sent at intervals to nurture a lead over time.
+13.2 Role access summary
+Page
+Presales Executive
+Presales Manager
+CRM Head
+Login
+Full access
+Full access
+Full access
+Dashboard
+Personal view
+Team view + approvals
+All-region view
+Lead queue
+Own leads only
+All leads in region
+All leads all regions
+Lead detail + call
+Full access (own leads)
+View + override scoring
+View only
+Lead creation
+Full access
+Full access
+Full access
+Review queue
+Not visible
+Full access (approve/return)
+Full access + escalation
+Pipeline analytics
+View own metrics
+Full regional analytics
+Full cross-region analytics
+Settings
+Not visible
+Region + team management
+Full system configuration
