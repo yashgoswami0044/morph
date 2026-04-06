@@ -116,6 +116,39 @@ a {
   overflow-x: hidden;
 }
 
+/* ── Kanban horizontal scrollbar ── */
+.kanban-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: calc(100vw - var(--sidebar-w) - 4rem);
+  scrollbar-color: rgba(168, 137, 68, 0.45) rgba(14, 17, 23, 0.6);
+  scrollbar-width: auto;
+  padding-bottom: 4px;
+}
+
+.kanban-scroll::-webkit-scrollbar {
+  height: 10px;
+}
+
+.kanban-scroll::-webkit-scrollbar-track {
+  background: rgba(14, 17, 23, 0.6);
+  border-radius: 8px;
+  margin: 0 6px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.kanban-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, var(--primary-dark), var(--primary), var(--primary-dark));
+  border-radius: 8px;
+  border: 2px solid rgba(14, 17, 23, 0.6);
+  min-width: 60px;
+}
+
+.kanban-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, var(--primary), var(--primary-light), var(--primary));
+  box-shadow: 0 0 8px rgba(168, 137, 68, 0.4);
+}
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }

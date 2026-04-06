@@ -8,6 +8,7 @@ import {
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useLeads } from '../../context/LeadContext.jsx';
 import { Badge } from '../ui/index.jsx';
+import logo from '../../assets/morph-logo-white.png';
 
 export const Sidebar = () => {
   const { user, logout } = useAuth();
@@ -45,7 +46,7 @@ export const Sidebar = () => {
       display: 'flex', flexDirection: 'column',
     }}>
       <div style={{ padding: '13px', borderBottom: '2px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'left' }}>
-        <img src="/morph-logo-white.png" alt="Morph" style={{ height: 36, objectFit: 'contain' }} />
+        <img src={logo} alt="Morph" style={{ height: 36, objectFit: 'contain' }} />
       </div>
 
       <nav style={{ flex: 1, padding: '1rem 0.75rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>

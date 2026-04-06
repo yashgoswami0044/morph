@@ -166,6 +166,15 @@ const ProjectLifecycle = () => {
           <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>{proj.config} · {proj.area} sqft · Contract: {formatCurrency(proj.contractValue)}</p>
         </div>
         <Badge variant="outline" style={{ color: currentPhaseObj?.color, borderColor: `${currentPhaseObj?.color}50`, fontSize: 13, padding: '6px 14px' }}>{proj.currentPhase}</Badge>
+        <Button variant="danger" size="sm" onClick={() => {
+          if (confirm('Are you sure you want to cancel this project? This will mark the lead as Not Qualified.')) {
+            setProjects(prev => prev.map(p => p.id === proj.id ? { ...p, currentPhase: 'Cancelled', status: 'Not Qualified' } : p));
+            // In a real app, this would also call transitionStatus(proj.leadId, 'Not Qualified')
+            setSelectedProject(null);
+          }
+        }}>
+          <XCircle size={14} style={{ marginRight: 6 }} /> Cancel Project
+        </Button>
       </div>
 
       {/* Phase Progress Strip */}

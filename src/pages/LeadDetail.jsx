@@ -3,11 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useLeads } from '../context/LeadContext.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { Card, Button, Badge } from '../components/ui/index.jsx';
+import ProjectLifecycle from '../components/ProjectLifecycle.jsx';
 import {
   Phone, Mail, MessageSquare, ChevronLeft, MapPin, Home, IndianRupee,
   Layers, Calendar, Clock, Save, CheckCircle, XCircle, AlertCircle,
   Play, History, PhoneOff, User, Send, Globe, ChevronRight, Fingerprint, Search,
-  Sparkles, ArrowRight, Users, BookOpen, FileText, UserPlus, Target, ExternalLink
+  Sparkles, ArrowRight, Users, BookOpen, FileText, UserPlus, Target, ExternalLink,
+  Workflow, ClipboardList
 } from 'lucide-react';
 import { scopeOptions, styleOptions, readinessOptions, decisionMakerOptions, competitorOptions, expectedServices, customerTimelines, teamMembers, statusFlow, statusColors, languages, interiorPovOptions, catalogues } from '../data/mockData.js';
 
@@ -29,6 +31,7 @@ const LeadDetail = () => {
   const [showCatalogue, setShowCatalogue] = useState(false);
   const [showPostVisit, setShowPostVisit] = useState(false);
   const [showLostReason, setShowLostReason] = useState(false);
+  const [activeTab, setActiveTab] = useState('details');
   const [callNotes, setCallNotes] = useState('');
 
   // Meeting form
@@ -281,6 +284,35 @@ const LeadDetail = () => {
         {/* ── CENTER PANEL ── */}
         <div className="custom-scrollbar" style={{ display: 'flex', flexDirection: 'column', overflowY: 'auto', paddingRight: 4, paddingBottom: 24, gap: 14 }}>
 
+          {/* ── TAB HEADER ── */}
+          <div style={{ display: 'flex', gap: 2, padding: 3, background: 'var(--bg-main)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
+            <button onClick={() => setActiveTab('details')} style={{
+              flex: 1, padding: '10px 16px', borderRadius: 'var(--radius-sm)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+              fontSize: 13, fontWeight: 600, fontFamily: 'inherit', cursor: 'pointer',
+              border: 'none', transition: 'all 0.25s',
+              background: activeTab === 'details' ? 'linear-gradient(135deg, var(--primary-bg), rgba(168,137,68,0.25))' : 'transparent',
+              color: activeTab === 'details' ? 'var(--primary-light)' : 'var(--text-dim)',
+              boxShadow: activeTab === 'details' ? '0 0 12px rgba(168,137,68,0.15)' : 'none',
+            }}>
+              <ClipboardList size={15} /> Lead Details
+            </button>
+            <button onClick={() => setActiveTab('lifecycle')} style={{
+              flex: 1, padding: '10px 16px', borderRadius: 'var(--radius-sm)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+              fontSize: 13, fontWeight: 600, fontFamily: 'inherit', cursor: 'pointer',
+              border: 'none', transition: 'all 0.25s',
+              background: activeTab === 'lifecycle' ? 'linear-gradient(135deg, var(--primary-bg), rgba(168,137,68,0.25))' : 'transparent',
+              color: activeTab === 'lifecycle' ? 'var(--primary-light)' : 'var(--text-dim)',
+              boxShadow: activeTab === 'lifecycle' ? '0 0 12px rgba(168,137,68,0.15)' : 'none',
+            }}>
+              <Workflow size={15} /> Project Lifecycle
+            </button>
+          </div>
+
+          {/* ── TAB: LEAD DETAILS ── */}
+          {activeTab === 'details' && (<>
+
           {/* Call Banner */}
           {canCall && (
             <div style={{ background: activeCall ? 'linear-gradient(90deg, rgba(52,211,153,0.1) 0%, rgba(20,24,32,1) 100%)' : 'var(--bg-card)', border: `1px solid ${activeCall ? '#34D39960' : 'var(--border)'}`, borderRadius: 'var(--radius-lg)', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', transition: 'all 0.3s ease' }}>
@@ -497,6 +529,12 @@ const LeadDetail = () => {
               </div>
             )}
           </Card>
+          </>)}
+
+          {/* ── TAB: PROJECT LIFECYCLE ── */}
+          {activeTab === 'lifecycle' && (
+            <ProjectLifecycle lead={lead} user={user} />
+          )}
         </div>
 
         {/* ── RIGHT PANEL ── */}

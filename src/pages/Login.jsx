@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { Button, Input } from '../components/ui/index.jsx';
 import { LogIn, Shield, Users, Eye, EyeOff } from 'lucide-react';
 import { regions } from '../data/mockData.js';
+import logo from '../assets/morph-logo-white.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -39,7 +40,7 @@ const Login = () => {
         }} />
 
         <div style={{ position: 'relative', textAlign: 'center', padding: '0 3rem', zIndex: 1 }}>
-          <img src="/morph-logo-white.png" alt="Morph Interiors" style={{
+          <img src={logo} alt="Morph Interiors" style={{
             width: 220, margin: '0 auto 2.5rem', filter: 'drop-shadow(0 0 20px rgba(168,137,68,0.35))',
           }} />
           <h1 style={{ fontSize: 28, fontWeight: 700, color: 'white', marginBottom: 12, letterSpacing: '-0.02em' }}>
