@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   Home, List, Plus, CheckCircle, BarChart2, Settings, LogOut, Search, Bell,
   FileText, AlertTriangle, BookOpen, ArrowRightLeft, MapPin, IndianRupee, Layers, PieChart, MessageSquare,
+  ChevronLeft, ChevronRight, ChevronDown,
   Phone, Calendar
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useLeads } from '../../context/LeadContext.jsx';
 import { Badge } from '../ui/index.jsx';
 import logo from '../../assets/morph-logo-white.png';
+import collapsedLogo from '/morph-logo-colleps.png';
 
 export const Sidebar = () => {
   const { user, logout } = useAuth();
   const { leads, notifications } = useLeads();
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    const saved = localStorage.getItem('sidebar_collapsed');
+    return saved === 'true';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('sidebar_collapsed', isCollapsed);
+    document.documentElement.style.setProperty('--sidebar-w', isCollapsed ? '72px' : '240px');
+  }, [isCollapsed]);
 
   const pendingReviews = leads.filter(l => l.status === 'Not Qualified' || (l.status === 'Validated' && l.assignedRole === 'Sales Manager')).length;
   const overdueQueue = leads.filter(l => l.status === 'Untouched' && l.statusHistory?.[0]?.date && (Date.now() - new Date(l.statusHistory[0].date).getTime()) > 48 * 3600000).length;
@@ -45,44 +56,58 @@ export const Sidebar = () => {
       background: 'var(--bg-sidebar)', borderRight: '1px solid var(--border)',
       display: 'flex', flexDirection: 'column',
     }}>
-      <div style={{ padding: '13px', borderBottom: '2px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'left' }}>
-        <img src={logo} alt="Morph" style={{ height: 36, objectFit: 'contain' }} />
+      <div style={{ height: 64, position: 'relative', borderBottom: '1px solid var(--border)', overflow: 'hidden' }}>
+        <img src={collapsedLogo} alt="Morph" style={{
+          height: 28, objectFit: 'contain', position: 'absolute', top: '50%', left: '50%',
+          transform: isCollapsed ? 'translate(-50%, -50%) scale(1)' : 'translate(-50%, -50%) scale(0.5)',
+          opacity: isCollapsed ? 1 : 0, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+        }} />
+        <img src={logo} alt="Morph" style={{
+          height: 32, objectFit: 'contain', position: 'absolute', top: '50%', left: 24,
+          transform: isCollapsed ? 'translateY(-50%) translateX(-20px)' : 'translateY(-50%) translateX(0)',
+          opacity: isCollapsed ? 0 : 1, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+        }} />
       </div>
 
-      <nav style={{ flex: 1, padding: '1rem 0.75rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+      <nav style={{ flex: 1, padding: '1rem 0.75rem', display: 'flex', flexDirection: 'column', gap: '0.25rem', overflowX: 'hidden' }}>
         {filteredNav.map(item => (
-          <NavLink key={item.path} to={item.path} end={item.path === '/'} style={{ textDecoration: 'none' }}
-            className={({ isActive }) => `sidebar-item ${isActive ? 'sidebar-item--active' : ''}`}>
-            <item.icon size={18} />
-            <span style={{ flex: 1 }}>{item.name}</span>
-            {item.badge != null && (
-              <Badge variant={item.badgeVariant || 'gray'} style={{ fontSize: 10, padding: '2px 6px', lineHeight: 1 }}>{item.badge}</Badge>
-            )}
+          <NavLink key={item.path} to={item.path} end={item.path === '/'}
+            style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}
+            className={({ isActive }) => `sidebar-item ${isActive ? 'sidebar-item--active' : ''}`}
+            title={isCollapsed ? item.name : undefined}>
+            
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 20 }}>
+              <item.icon size={20} />
+            </div>
+
+            <div style={{
+              display: 'flex', alignItems: 'center', overflow: 'hidden', whiteSpace: 'nowrap',
+              maxWidth: isCollapsed ? 0 : 200, opacity: isCollapsed ? 0 : 1,
+              marginLeft: isCollapsed ? 0 : 12, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}>
+              <span style={{ flex: 1 }}>{item.name}</span>
+              {item.badge != null && (
+                <Badge variant={item.badgeVariant || 'gray'} style={{ fontSize: 10, padding: '2px 6px', lineHeight: 1 }}>{item.badge}</Badge>
+              )}
+            </div>
           </NavLink>
         ))}
       </nav>
 
-      {/* User section */}
-      <div style={{ padding: '0.75rem', borderTop: '1px solid var(--border)', marginTop: 'auto' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem', borderRadius: 'var(--radius-md)' }}>
-          <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--bg-content)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', fontWeight: 700, fontSize: 14 }}>
-            {user?.name?.[0]?.toUpperCase()}
-          </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{ fontSize: 13, fontWeight: 600, color: 'white', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user?.name}</p>
-            <p style={{ fontSize: 11, color: 'var(--primary-light)' }}>{user?.role}</p>
-          </div>
-        </div>
-        <button onClick={logout} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', width: '100%', padding: '0.625rem 0.75rem', borderRadius: 'var(--radius-md)', fontSize: 13, fontWeight: 500, color: 'var(--text-muted)', transition: 'all 0.2s', marginTop: 4, cursor: 'pointer', border: 'none', background: 'transparent' }}
-          onMouseEnter={e => { e.currentTarget.style.color = '#F87171'; e.currentTarget.style.background = 'rgba(248,113,113,0.08)'; }}
-          onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.background = 'transparent'; }}>
-          <LogOut size={18} />
-          <span>Logout</span>
+      {/* Toggle Button */}
+      <div style={{ padding: '12px 0', borderTop: '1px solid var(--border)', marginTop: 'auto', display: 'flex', justifyContent: 'center' }}>
+        <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          style={{ padding: 6, background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 'var(--radius-sm)' }}
+          onMouseEnter={e => e.currentTarget.style.color = 'white'}
+          onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
+        >
+          <ChevronLeft size={20} style={{ transform: isCollapsed ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)' }} />
         </button>
       </div>
 
       <style>{`
-        .sidebar-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.625rem 0.875rem; border-radius: var(--radius-md); font-size: 13px; font-weight: 500; color: var(--text-muted); transition: all 0.2s; text-decoration: none; }
+        .sidebar-item { display: flex; align-items: center; padding: 0.625rem 0.875rem; border-radius: var(--radius-md); font-size: 13px; font-weight: 500; color: var(--text-muted); transition: all 0.2s; text-decoration: none; }
         .sidebar-item:hover { color: #fff; background: rgba(255,255,255,0.04); }
         .sidebar-item--active { color: var(--primary-light) !important; background: var(--primary-bg) !important; border-left: 3px solid var(--primary); }
       `}</style>
@@ -91,9 +116,10 @@ export const Sidebar = () => {
 };
 
 export const Header = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const { notifications, markNotificationRead } = useLeads();
   const [showNotifs, setShowNotifs] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
@@ -134,6 +160,34 @@ export const Header = () => {
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#34D399' }}></span>
           <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>{user?.region || 'All Regions'}</span>
+        </div>
+
+        <div style={{ width: 1, height: 28, background: 'var(--border)' }}></div>
+
+        <div style={{ position: 'relative' }}>
+          <button onClick={() => { setShowProfileMenu(!showProfileMenu); setShowNotifs(false); }} style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 8px', borderRadius: 'var(--radius-md)' }} onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.03)'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+            <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--bg-content)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', fontWeight: 700, fontSize: 13 }}>
+              {user?.name?.[0]?.toUpperCase()}
+            </div>
+            <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
+              <span style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>{user?.name}</span>
+              <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>{user?.role}</span>
+            </div>
+            <ChevronDown size={14} style={{ color: 'var(--text-dim)', marginLeft: 4 }} />
+          </button>
+
+          {showProfileMenu && (
+            <div style={{ position: 'absolute', right: 0, top: 48, width: 220, background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', boxShadow: '0 12px 32px rgba(0,0,0,0.4)', zIndex: 100, padding: 8, animation: 'fadeIn 0.2s' }}>
+              <div style={{ padding: '8px 12px' }}>
+                <p style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>{user?.name}</p>
+                <p style={{ fontSize: 11, color: 'var(--text-muted)' }}>{user?.email || 'admin@morph.com'}</p>
+              </div>
+              <div style={{ height: 1, background: 'var(--border)', margin: '4px 0' }} />
+              <button onClick={logout} style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '10px 12px', background: 'transparent', color: '#F87171', border: 'none', borderRadius: 'var(--radius-sm)', cursor: 'pointer', textAlign: 'left', fontSize: 13 }} onMouseEnter={e => e.currentTarget.style.background = 'rgba(248,113,113,0.08)'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                <LogOut size={16} /> Logout
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>

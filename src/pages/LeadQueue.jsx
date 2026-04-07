@@ -13,7 +13,7 @@ import { regions, leadSources, leadStatuses, statusColors, configurations, mockP
 const LeadQueue = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { leads } = useLeads();
+  const { leads, getNextFollowUp, getNextMeeting } = useLeads();
   const [searchParams] = useSearchParams();
 
   const [search, setSearch] = useState('');
@@ -52,8 +52,8 @@ const LeadQueue = () => {
 
       if (sortBy === 'priority') return (b.score || 0) - (a.score || 0);
       if (sortBy === 'followup') {
-        const aDate = a.followUpDate || a.followUpSalesDate;
-        const bDate = b.followUpDate || b.followUpSalesDate;
+        const aDate = getNextFollowUp(a) || getNextMeeting(a);
+        const bDate = getNextFollowUp(b) || getNextMeeting(b);
         if (aDate && bDate) return new Date(aDate) - new Date(bDate);
         if (aDate) return -1;
         if (bDate) return 1;
@@ -266,11 +266,11 @@ const LeadQueue = () => {
                       <span>·</span>
                       <span style={{ display: 'flex', alignItems: 'center', gap: 3 }}><MapPin size={10} /> {lead.region}</span>
                       {lead.assignedToName && <><span>·</span><span>→ {lead.assignedToName}</span></>}
-                      {lead.coApplicant && <><span>·</span><span style={{ color: 'var(--primary-light)' }}>+ {lead.coApplicant.name}</span></>}
+                      {lead.coApplicants && lead.coApplicants.length > 0 && <><span>·</span><span style={{ color: 'var(--primary-light)' }}>+ {lead.coApplicants[0].name} {lead.coApplicants.length > 1 ? `(+${lead.coApplicants.length - 1})` : ''}</span></>}
                     </div>
-                    {lead.followUpDate && (
+                    {getNextFollowUp(lead) && (
                       <div style={{ marginTop: 4, fontSize: 10, color: '#FBBF24', display: 'flex', alignItems: 'center', gap: 4 }}>
-                        <Calendar size={10} /> Follow-up: {new Date(lead.followUpDate).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                        <Calendar size={10} /> Follow-up: {new Date(getNextFollowUp(lead)).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                       </div>
                     )}
                   </div>
@@ -503,10 +503,10 @@ const LeadQueue = () => {
                         )}
 
                         {/* Follow-up date */}
-                        {(lead.followUpDate || lead.followUpSalesDate) && (
+                        {(getNextFollowUp(lead) || getNextMeeting(lead)) && (
                           <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, color: '#FBBF24' }}>
                             <Calendar size={9} />
-                            {new Date(lead.followUpDate || lead.followUpSalesDate).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                            {new Date(getNextFollowUp(lead) || getNextMeeting(lead)).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                           </div>
                         )}
 

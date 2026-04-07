@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { ChevronDown, XCircle } from 'lucide-react';
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
-export const Button = ({ children, className, variant = 'primary', size = 'md', ...props }) => {
+export const Button = ({ children, className, variant = 'primary', size = 'md', style: userStyle, ...props }) => {
   const base = {
     display: 'inline-flex',
     alignItems: 'center',
@@ -54,7 +56,7 @@ export const Button = ({ children, className, variant = 'primary', size = 'md', 
 
   return (
     <button
-      style={{ ...base, ...variants[variant], ...sizes[size] }}
+      style={{ ...base, ...variants[variant], ...sizes[size], ...userStyle }}
       className={className}
       {...props}
     >
@@ -63,7 +65,7 @@ export const Button = ({ children, className, variant = 'primary', size = 'md', 
   );
 };
 
-export const Card = ({ children, className, ...props }) => {
+export const Card = ({ children, className, style: userStyle, ...props }) => {
   return (
     <div
       style={{
@@ -72,6 +74,7 @@ export const Card = ({ children, className, ...props }) => {
         background: 'var(--bg-card)',
         padding: 24,
         transition: 'all 0.25s',
+        ...userStyle
       }}
       className={className}
       {...props}
@@ -81,7 +84,7 @@ export const Card = ({ children, className, ...props }) => {
   );
 };
 
-export const Input = ({ label, error, className, ...props }) => {
+export const Input = ({ label, error, className, style: userStyle, ...props }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: '100%' }}>
       {label && <label style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-muted)' }}>{label}</label>}
@@ -96,6 +99,7 @@ export const Input = ({ label, error, className, ...props }) => {
           outline: 'none',
           fontSize: 14,
           transition: 'all 0.25s',
+          ...userStyle
         }}
         className={className}
         {...props}
@@ -134,5 +138,68 @@ export const Badge = ({ children, variant = 'gray', className, style: userStyle,
     >
       {children}
     </span>
+  );
+};
+
+export const Accordion = ({ title, icon: Icon, defaultOpen = false, children, className, headerRight }) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+  return (
+    <Card className={className} style={{ padding: 0, overflow: 'visible', display: 'flex', flexDirection: 'column' }}>
+      <button 
+        onClick={() => setIsOpen(!isOpen)} 
+        style={{ 
+          width: '100%', 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center', 
+          padding: '14px 16px', 
+          background: 'var(--bg-main)', 
+          border: 'none', 
+          cursor: 'pointer',
+          outline: 'none',
+          borderBottom: isOpen ? '1px solid var(--border)' : 'none',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          {Icon && <Icon size={14} style={{ color: 'var(--primary)' }} />}
+          <h3 style={{ fontSize: 13, fontWeight: 700, color: 'white', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{title}</h3>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          {headerRight && <div onClick={e => e.stopPropagation()}>{headerRight}</div>}
+          <ChevronDown size={16} style={{ color: 'var(--text-muted)', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />
+        </div>
+      </button>
+      <div style={{ padding: isOpen ? '14px 16px' : 0, maxHeight: isOpen ? 2000 : 0, overflow: isOpen ? 'visible' : 'hidden', opacity: isOpen ? 1 : 0, transition: 'all 0.3s ease' }}>
+        {children}
+      </div>
+    </Card>
+  );
+};
+
+export const Modal = ({ onClose, title, children, width = 520 }) => {
+  const [target, setTarget] = useState(null);
+
+  useEffect(() => {
+    const mainEl = document.querySelector('.app-main');
+    setTarget(mainEl || document.body);
+  }, []);
+
+  if (!target) return null;
+
+  return createPortal(
+    <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)', zIndex: 9999, transition: 'all 0.3s ease' }} onClick={onClose}>
+      <div className="animate-slide-in-right" style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: width, maxWidth: '100%', background: 'var(--bg-card)', borderLeft: '1px solid var(--border)', display: 'flex', flexDirection: 'column', boxShadow: '-24px 0 48px rgba(0,0,0,0.6)' }} onClick={e => e.stopPropagation()}>
+        <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h3 style={{ fontSize: 18, fontWeight: 700, color: 'white' }}>{title || ''}</h3>
+          <button onClick={onClose} style={{ color: 'var(--text-muted)', cursor: 'pointer', padding: 4, borderRadius: '50%', marginLeft: 'auto' }} onMouseEnter={e => e.currentTarget.style.color='white'} onMouseLeave={e => e.currentTarget.style.color='var(--text-muted)'}>
+            <XCircle size={24} />
+          </button>
+        </div>
+        <div style={{ flex: 1, overflowY: 'auto', padding: 24 }}>
+          {children}
+        </div>
+      </div>
+    </div>,
+    target
   );
 };

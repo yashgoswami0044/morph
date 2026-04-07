@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button, Badge } from '../components/ui/index.jsx';
+import { Card, Button, Badge, Modal } from '../components/ui/index.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import {
   FileText, CheckCircle, XCircle, Clock, Send, Download, Plus,
@@ -319,32 +319,26 @@ const SalesProcess = () => {
 
       {/* ── PAYMENT MODAL ── */}
       {showPaymentModal && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 999 }} onClick={() => setShowPaymentModal(false)}>
-          <Card style={{ width: 480, padding: 24, animation: 'fadeIn 0.2s' }} onClick={e => e.stopPropagation()}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-              <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>Record Payment</h3>
-              <button onClick={() => setShowPaymentModal(false)} style={{ color: 'var(--text-muted)', cursor: 'pointer' }}><XCircle size={18} /></button>
+        <Modal onClose={() => setShowPaymentModal(false)} title="Record Payment">
+          <div style={{ padding: 12, background: 'rgba(248,113,113,0.06)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(248,113,113,0.2)', marginBottom: 16 }}>
+            <p style={{ fontSize: 11, color: '#F87171' }}>⚠ Do NOT share any receipt with customer. Receipts are provided by Account team only.</p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <ModalField label="Customer Name" value={payForm.leadName} onChange={v => setPayForm(f => ({ ...f, leadName: v }))} placeholder="Lead name" />
+            <ModalField label="Amount (₹L)" value={payForm.amount} onChange={v => setPayForm(f => ({ ...f, amount: v }))} placeholder="e.g. 4.94" type="number" />
+            <div>
+              <label style={{ fontSize: 12, color: 'var(--text-muted)', display: 'block', marginBottom: 4 }}>Payment Mode</label>
+              <select value={payForm.mode} onChange={e => setPayForm(f => ({ ...f, mode: e.target.value }))} style={inputStyle}>
+                {['Bank Transfer', 'Cheque', 'UPI', 'Cash', 'Demand Draft'].map(m => <option key={m}>{m}</option>)}
+              </select>
             </div>
-            <div style={{ padding: 12, background: 'rgba(248,113,113,0.06)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(248,113,113,0.2)', marginBottom: 16 }}>
-              <p style={{ fontSize: 11, color: '#F87171' }}>⚠ Do NOT share any receipt with customer. Receipts are provided by Account team only.</p>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              <ModalField label="Customer Name" value={payForm.leadName} onChange={v => setPayForm(f => ({ ...f, leadName: v }))} placeholder="Lead name" />
-              <ModalField label="Amount (₹L)" value={payForm.amount} onChange={v => setPayForm(f => ({ ...f, amount: v }))} placeholder="e.g. 4.94" type="number" />
-              <div>
-                <label style={{ fontSize: 12, color: 'var(--text-muted)', display: 'block', marginBottom: 4 }}>Payment Mode</label>
-                <select value={payForm.mode} onChange={e => setPayForm(f => ({ ...f, mode: e.target.value }))} style={inputStyle}>
-                  {['Bank Transfer', 'Cheque', 'UPI', 'Cash', 'Demand Draft'].map(m => <option key={m}>{m}</option>)}
-                </select>
-              </div>
-              <ModalField label="PAN Number *" value={payForm.pan} onChange={v => setPayForm(f => ({ ...f, pan: v.toUpperCase() }))} placeholder="ABCPK1234L" />
-              <ModalField label="Remarks" value={payForm.remarks} onChange={v => setPayForm(f => ({ ...f, remarks: v }))} placeholder="30% advance collected..." />
-              <Button variant="primary" onClick={handleCollectPayment} style={{ marginTop: 8 }}>
-                <CreditCard size={16} style={{ marginRight: 6 }} /> Record Payment
-              </Button>
-            </div>
-          </Card>
-        </div>
+            <ModalField label="PAN Number *" value={payForm.pan} onChange={v => setPayForm(f => ({ ...f, pan: v.toUpperCase() }))} placeholder="ABCPK1234L" />
+            <ModalField label="Remarks" value={payForm.remarks} onChange={v => setPayForm(f => ({ ...f, remarks: v }))} placeholder="30% advance collected..." />
+            <Button variant="primary" onClick={handleCollectPayment} style={{ marginTop: 8 }}>
+              <CreditCard size={16} style={{ marginRight: 6 }} /> Record Payment
+            </Button>
+          </div>
+        </Modal>
       )}
     </div>
   );

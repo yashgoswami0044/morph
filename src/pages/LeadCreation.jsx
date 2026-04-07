@@ -15,7 +15,7 @@ const LeadCreation = () => {
 
   const [form, setForm] = useState({
     name: '', phone: '', alternatePhone: '', email: '', whatsapp: '',
-    coApplicantName: '', coApplicantPhone: '', coApplicantEmail: '', coApplicantRelation: '',
+    coApplicants: [],
     language: 'English',
     project: projects[0].name, builder: projects[0].builder, tower: '', floor: '', unit: '',
     config: '3BHK', area: '', possession: '', possessionStatus: 'Not yet',
@@ -48,10 +48,10 @@ const LeadCreation = () => {
     addLead({
       ...form,
       value: form.budget || 10,
-      coApplicant: form.coApplicantName ? { name: form.coApplicantName, phone: form.coApplicantPhone, email: form.coApplicantEmail, relation: form.coApplicantRelation } : null,
+      coApplicants: form.coApplicants,
       assignedTo, assignedToName, assignedRole,
       presalesOwner: assignedTo, presalesOwnerName: assignedToName,
-      followUpDate: null, followUpSalesDate: null, meetingData: null,
+      followUps: [], meetings: [],
       aiSummary: null, expectedServices: form.services, customerTimeline: form.customerTimeline,
       stylePreference: [], competition: 'None', decisionMaker: 'Not decided', propertyType: 'Residential',
       lastContact: null,
@@ -105,15 +105,32 @@ const LeadCreation = () => {
             </div>
 
             <div style={{ borderTop: '1px solid var(--border)', paddingTop: 16, marginTop: 8 }}>
-              <h4 style={{ fontSize: 13, fontWeight: 600, color: 'var(--primary)', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Plus size={14} /> Co-Applicant (Optional)
-              </h4>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-                <FormField label="Name" value={form.coApplicantName} onChange={v => update('coApplicantName', v)} placeholder="Co-applicant name" />
-                <FormField label="Phone" value={form.coApplicantPhone} onChange={v => update('coApplicantPhone', v)} placeholder="+91" />
-                <FormField label="Email" value={form.coApplicantEmail} onChange={v => update('coApplicantEmail', v)} placeholder="email" />
-                <SelectField label="Relation" value={form.coApplicantRelation} options={['', 'Spouse', 'Parent', 'Sibling', 'Friend', 'Business Partner']} onChange={v => update('coApplicantRelation', v)} />
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                <h4 style={{ fontSize: 13, fontWeight: 600, color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <Plus size={14} /> Co-Applicants (Up to 3, Optional)
+                </h4>
+                {form.coApplicants.length < 3 && (
+                  <Button variant="outline" size="sm" onClick={() => update('coApplicants', [...form.coApplicants, { name: '', phone: '', email: '', relation: '' }])}>Add Co-Applicant</Button>
+                )}
               </div>
+              
+              {form.coApplicants.map((ca, index) => (
+                <div key={index} style={{ marginBottom: 16, padding: 12, background: 'var(--bg-card)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+                    <h5 style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-muted)' }}>Co-Applicant {index + 1}</h5>
+                    <button onClick={() => update('coApplicants', form.coApplicants.filter((_, i) => i !== index))} style={{ background: 'none', border: 'none', color: '#F87171', cursor: 'pointer', fontSize: 12 }}>Remove</button>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+                    <FormField label="Name" value={ca.name} onChange={v => { const arr = [...form.coApplicants]; arr[index] = { ...arr[index], name: v }; update('coApplicants', arr); }} placeholder="Co-applicant name" />
+                    <FormField label="Phone" value={ca.phone} onChange={v => { const arr = [...form.coApplicants]; arr[index] = { ...arr[index], phone: v }; update('coApplicants', arr); }} placeholder="+91" />
+                    <FormField label="Email" value={ca.email} onChange={v => { const arr = [...form.coApplicants]; arr[index] = { ...arr[index], email: v }; update('coApplicants', arr); }} placeholder="email" />
+                    <SelectField label="Relation" value={ca.relation} options={['', 'Spouse', 'Parent', 'Sibling', 'Friend', 'Business Partner']} onChange={v => { const arr = [...form.coApplicants]; arr[index] = { ...arr[index], relation: v }; update('coApplicants', arr); }} />
+                  </div>
+                </div>
+              ))}
+              {form.coApplicants.length === 0 && (
+                <p style={{ fontSize: 12, color: 'var(--text-dim)', textAlign: 'center', padding: 16, background: 'var(--bg-card)', borderRadius: 'var(--radius-md)' }}>No co-applicants added.</p>
+              )}
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginTop: 8 }}>

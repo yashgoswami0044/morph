@@ -116,10 +116,30 @@ export const LeadProvider = ({ children }) => {
     }));
   }, []);
 
+  // ── HELPER: Get Next Dates ──
+  const getNextFollowUpObj = useCallback((lead) => {
+    if (!lead || !lead.followUps || lead.followUps.length === 0) return null;
+    const future = lead.followUps.filter(f => !f.completed && new Date(f.date) >= new Date(new Date().setHours(0,0,0,0))).sort((a,b) => new Date(a.date) - new Date(b.date));
+    return future.length > 0 ? future[0] : null;
+  }, []);
+
+  const getNextMeetingObj = useCallback((lead) => {
+    if (!lead || !lead.meetings || lead.meetings.length === 0) return null;
+    const future = lead.meetings.filter(m => new Date(m.datetime) >= new Date(new Date().setHours(0,0,0,0))).sort((a,b) => new Date(a.datetime) - new Date(b.datetime));
+    return future.length > 0 ? future[0] : null;
+  }, []);
+
+  const getNextFollowUp = useCallback((lead) => getNextFollowUpObj(lead)?.date || null, [getNextFollowUpObj]);
+  const getNextMeeting = useCallback((lead) => getNextMeetingObj(lead)?.datetime || null, [getNextMeetingObj]);
+
   // ── SCHEDULE MEETING ──
   const scheduleMeeting = useCallback((id, meetingData) => {
     setLeads(prev => prev.map(lead =>
-      lead.id === id ? { ...lead, meetingData, followUpSalesDate: meetingData.datetime } : lead
+      lead.id === id ? { 
+        ...lead, 
+        meetings: [...(lead.meetings || []), meetingData],
+        followUps: [...(lead.followUps || []), { type: 'Sales', date: meetingData.datetime, completed: false }]
+      } : lead
     ));
   }, []);
 
@@ -180,7 +200,7 @@ export const LeadProvider = ({ children }) => {
     setLeads(prev => prev.map(lead =>
       lead.id === id ? {
         ...lead,
-        [forSales ? 'followUpSalesDate' : 'followUpDate']: date,
+        followUps: [...(lead.followUps || []), { type: forSales ? 'Sales' : 'Pre-sales', date, completed: false }]
       } : lead
     ));
   }, []);
@@ -225,8 +245,8 @@ export const LeadProvider = ({ children }) => {
 
       // For Validated+: sort by follow-up date
       if (['Validated', 'Meeting Scheduled', 'Meeting Done', 'Proposal Sent'].includes(a.status)) {
-        const aDate = a.followUpDate || a.followUpSalesDate;
-        const bDate = b.followUpDate || b.followUpSalesDate;
+        const aDate = getNextFollowUp(a) || getNextMeeting(a);
+        const bDate = getNextFollowUp(b) || getNextMeeting(b);
         if (aDate && bDate) return new Date(aDate) - new Date(bDate);
         if (aDate) return -1;
         if (bDate) return 1;
@@ -245,6 +265,7 @@ export const LeadProvider = ({ children }) => {
       notifications, addNotification, markNotificationRead,
       moengageLog, pushMoengageEvent,
       getPendingFirstCall, getOverdueFirstCall, getSortedLeads,
+      getNextFollowUp, getNextMeeting, getNextFollowUpObj, getNextMeetingObj,
     }}>
       {children}
     </LeadContext.Provider>

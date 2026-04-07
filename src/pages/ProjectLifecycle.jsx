@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Card, Button, Badge } from '../components/ui/index.jsx';
+import { Card, Button, Badge, Modal } from '../components/ui/index.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import {
   CheckCircle, Clock, XCircle, ArrowRight, ChevronRight, ChevronDown,
@@ -512,45 +512,39 @@ const ProjectLifecycle = () => {
 
       {/* ── ASSIGN MODAL ── */}
       {showAssignModal && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 999 }} onClick={() => setShowAssignModal(null)}>
-          <Card style={{ width: 420, padding: 24, animation: 'fadeIn 0.2s' }} onClick={e => e.stopPropagation()}>
-            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white', marginBottom: 16 }}>Assign {showAssignModal.role}</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {projectTeam.filter(t => t.role === showAssignModal.role && t.active).map(t => (
-                <button key={t.id} onClick={() => handleAssign(showAssignModal.projectId, showAssignModal.role, t.id)}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', cursor: 'pointer', transition: 'all 0.2s' }}
-                  onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--primary)'}
-                  onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}>
-                  <div>
-                    <p style={{ fontSize: 13, fontWeight: 600 }}>{t.name}</p>
-                    <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>{t.region} · {t.email}</p>
-                  </div>
-                  {t.currentProjects != null && <Badge variant="gray">{t.currentProjects} active</Badge>}
-                </button>
-              ))}
-            </div>
-          </Card>
-        </div>
+        <Modal onClose={() => setShowAssignModal(null)} title={`Assign ${showAssignModal.role}`}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {projectTeam.filter(t => t.role === showAssignModal.role && t.active).map(t => (
+              <button key={t.id} onClick={() => handleAssign(showAssignModal.projectId, showAssignModal.role, t.id)}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', cursor: 'pointer', transition: 'all 0.2s' }}
+                onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--primary)'}
+                onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}>
+                <div>
+                  <p style={{ fontSize: 13, fontWeight: 600 }}>{t.name}</p>
+                  <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>{t.region} · {t.email}</p>
+                </div>
+                {t.currentProjects != null && <Badge variant="gray">{t.currentProjects} active</Badge>}
+              </button>
+            ))}
+          </div>
+        </Modal>
       )}
 
       {/* ── HANDOVER OTP MODAL ── */}
       {showOtpHandover && (() => {
         const p = projects.find(x => x.id === showOtpHandover);
         return (
-          <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 999 }} onClick={() => setShowOtpHandover(null)}>
-            <Card style={{ width: 420, padding: 24, animation: 'fadeIn 0.2s' }} onClick={e => e.stopPropagation()}>
-              <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white', marginBottom: 4 }}>Handover OTP Verification</h3>
-              <p style={{ fontSize: 12, color: 'var(--text-dim)', marginBottom: 16 }}>OTP sent to {p?.customerName} and all applicants/co-applicants.</p>
-              <div style={{ padding: 12, background: 'rgba(20,184,166,0.06)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(20,184,166,0.2)', marginBottom: 16 }}>
-                <p style={{ fontSize: 11, color: '#14B8A6' }}>Demo OTP: <strong>{p?.handoverOtp}</strong></p>
-              </div>
-              <input value={otpInput} onChange={e => setOtpInput(e.target.value)} placeholder="Enter 6-digit OTP" maxLength={6}
-                style={{ width: '100%', padding: '14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 22, textAlign: 'center', letterSpacing: 8, fontWeight: 700, marginBottom: 14 }} />
-              <Button variant="primary" onClick={() => verifyHandover(showOtpHandover)} style={{ width: '100%' }}>
-                <ShieldCheck size={14} style={{ marginRight: 6 }} /> Verify & Complete Handover
-              </Button>
-            </Card>
-          </div>
+          <Modal onClose={() => setShowOtpHandover(null)} title="Handover OTP Verification">
+            <p style={{ fontSize: 12, color: 'var(--text-dim)', marginBottom: 16 }}>OTP sent to {p?.customerName} and all applicants/co-applicants.</p>
+            <div style={{ padding: 12, background: 'rgba(20,184,166,0.06)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(20,184,166,0.2)', marginBottom: 16 }}>
+              <p style={{ fontSize: 11, color: '#14B8A6' }}>Demo OTP: <strong>{p?.handoverOtp}</strong></p>
+            </div>
+            <input value={otpInput} onChange={e => setOtpInput(e.target.value)} placeholder="Enter 6-digit OTP" maxLength={6}
+              style={{ width: '100%', padding: '14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 22, textAlign: 'center', letterSpacing: 8, fontWeight: 700, marginBottom: 14 }} />
+            <Button variant="primary" onClick={() => verifyHandover(showOtpHandover)} style={{ width: '100%' }}>
+              <ShieldCheck size={14} style={{ marginRight: 6 }} /> Verify & Complete Handover
+            </Button>
+          </Modal>
         );
       })()}
     </div>

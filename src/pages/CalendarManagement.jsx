@@ -10,7 +10,7 @@ import {
 import { teamMembers } from '../data/mockData.js';
 
 const CalendarManagement = () => {
-  const { leads } = useLeads();
+  const { leads, getNextFollowUp, getNextMeeting, getNextMeetingObj } = useLeads();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -23,23 +23,25 @@ const CalendarManagement = () => {
 
   // Get all scheduled visits from leads with meeting data
   const scheduledVisits = useMemo(() => {
-    return leads.filter(l => l.meetingData?.datetime || l.followUpDate || l.followUpSalesDate).map(l => {
-      const dt = l.meetingData?.datetime || l.followUpDate || l.followUpSalesDate;
+    return leads.filter(l => getNextMeeting(l) || getNextFollowUp(l)).map(l => {
+      const dtStr = getNextMeeting(l) || getNextFollowUp(l);
+      const isMeeting = !!getNextMeeting(l);
+      const mObj = getNextMeetingObj(l);
       return {
         id: l.id,
         name: l.name,
         phone: l.phone,
-        date: new Date(dt),
-        dateStr: dt,
-        type: l.meetingData?.datetime ? 'Site Visit' : 'Follow-up',
-        visitType: l.meetingData?.visitType || 'Follow-up Call',
-        location: l.meetingData?.location || '—',
+        date: new Date(dtStr),
+        dateStr: dtStr,
+        type: isMeeting ? 'Site Visit' : 'Follow-up',
+        visitType: isMeeting && mObj ? mObj.visitType : 'Follow-up Call',
+        location: isMeeting && mObj ? mObj.location : '—',
         status: l.status,
         assignedTo: l.assignedToName || 'Unassigned',
         project: l.project || l.builder || '—',
       };
     }).sort((a, b) => a.date - b.date);
-  }, [leads]);
+  }, [leads, getNextFollowUp, getNextMeeting, getNextMeetingObj]);
 
   // Calendar grid
   const firstDay = new Date(year, month, 1).getDay();

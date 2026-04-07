@@ -138,7 +138,7 @@ const Dashboard = () => {
                     <Badge variant="outline" style={{ ...(statusColors[lead.status] || {}), fontSize: 9, padding: '2px 6px' }}>{lead.status}</Badge>
                   </div>
                   <p style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 2 }}>{lead.project} · {lead.config} · {lead.area} sq ft</p>
-                  {lead.coApplicant && <p style={{ fontSize: 10, color: 'var(--primary-light)', marginTop: 2 }}>+ {lead.coApplicant.name} ({lead.coApplicant.relation})</p>}
+                  {lead.coApplicants && lead.coApplicants.length > 0 && <p style={{ fontSize: 10, color: 'var(--primary-light)', marginTop: 2 }}>+ {lead.coApplicants[0].name} ({lead.coApplicants[0].relation}){lead.coApplicants.length > 1 ? ` (+${lead.coApplicants.length - 1} more)` : ''}</p>}
                 </div>
                 <div style={{ textAlign: 'right' }}>
                   <p style={{ fontSize: 15, fontWeight: 700, color: lead.value >= 20 ? '#34D399' : 'white' }}>₹{lead.value}L</p>

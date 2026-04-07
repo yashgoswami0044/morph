@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button, Badge } from '../components/ui/index.jsx';
+import { Card, Button, Badge, Modal } from '../components/ui/index.jsx';
 import { useLeads } from '../context/LeadContext.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
@@ -399,16 +399,6 @@ const EmptyState = ({ text }) => (
   </Card>
 );
 
-const Modal = ({ onClose, title, children }) => (
-  <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 999 }} onClick={onClose}>
-    <Card style={{ width: 480, maxHeight: '85vh', overflow: 'auto', padding: 24, animation: 'fadeIn 0.2s' }} onClick={e => e.stopPropagation()}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-        <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>{title}</h3>
-        <button onClick={onClose} style={{ color: 'var(--text-muted)', cursor: 'pointer' }}><XCircle size={18} /></button>
-      </div>
-      {children}
-    </Card>
-  </div>
-);
+
 
 export default SiteVisitManager;

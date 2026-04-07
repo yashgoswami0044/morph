@@ -6,7 +6,7 @@ import { escalationMatrix, teamMembers } from '../data/mockData.js';
 import { useNavigate } from 'react-router-dom';
 
 const Escalations = () => {
-  const { leads, assignLead, transitionStatus } = useLeads();
+  const { leads, assignLead, transitionStatus, getNextFollowUp, getNextMeeting, getNextMeetingObj } = useLeads();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('active');
 
@@ -37,21 +37,22 @@ const Escalations = () => {
   // ── ESCALATION TYPE 2: Missed Scheduled Meeting → Alert to RM / Hierarchy ──
   const missedMeetings = leads.filter(l => {
     if (l.status !== 'Meeting Scheduled') return false;
-    const meetingDate = l.meetingData?.datetime;
+    const meetingDate = getNextMeeting(l);
     if (!meetingDate) return false;
     return new Date(meetingDate).getTime() < now;
   }).map(l => {
-    const meetingDate = new Date(l.meetingData.datetime);
+    const meetingObj = getNextMeetingObj(l);
+    const meetingDate = new Date(meetingObj.datetime);
     const hoursMissed = Math.floor((now - meetingDate.getTime()) / 3600000);
-    return { ...l, hoursOverdue: hoursMissed, escalationType: 'missed_meeting', meetingDate };
+    return { ...l, hoursOverdue: hoursMissed, escalationType: 'missed_meeting', meetingDate, meetingObj };
   });
 
   // ── ESCALATION TYPE 3: Overdue Follow-ups → Daily summary to Sales Head ──
   const overdueFollowups = leads.filter(l => {
-    const fu = l.followUpDate || l.followUpSalesDate;
+    const fu = getNextFollowUp(l);
     return fu && new Date(fu) < new Date() && !['Converted', 'Not Qualified'].includes(l.status);
   }).map(l => {
-    const fu = new Date(l.followUpDate || l.followUpSalesDate);
+    const fu = new Date(getNextFollowUp(l));
     const daysOverdue = Math.floor((now - fu.getTime()) / 86400000);
     return { ...l, daysOverdue, followUpDate: fu, escalationType: 'overdue_followup' };
   });
@@ -118,7 +119,7 @@ const Escalations = () => {
                   <Calendar size={20} style={{ color: '#FBBF24' }} />
                   <div>
                     <h3 style={{ fontSize: 15, fontWeight: 700, color: 'white' }}>{lead.name}</h3>
-                    <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>{lead.project} · {lead.meetingData?.visitType || 'Site Visit'}</p>
+                    <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>{lead.project} · {lead.meetingObj?.visitType || 'Site Visit'}</p>
                   </div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
@@ -134,7 +135,7 @@ const Escalations = () => {
                   </div>
                   <div>
                     <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>Location</span>
-                    <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>{lead.meetingData?.location || '—'}</p>
+                    <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>{lead.meetingObj?.location || '—'}</p>
                   </div>
                   <div>
                     <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>Assigned To</span>

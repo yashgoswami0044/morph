@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLeads } from '../context/LeadContext.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
-import { Card, Button, Badge } from '../components/ui/index.jsx';
+import { Card, Button, Badge, Accordion, Modal } from '../components/ui/index.jsx';
 import ProjectLifecycle from '../components/ProjectLifecycle.jsx';
 import {
   Phone, Mail, MessageSquare, ChevronLeft, MapPin, Home, IndianRupee,
@@ -42,10 +42,11 @@ const LeadDetail = () => {
   const [lostReason, setLostReason] = useState('');
 
   const [form, setForm] = useState({
-    scope: [], budget: 15, readiness: 'Within 3 months',
-    style: [], competition: 'None', decisionMaker: 'Both spouses',
-    notes: '', specialRequirements: '', services: [], customerTimeline: 'Next 3 Months',
-    interiorPov: '', coApplicantName: '', coApplicantPhone: '', coApplicantEmail: '', coApplicantRelation: '',
+    budget: '', services: [], scope: [], readiness: '',
+    coApplicants: [],
+    newFollowUpPre: '', newFollowUpSales: '',
+    meetingDate: '', meetingLocation: '', meetingAttendees: '', specialRequirements: '', services: [], customerTimeline: 'Next 3 Months',
+    interiorPov: '', coApplicants: [],
     followUpDate: '', followUpSalesDate: '',
   });
 
@@ -59,9 +60,9 @@ const LeadDetail = () => {
         competition: found.competition || 'None', decisionMaker: found.decisionMaker || 'Both spouses',
         notes: found.notes || '', specialRequirements: '',
         services: found.expectedServices || [], customerTimeline: found.customerTimeline || 'Next 3 Months',
-        interiorPov: '', coApplicantName: found.coApplicant?.name || '', coApplicantPhone: found.coApplicant?.phone || '',
-        coApplicantEmail: found.coApplicant?.email || '', coApplicantRelation: found.coApplicant?.relation || '',
-        followUpDate: found.followUpDate || '', followUpSalesDate: found.followUpSalesDate || '',
+        interiorPov: '', coApplicants: found.coApplicants || [],
+        newFollowUpPre: '', newFollowUpSales: '',
+        meetingDate: '', meetingLocation: '', meetingAttendees: '',
       });
     }
   }, [id, leads]);
@@ -78,7 +79,7 @@ const LeadDetail = () => {
     if (!lead) return;
     const timer = setInterval(() => {
       updateLead(lead.id, { notes: form.notes, scope: form.scope, budget: form.budget, readiness: form.readiness, expectedServices: form.services, customerTimeline: form.customerTimeline,
-        coApplicant: form.coApplicantName ? { name: form.coApplicantName, phone: form.coApplicantPhone, email: form.coApplicantEmail, relation: form.coApplicantRelation } : lead.coApplicant,
+        coApplicants: form.coApplicants.length > 0 ? form.coApplicants : lead.coApplicants || [],
       });
       setSavedIndicator(true);
       setTimeout(() => setSavedIndicator(false), 2000);
@@ -225,34 +226,31 @@ const LeadDetail = () => {
             </div>
           </Card>
 
-          {/* Co-Applicant */}
-          <Card style={{ padding: 16 }}>
-            <h3 style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
-              <UserPlus size={12} /> Co-Applicant
-            </h3>
-            {lead.coApplicant ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <PRow label="Name" value={lead.coApplicant.name} />
-                <PRow label="Phone" value={lead.coApplicant.phone} />
-                <PRow label="Email" value={lead.coApplicant.email} />
-                <PRow label="Relation" value={lead.coApplicant.relation} />
-                {canCall && <ActionButton icon={Phone} label={`Call ${lead.coApplicant.name}`} primary />}
-              </div>
-            ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <input placeholder="Name" value={form.coApplicantName} onChange={e => setForm(f => ({ ...f, coApplicantName: e.target.value }))} style={inputStyle} />
-                <input placeholder="Phone" value={form.coApplicantPhone} onChange={e => setForm(f => ({ ...f, coApplicantPhone: e.target.value }))} style={inputStyle} />
-                <input placeholder="Email" value={form.coApplicantEmail} onChange={e => setForm(f => ({ ...f, coApplicantEmail: e.target.value }))} style={inputStyle} />
-                <select value={form.coApplicantRelation} onChange={e => setForm(f => ({ ...f, coApplicantRelation: e.target.value }))} style={inputStyle}>
-                  <option value="">Relation</option>
-                  {['Spouse', 'Parent', 'Sibling', 'Friend', 'Business Partner'].map(r => <option key={r}>{r}</option>)}
-                </select>
-              </div>
-            )}
-          </Card>
+          {/* Co-Applicants */}
+          <Accordion title="Co-Applicants" icon={UserPlus} defaultOpen={false} headerRight={form.coApplicants.length < 3 && (
+            <button onClick={(e) => { e.stopPropagation(); setForm(f => ({ ...f, coApplicants: [...f.coApplicants, { name: '', phone: '', email: '', relation: '' }] }))}} style={{ fontSize: 10, padding: '4px 8px', borderRadius: 4, background: 'var(--primary-bg)', color: 'var(--primary-light)', border: '1px solid var(--primary)', cursor: 'pointer' }}>+ Add</button>
+          )}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {form.coApplicants.map((ca, idx) => (
+                 <div key={idx} style={{ padding: 12, background: 'var(--bg-card)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', position: 'relative' }}>
+                   <button onClick={() => setForm(f => ({ ...f, coApplicants: f.coApplicants.filter((_, i) => i !== idx) }))} style={{ position: 'absolute', top: 6, right: 6, background: 'none', border: 'none', color: '#F87171', cursor: 'pointer', fontSize: 10 }}>Remove</button>
+                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 4 }}>
+                     <input placeholder="Name" value={ca.name} onChange={e => { const arr = [...form.coApplicants]; arr[idx].name = e.target.value; setForm(f => ({ ...f, coApplicants: arr })); }} style={inputStyle} />
+                     <input placeholder="Phone" value={ca.phone} onChange={e => { const arr = [...form.coApplicants]; arr[idx].phone = e.target.value; setForm(f => ({ ...f, coApplicants: arr })); }} style={inputStyle} />
+                     <input placeholder="Email" value={ca.email} onChange={e => { const arr = [...form.coApplicants]; arr[idx].email = e.target.value; setForm(f => ({ ...f, coApplicants: arr })); }} style={inputStyle} />
+                     <select value={ca.relation} onChange={e => { const arr = [...form.coApplicants]; arr[idx].relation = e.target.value; setForm(f => ({ ...f, coApplicants: arr })); }} style={inputStyle}>
+                       <option value="">Relation</option>
+                       {['Spouse', 'Parent', 'Sibling', 'Friend', 'Business Partner'].map(r => <option key={r}>{r}</option>)}
+                     </select>
+                     {ca.name && canCall && <ActionButton icon={Phone} label={`Call ${ca.name}`} primary />}
+                   </div>
+                 </div>
+              ))}
+              {form.coApplicants.length === 0 && <p style={{ fontSize: 12, color: 'var(--text-dim)', textAlign: 'center' }}>No co-applicants.</p>}
+            </div>
+          </Accordion>
 
-          <Card style={{ padding: 16 }}>
-            <h3 style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Property Details</h3>
+          <Accordion title="Property Details" icon={Home} defaultOpen={false}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               <PRow label="Project" value={lead.project} />
               <PRow label="Builder" value={lead.builder} />
@@ -263,22 +261,33 @@ const LeadDetail = () => {
               <PRow label="Possession" value={lead.possession ? new Date(lead.possession).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) : 'TBD'} />
               <PRow label="Status" value={lead.possessionStatus || 'Not yet'} />
             </div>
-          </Card>
+          </Accordion>
 
           {/* Follow-up Dates */}
-          <Card style={{ padding: 16 }}>
-            <h3 style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Follow-up Schedule</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <div>
-                <label style={{ fontSize: 11, color: 'var(--text-dim)' }}>Pre-sales Follow-up</label>
-                <input type="datetime-local" value={form.followUpDate?.slice(0, 16) || ''} onChange={e => { setForm(f => ({ ...f, followUpDate: e.target.value })); setFollowUp(lead.id, e.target.value, false); }} style={inputStyle} />
+          <Accordion title="Follow-up Schedule" icon={Calendar} defaultOpen={true}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {(lead.followUps || []).map((fu, idx) => (
+                <div key={idx} style={{ padding: 12, background: 'var(--bg-card)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
+                  <p style={{ fontSize: 12, fontWeight: 600, color: 'white' }}>{fu.type} Follow-up</p>
+                  <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>{new Date(fu.date).toLocaleString()}</p>
+                </div>
+              ))}
+              <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end', borderTop: '1px solid var(--border)', paddingTop: 12 }}>
+                <div style={{ flex: 1 }}>
+                  <label style={{ fontSize: 10, color: 'var(--text-dim)' }}>Add Pre-sales</label>
+                  <input type="datetime-local" value={form.newFollowUpPre || ''} onChange={e => setForm(f => ({ ...f, newFollowUpPre: e.target.value }))} style={{...inputStyle, padding: '6px 10px'}} />
+                </div>
+                <Button variant="primary" style={{ padding: '6px 12px' }} onClick={() => { if(form.newFollowUpPre) { setFollowUp(lead.id, form.newFollowUpPre, false); setForm(f => ({...f, newFollowUpPre: ''})); } }}>Add</Button>
               </div>
-              <div>
-                <label style={{ fontSize: 11, color: 'var(--text-dim)' }}>Sales Follow-up</label>
-                <input type="datetime-local" value={form.followUpSalesDate?.slice(0, 16) || ''} onChange={e => { setForm(f => ({ ...f, followUpSalesDate: e.target.value })); setFollowUp(lead.id, e.target.value, true); }} style={inputStyle} />
+              <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
+                <div style={{ flex: 1 }}>
+                  <label style={{ fontSize: 10, color: 'var(--text-dim)' }}>Add Sales</label>
+                  <input type="datetime-local" value={form.newFollowUpSales || ''} onChange={e => setForm(f => ({ ...f, newFollowUpSales: e.target.value }))} style={{...inputStyle, padding: '6px 10px'}} />
+                </div>
+                <Button variant="primary" style={{ padding: '6px 12px' }} onClick={() => { if(form.newFollowUpSales) { setFollowUp(lead.id, form.newFollowUpSales, true); setForm(f => ({...f, newFollowUpSales: ''})); } }}>Add</Button>
               </div>
             </div>
-          </Card>
+          </Accordion>
         </div>
 
         {/* ── CENTER PANEL ── */}
@@ -368,21 +377,28 @@ const LeadDetail = () => {
             </Card>
           )}
 
-          {/* Meeting Data (if exists) */}
-          {lead.meetingData && (
+          {/* Meetings Data */}
+          {(lead.meetings || []).length > 0 && (
             <Card style={{ padding: 16, background: 'rgba(168,137,68,0.06)', border: '1px solid rgba(168,137,68,0.2)' }}>
-              <h4 style={{ fontSize: 12, fontWeight: 700, color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Calendar size={14} /> Meeting Details
+              <h4 style={{ fontSize: 12, fontWeight: 700, color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Calendar size={14} /> Meetings History
               </h4>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                <PRow label="Date/Time" value={new Date(lead.meetingData.datetime).toLocaleString()} />
-                <PRow label="Location" value={lead.meetingData.location} />
-                <PRow label="Attendees" value={(lead.meetingData.attendees || []).join(', ')} />
-                {lead.meetingData.locationUrl && (
-                  <a href={lead.meetingData.locationUrl} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: 4 }}>
-                    <ExternalLink size={12} /> Open in Maps
-                  </a>
-                )}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                {lead.meetings.map((m, idx) => (
+                  <div key={idx} style={{ padding: 12, background: 'rgba(0,0,0,0.2)', borderRadius: 8, border: '1px solid rgba(168,137,68,0.1)' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                      <PRow label="Date/Time" value={new Date(m.datetime).toLocaleString()} />
+                      <PRow label="Location" value={m.location} />
+                      <PRow label="Attendees" value={(m.attendees || []).join(', ')} />
+                      <PRow label="Visit Type" value={m.visitType || 'Site Visit'} />
+                      {m.locationUrl && (
+                        <a href={m.locationUrl} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: 4, gridColumn: '1 / -1' }}>
+                          <ExternalLink size={12} /> Open in Maps
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
             </Card>
           )}
@@ -479,13 +495,7 @@ const LeadDetail = () => {
             </Card>
           )}
 
-          {/* Visit Type (if meeting data exists) */}
-          {lead.meetingData?.visitType && (
-            <Card style={{ padding: 14, background: 'rgba(96,165,250,0.04)', border: '1px solid rgba(96,165,250,0.15)' }}>
-              <p style={{ fontSize: 10, fontWeight: 700, color: '#60A5FA', textTransform: 'uppercase', marginBottom: 4 }}>Visit Type</p>
-              <p style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>{lead.meetingData.visitType}</p>
-            </Card>
-          )}
+
 
           {/* ── STATUS TRANSITION ACTIONS ── */}
           <Card style={{ padding: 20 }}>
@@ -573,12 +583,8 @@ const LeadDetail = () => {
           </Card>
 
           {/* Status History */}
-          <Card style={{ padding: 0}}>
-            <div style={{ padding: '14px 16px', background: 'var(--bg-main)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 8 }}>
-              <ArrowRight size={14} style={{ color: 'var(--primary)' }} />
-              <h3 style={{ fontSize: 13, fontWeight: 700, color: 'white' }}>Status History</h3>
-            </div>
-            <div style={{ padding: '14px 16px' }}>
+          <Accordion title="Status History" icon={ArrowRight} defaultOpen={false}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {(lead.statusHistory || []).map((entry, idx) => (
                 <div key={idx} style={{ position: 'relative', paddingLeft: 18, borderLeft: '2px solid var(--border)', paddingBottom: 16 }}>
                   <div style={{ position: 'absolute', left: -5, top: 2, width: 8, height: 8, borderRadius: '50%', background: statusColors[entry.status]?.color || 'var(--text-muted)' }} />
@@ -588,15 +594,11 @@ const LeadDetail = () => {
                 </div>
               ))}
             </div>
-          </Card>
+          </Accordion>
 
           {/* Call Timeline */}
-          <Card style={{ padding: 0 }}>
-            <div style={{ padding: '14px 16px', background: 'var(--bg-main)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 8 }}>
-              <History size={14} style={{ color: 'var(--primary)' }} />
-              <h3 style={{ fontSize: 13, fontWeight: 700, color: 'white' }}>Call Timeline</h3>
-            </div>
-            <div style={{ padding: '14px 16px' }}>
+          <Accordion title="Call Timeline" icon={History} defaultOpen={true}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {(lead.callHistory || []).map((call, idx) => (
                 <div key={idx} style={{ position: 'relative', paddingLeft: 18, borderLeft: '2px solid var(--border)', paddingBottom: 18 }}>
                   <div style={{ position: 'absolute', left: -5, top: 4, width: 8, height: 8, borderRadius: '50%', background: call.outcome === 'Connected' ? '#34D399' : 'var(--text-muted)' }} />
@@ -618,15 +620,12 @@ const LeadDetail = () => {
               ))}
               {(!lead.callHistory || lead.callHistory.length === 0) && <p style={{ fontSize: 12, color: 'var(--text-dim)', textAlign: 'center', padding: 16 }}>No calls yet</p>}
             </div>
-          </Card>
+          </Accordion>
 
           {/* MoEngage Status */}
           {lead.moengage && (
-            <Card style={{ padding: 14, background: 'rgba(52,211,153,0.04)', border: '1px solid rgba(52,211,153,0.15)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
-                <Target size={14} style={{ color: '#34D399' }} />
-                <h4 style={{ fontSize: 11, fontWeight: 700, color: '#34D399', textTransform: 'uppercase' }}>MoEngage</h4>
-                <Badge variant="success" style={{ fontSize: 9, marginLeft: 'auto' }}>SYNCED</Badge>
+            <Accordion title="MoEngage Status" icon={Target} defaultOpen={false} headerRight={<Badge variant="success" style={{ fontSize: 9 }}>SYNCED</Badge>}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               </div>
               <p style={{ fontSize: 10, color: 'var(--text-dim)' }}>Last sync: {new Date(lead.moengage.lastSync).toLocaleString()}</p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 6 }}>
@@ -634,7 +633,7 @@ const LeadDetail = () => {
                   <span key={i} style={{ fontSize: 9, padding: '2px 6px', borderRadius: 4, background: 'var(--bg-main)', border: '1px solid var(--border)', color: 'var(--text-dim)' }}>{ev}</span>
                 ))}
               </div>
-            </Card>
+            </Accordion>
           )}
         </div>
       </div>
@@ -787,16 +786,6 @@ const ChipBtn = ({ label, selected, onClick, color }) => (
   <button onClick={onClick} style={{ padding: '6px 12px', borderRadius: 999, fontSize: 11, fontWeight: 500, background: selected ? `${color}15` : 'transparent', border: `1px solid ${selected ? color : 'var(--border)'}`, color: selected ? color : 'var(--text-muted)', cursor: 'pointer', transition: 'all 0.2s' }}>{label}</button>
 );
 
-const Modal = ({ onClose, title, children }) => (
-  <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 999 }} onClick={onClose}>
-    <Card style={{ width: 480, maxHeight: '80vh', overflow: 'auto', padding: 24, animation: 'fadeIn 0.2s' }} onClick={e => e.stopPropagation()}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-        <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>{title}</h3>
-        <button onClick={onClose} style={{ color: 'var(--text-muted)', cursor: 'pointer' }}><XCircle size={18} /></button>
-      </div>
-      {children}
-    </Card>
-  </div>
-);
+
 
 export default LeadDetail;

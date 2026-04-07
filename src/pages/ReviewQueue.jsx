@@ -125,7 +125,7 @@ const ReviewCard = ({ lead, onApprove, onReturn, onEscalate, onRecycle, onAssign
             </div>
             <p style={{ fontSize: 13, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 6 }}>
               <User size={13} /> {lead.presalesOwnerName || 'Unassigned'}
-              {lead.coApplicant && <span style={{ color: 'var(--primary-light)' }}> + {lead.coApplicant.name}</span>}
+              {lead.coApplicants && lead.coApplicants.length > 0 && <span style={{ color: 'var(--primary-light)' }}> + {lead.coApplicants[0].name} {lead.coApplicants.length > 1 ? `(+${lead.coApplicants.length - 1})` : ''}</span>}
             </p>
           </div>
         </div>

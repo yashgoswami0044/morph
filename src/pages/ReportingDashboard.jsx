@@ -14,7 +14,7 @@ import {
 } from 'recharts';
 
 const ReportingDashboard = () => {
-  const { leads, moengageLog } = useLeads();
+  const { leads, moengageLog, getNextFollowUp } = useLeads();
   const { user } = useAuth();
   const [timeframe, setTimeframe] = useState('Last 30 Days');
   const [maskPII, setMaskPII] = useState(false);
@@ -54,7 +54,7 @@ const ReportingDashboard = () => {
 
   // Pending followups
   const pendingFollowups = leads.filter(l => {
-    const fu = l.followUpDate || l.followUpSalesDate;
+    const fu = getNextFollowUp(l);
     return fu && new Date(fu) <= new Date();
   });
 
@@ -246,7 +246,7 @@ const ReportingDashboard = () => {
                   <tr key={l.id} style={{ borderBottom: '1px solid var(--border)' }}>
                     <td style={{ padding: '8px 12px', fontSize: 12, fontWeight: 600, color: 'white' }}>{maskName(l.name)}</td>
                     <td style={{ padding: '8px 12px' }}><Badge variant={l.status === 'Meeting Scheduled' ? 'nurture' : 'warm'} style={{ fontSize: 9 }}>{l.status}</Badge></td>
-                    <td style={{ padding: '8px 12px', fontSize: 11, color: '#F87171' }}>{new Date(l.followUpDate || l.followUpSalesDate).toLocaleDateString()}</td>
+                    <td style={{ padding: '8px 12px', fontSize: 11, color: '#F87171' }}>{new Date(getNextFollowUp(l)).toLocaleDateString()}</td>
                     <td style={{ padding: '8px 12px', fontSize: 11, color: 'var(--text-muted)' }}>{l.assignedToName || '-'}</td>
                   </tr>
                 ))}
