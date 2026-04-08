@@ -54,7 +54,7 @@ const ReviewQueue = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="animate-fade-in">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'white', marginBottom: 4 }}>Review Queue</h1>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-main)', marginBottom: 4 }}>Review Queue</h1>
           <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>Approve validated leads for sales handoff, or review not-qualified leads for recycling.</p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -88,7 +88,7 @@ const ReviewQueue = () => {
             <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'rgba(52,211,153,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
               <CheckCircle size={40} style={{ color: '#34D399' }} />
             </div>
-            <h3 style={{ fontSize: 20, fontWeight: 700, color: 'white', marginBottom: 8 }}>Queue is Clear!</h3>
+            <h3 style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-main)', marginBottom: 8 }}>Queue is Clear!</h3>
             <p style={{ color: 'var(--text-muted)', fontSize: 14 }}>All leads have been processed.</p>
           </Card>
         )}
@@ -115,12 +115,12 @@ const ReviewCard = ({ lead, onApprove, onReturn, onEscalate, onRecycle, onAssign
       {/* Header */}
       <div style={{ padding: '20px 24px', background: isNotQualified ? 'rgba(248,113,113,0.04)' : 'var(--bg-main)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <div style={{ width: 44, height: 44, borderRadius: '50%', border: `2px solid ${scoreColor}`, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-card)', fontWeight: 700, color: 'white', fontSize: 15, boxShadow: `0 0 10px ${scoreColor}40` }}>
+          <div style={{ width: 44, height: 44, borderRadius: '50%', border: `2px solid ${scoreColor}`, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-card)', fontWeight: 700, color: 'var(--text-main)', fontSize: 15, boxShadow: `0 0 10px ${scoreColor}40` }}>
             {lead.score || 0}
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <h3 style={{ fontSize: 17, fontWeight: 700, color: 'white' }}>{lead.name}</h3>
+              <h3 style={{ fontSize: 17, fontWeight: 700, color: 'var(--text-main)' }}>{lead.name}</h3>
               <Badge variant="outline" style={{ ...sc, fontSize: 10 }}>{lead.status}</Badge>
             </div>
             <p style={{ fontSize: 13, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -147,7 +147,7 @@ const ReviewCard = ({ lead, onApprove, onReturn, onEscalate, onRecycle, onAssign
               <div key={dim.label}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--text-dim)', marginBottom: 5 }}>
                   <span>{dim.label}</span>
-                  <span style={{ color: 'white', fontWeight: 600 }}>{dim.value}<span style={{ color: 'var(--border-highlight)' }}>/{dim.max}</span></span>
+                  <span style={{ color: 'var(--text-main)', fontWeight: 600 }}>{dim.value}<span style={{ color: 'var(--border-highlight)' }}>/{dim.max}</span></span>
                 </div>
                 <div style={{ height: 5, background: 'var(--bg-main)', borderRadius: 3, overflow: 'hidden', border: '1px solid var(--border)' }}>
                   <div style={{ height: '100%', width: `${(dim.value / dim.max) * 100}%`, background: dim.color, borderRadius: 3 }} />
@@ -195,7 +195,7 @@ const ReviewCard = ({ lead, onApprove, onReturn, onEscalate, onRecycle, onAssign
             <div style={{ marginTop: 20, padding: 16, background: 'rgba(251,191,36,0.06)', borderRadius: 'var(--radius-lg)', border: '1px solid rgba(251,191,36,0.3)', animation: 'fadeIn 0.2s' }}>
               <label style={{ fontSize: 13, fontWeight: 600, color: '#FBBF24', marginBottom: 10, display: 'block' }}>Return to Executive — Reason</label>
               <textarea value={returnReason} onChange={e => onReturnReasonChange(e.target.value)} placeholder="e.g. Score seems high. Did you confirm budget?" rows={3} autoFocus
-                style={{ width: '100%', background: 'var(--bg-main)', border: '1px solid rgba(251,191,36,0.4)', color: 'white', padding: 14, borderRadius: 'var(--radius-md)', fontSize: 14, resize: 'none', outline: 'none' }} />
+                style={{ width: '100%', background: 'var(--bg-main)', border: '1px solid rgba(251,191,36,0.4)', color: 'var(--text-main)', padding: 14, borderRadius: 'var(--radius-md)', fontSize: 14, resize: 'none', outline: 'none' }} />
               <div style={{ display: 'flex', gap: 12, marginTop: 14 }}>
                 <Button onClick={onReturn} style={{ background: '#FBBF24', color: '#000', fontWeight: 700, opacity: returnReason.trim() ? 1 : 0.5 }}>Confirm Return</Button>
                 <Button variant="ghost" onClick={onCancelReturn}>Cancel</Button>
@@ -238,7 +238,7 @@ const ActionBtn = ({ color, label, icon: Icon, onClick }) => (
 const MetaItem = ({ icon: Icon, label, value, highlight }) => (
   <div style={{ display: 'flex', flexDirection: 'column' }}>
     <span style={{ fontSize: 11, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 4 }}><Icon size={12} /> {label}</span>
-    <span style={{ fontSize: 14, fontWeight: 600, color: highlight ? '#34D399' : 'white' }}>{value}</span>
+    <span style={{ fontSize: 14, fontWeight: 600, color: highlight ? '#34D399' : 'var(--text-main)' }}>{value}</span>
   </div>
 );
 

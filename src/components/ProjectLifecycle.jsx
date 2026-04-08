@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { projectPhases, projectTeam, mockProjects } from '../data/mockData.js';
 
-const inputStyle = { width: '100%', background: 'var(--bg-main)', border: '1px solid var(--border)', color: 'white', padding: '8px 12px', borderRadius: 'var(--radius-md)', fontSize: 13, outline: 'none', fontFamily: 'inherit' };
+const inputStyle = { width: '100%', background: 'var(--bg-main)', border: '1px solid var(--border)', color: 'var(--text-main)', padding: '8px 12px', borderRadius: 'var(--radius-md)', fontSize: 13, outline: 'none', fontFamily: 'inherit' };
 
 // Role-to-phase edit permissions
 const phaseEditRoles = {
@@ -115,7 +115,7 @@ const ProjectLifecycle = ({ lead, user }) => {
       {/* ── PAYMENT SUMMARY ── */}
       <Card style={{ padding: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-          <h3 style={{ fontSize: 13, fontWeight: 700, color: 'white', display: 'flex', alignItems: 'center', gap: 6 }}>
+          <h3 style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: 6 }}>
             <IndianRupee size={14} style={{ color: 'var(--primary)' }} /> Payment Summary
           </h3>
           <div style={{ display: 'flex', gap: 12, fontSize: 12 }}>
@@ -133,7 +133,7 @@ const ProjectLifecycle = ({ lead, user }) => {
               <p style={{ fontSize: 10, fontWeight: 700, color: p.status === 'Paid' ? '#34D399' : '#F87171', textTransform: 'uppercase', marginBottom: 4 }}>
                 {p.milestone}
               </p>
-              <p style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>₹{(p.amount / 1000).toLocaleString('en-IN')}K</p>
+              <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>₹{(p.amount / 1000).toLocaleString('en-IN')}K</p>
               {p.date && <p style={{ fontSize: 10, color: 'var(--text-dim)', marginTop: 2 }}>
                 <Calendar size={9} style={{ marginRight: 3 }} />{new Date(p.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
               </p>}
@@ -214,7 +214,7 @@ const DesignPhase = ({ project, canEdit, color }) => (
           <User size={16} style={{ color }} />
         </div>
         <div>
-          <p style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>{project.designManager.name}</p>
+          <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>{project.designManager.name}</p>
           <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>Design Manager · Assigned {new Date(project.designManager.assignedDate).toLocaleDateString('en-IN')}</p>
         </div>
       </div>
@@ -225,7 +225,7 @@ const DesignPhase = ({ project, canEdit, color }) => (
         {(project.designs || []).map(d => (
           <div key={d.id} style={{ padding: '10px 14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
-              <p style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>{d.name}</p>
+              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>{d.name}</p>
               <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>{d.version} · ₹{(d.costing / 100000).toFixed(1)}L · {new Date(d.createdDate).toLocaleDateString('en-IN')}</p>
             </div>
             <Badge variant={d.status === 'Approved' ? 'success' : d.status === 'Revised' ? 'warm' : 'nurture'} style={{ fontSize: 9 }}>
@@ -276,7 +276,7 @@ const ProductionPhase = ({ project, canEdit, color }) => (
               <User size={16} style={{ color }} />
             </div>
             <div>
-              <p style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>{pm.name}</p>
+              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>{pm.name}</p>
               <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>Scope: {pm.scope}</p>
             </div>
           </div>
@@ -303,7 +303,7 @@ const ProductionPhase = ({ project, canEdit, color }) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       {(project.productionNotes || []).map((note, i) => (
         <div key={i} style={{ padding: '10px 14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)' }}>
-          <p style={{ fontSize: 13, fontWeight: 500, color: 'white' }}>{note.note}</p>
+          <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-main)' }}>{note.note}</p>
           <p style={{ fontSize: 10, color: 'var(--text-dim)', marginTop: 4 }}>{note.by} · {new Date(note.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</p>
         </div>
       ))}
@@ -362,7 +362,7 @@ const InstallationPhase = ({ project, canEdit, color }) => (
         <h4 style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase', marginBottom: 10 }}>Installation Notes</h4>
         {project.installationNotes.map((note, i) => (
           <div key={i} style={{ padding: '10px 14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', marginBottom: 6 }}>
-            <p style={{ fontSize: 13, color: 'white' }}>{note.note}</p>
+            <p style={{ fontSize: 13, color: 'var(--text-main)' }}>{note.note}</p>
             <p style={{ fontSize: 10, color: 'var(--text-dim)', marginTop: 4 }}>{note.by} · {new Date(note.date).toLocaleDateString('en-IN')}</p>
           </div>
         ))}
@@ -408,7 +408,7 @@ const SectionHeader = ({ icon: Icon, color, title, desc }) => (
       <Icon size={18} style={{ color }} />
     </div>
     <div>
-      <h3 style={{ fontSize: 15, fontWeight: 700, color: 'white' }}>{title}</h3>
+      <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-main)' }}>{title}</h3>
       <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>{desc}</p>
     </div>
   </div>

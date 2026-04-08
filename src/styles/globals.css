@@ -1,5 +1,82 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
-@import './variables.css';
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --primary: #A88944;
+  --primary-light: #C2A86B;
+  --primary-dark: #8A6D3A;
+  --primary-bg: rgba(168, 137, 68, 0.1);
+
+  --bg-main: #080a0f;
+  --bg-sidebar: #0f1218;
+  --bg-card: #141820;
+  --bg-content: #0d1015;
+
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  --border: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(168, 137, 68, 0.3);
+
+  --glass-light: rgba(255, 255, 255, 0.02);
+  --glass-hover: rgba(255, 255, 255, 0.04);
+  --bg-header: rgba(20, 24, 32, 0.85);
+
+  --status-hot: #F87171;
+  --status-warm: #FBBF24;
+  --status-nurture: #60A5FA;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+}
+
+[data-theme="light"] {
+  --primary: #8A6D3A;
+  --primary-light: #A88944;
+  --primary-dark: #6B5226;
+  --primary-bg: rgba(168, 137, 68, 0.1);
+
+  --bg-main: #f8fafc;
+  --bg-sidebar: #ffffff;
+  --bg-card: #ffffff;
+  --bg-content: #f1f5f9;
+  --bg-elevated: #ffffff;
+
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-dim: #94a3b8;
+
+  --border: rgba(0, 0, 0, 0.1);
+  --border-highlight: rgba(168, 137, 68, 0.4);
+
+  --glass-light: rgba(0, 0, 0, 0.02);
+  --glass-hover: rgba(0, 0, 0, 0.04);
+  --bg-header: rgba(255, 255, 255, 0.85);
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-inner-glass: inset 0 1px 1px rgba(255, 255, 255, 1);
+}
+
+[data-theme="light"] .sidebar-logo {
+  content: url('/morph-logo-black.png');
+}
+
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: var(--bg-content);
+}
+
+[data-theme="light"] .kanban-scroll::-webkit-scrollbar-track {
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+}
+
+[data-theme="light"] .kanban-scroll::-webkit-scrollbar-thumb {
+  border: 2px solid var(--bg-main);
+}
+
 @import "tailwindcss";
 
 * {
@@ -103,7 +180,7 @@ a {
   z-index: 20;
   height: 64px;
   border-bottom: 1px solid var(--border);
-  background: rgba(20, 24, 32, 0.85);
+  background: var(--bg-header);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   display: flex;

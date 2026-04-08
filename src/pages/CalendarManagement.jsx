@@ -86,7 +86,7 @@ const CalendarManagement = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className="animate-fade-in">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'white', marginBottom: 4 }}>Calendar Management</h1>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-main)', marginBottom: 4 }}>Calendar Management</h1>
           <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>View scheduled site visits, check calendar conflicts, and manage appointments.</p>
         </div>
         <Button variant="primary" onClick={() => navigate('/leads')}>
@@ -112,7 +112,7 @@ const CalendarManagement = () => {
           <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
               <button onClick={prevMonth} style={navBtnStyle}><ChevronLeft size={16} /></button>
-              <h2 style={{ fontSize: 18, fontWeight: 700, color: 'white', minWidth: 180, textAlign: 'center' }}>{monthName} {year}</h2>
+              <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-main)', minWidth: 180, textAlign: 'center' }}>{monthName} {year}</h2>
               <button onClick={nextMonth} style={navBtnStyle}><ChevronRight size={16} /></button>
             </div>
             <div style={{ display: 'flex', gap: 4, padding: 3, background: 'var(--bg-main)', borderRadius: 'var(--radius-sm)' }}>
@@ -175,7 +175,7 @@ const CalendarManagement = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {/* Selected Day Details */}
           <Card>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: 'white', marginBottom: 12 }}>
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-main)', marginBottom: 12 }}>
               {selectedDate ? `${monthName} ${selectedDate}, ${year}` : 'Select a Date'}
             </h3>
             {selectedDate ? (
@@ -184,7 +184,7 @@ const CalendarManagement = () => {
                   {selectedDayVisits.map(v => (
                     <div key={v.id} onClick={() => navigate(`/leads/${v.id}`)} style={{ padding: 12, background: 'var(--bg-main)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', cursor: 'pointer', transition: 'border 0.2s' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                        <h4 style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>{v.name}</h4>
+                        <h4 style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>{v.name}</h4>
                         <Badge variant={v.type === 'Site Visit' ? 'warm' : 'nurture'} style={{ fontSize: 8 }}>{v.visitType}</Badge>
                       </div>
                       <div style={{ display: 'flex', gap: 12, fontSize: 11, color: 'var(--text-dim)' }}>
@@ -205,7 +205,7 @@ const CalendarManagement = () => {
 
           {/* Upcoming */}
           <Card>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: 'white', marginBottom: 12 }}>Upcoming (7 Days)</h3>
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-main)', marginBottom: 12 }}>Upcoming (7 Days)</h3>
             {upcomingVisits.length === 0 ? (
               <p style={{ fontSize: 12, color: 'var(--text-dim)', textAlign: 'center', padding: 16 }}>No upcoming visits</p>
             ) : (
@@ -213,7 +213,7 @@ const CalendarManagement = () => {
                 {upcomingVisits.slice(0, 6).map(v => (
                   <div key={v.id} style={{ padding: '8px 10px', background: 'var(--bg-main)', borderRadius: 'var(--radius-sm)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }} onClick={() => navigate(`/leads/${v.id}`)}>
                     <div>
-                      <p style={{ fontSize: 12, fontWeight: 600, color: 'white' }}>{v.name}</p>
+                      <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-main)' }}>{v.name}</p>
                       <p style={{ fontSize: 10, color: 'var(--text-dim)' }}>{v.date.toLocaleDateString()} · {v.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
                     </div>
                     <Badge variant={v.type === 'Site Visit' ? 'warm' : 'nurture'} style={{ fontSize: 8 }}>{v.visitType}</Badge>

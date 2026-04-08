@@ -72,7 +72,7 @@ const CommunicationHub = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="animate-fade-in">
       <div>
-        <h1 style={{ fontSize: 24, fontWeight: 700, color: 'white', marginBottom: 4 }}>Communication Hub</h1>
+        <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-main)', marginBottom: 4 }}>Communication Hub</h1>
         <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>WhatsApp, Email & SMS templates with integration configuration.</p>
       </div>
 
@@ -105,7 +105,7 @@ const CommunicationHub = () => {
               <div style={{ padding: '14px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   <MessageSquare size={16} style={{ color: '#25D366' }} />
-                  <h4 style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>{t.name}</h4>
+                  <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>{t.name}</h4>
                   <Badge variant={t.status === 'Approved' ? 'success' : 'warm'}>{t.status}</Badge>
                   <Badge variant="gray" style={{ fontSize: 9 }}>{t.category}</Badge>
                 </div>
@@ -133,7 +133,7 @@ const CommunicationHub = () => {
               <div style={{ padding: '14px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   <Mail size={16} style={{ color: '#60A5FA' }} />
-                  <h4 style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>{t.name}</h4>
+                  <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>{t.name}</h4>
                   <Badge variant="success">{t.status}</Badge>
                 </div>
                 <span style={{ fontSize: 11, color: 'var(--text-dim)' }}>{t.sends} sends</span>
@@ -161,7 +161,7 @@ const CommunicationHub = () => {
               <div style={{ padding: '14px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   <Smartphone size={16} style={{ color: '#FBBF24' }} />
-                  <h4 style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>{t.name}</h4>
+                  <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>{t.name}</h4>
                   <Badge variant="success">{t.status}</Badge>
                   <Badge variant="gray" style={{ fontSize: 9 }}>{t.dlt}</Badge>
                 </div>
@@ -187,7 +187,7 @@ const CommunicationHub = () => {
           {Object.entries(integrations).map(([key, cfg]) => (
             <Card key={key} style={{ padding: 20 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-                <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white', textTransform: 'capitalize' }}>{key} Integration</h3>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)', textTransform: 'capitalize' }}>{key} Integration</h3>
                 <Badge variant={cfg.status === 'Connected' ? 'success' : 'hot'}>{cfg.status}</Badge>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
@@ -242,7 +242,7 @@ const PaymentLinkSection = () => {
 
       {showCreate && (
         <Card style={{ padding: 20 }}>
-          <h4 style={{ fontSize: 14, fontWeight: 700, color: 'white', marginBottom: 14 }}>Create Payment Link</h4>
+          <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-main)', marginBottom: 14 }}>Create Payment Link</h4>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
             <div>
               <label style={{ fontSize: 11, color: 'var(--text-dim)', display: 'block', marginBottom: 4 }}>Customer</label>
@@ -275,7 +275,7 @@ const PaymentLinkSection = () => {
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               {l.paidAt ? <CheckCircle size={18} style={{ color: '#34D399' }} /> : <Clock size={18} style={{ color: '#FBBF24' }} />}
               <div>
-                <h4 style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>{l.customer}</h4>
+                <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>{l.customer}</h4>
                 <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>{l.project} · {l.ccavenueId}</p>
               </div>
             </div>
@@ -297,6 +297,6 @@ const PaymentLinkSection = () => {
   );
 };
 
-const inputStyle = { width: '100%', padding: '10px 14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 13, outline: 'none' };
+const inputStyle = { width: '100%', padding: '10px 14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 13, outline: 'none' };
 
 export default CommunicationHub;

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Card, Button, Badge, Modal } from '../components/ui/index.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import {
-  CheckCircle, Clock, XCircle, ArrowRight, ChevronRight, ChevronDown,
+  CheckCircle, Clock, XCircle, ArrowRight, ChevronRight, ChevronDown, ChevronLeft, MapPin,
   Users, Send, FileText, Paintbrush, Factory, ClipboardCheck, Truck,
   ShieldCheck, Smartphone, IndianRupee, CreditCard, Lock, Download,
   Plus, Eye, EyeOff, MessageSquare, User, Home, Calendar, AlertTriangle,
@@ -88,7 +88,7 @@ const ProjectLifecycle = () => {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="animate-fade-in">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <h1 style={{ fontSize: 24, fontWeight: 700, color: 'white', marginBottom: 4 }}>Project Lifecycle</h1>
+            <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-main)', marginBottom: 4 }}>Project Lifecycle</h1>
             <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>Post-conversion journey: Onboarding → Design → Production → QC → Installation → Handover</p>
           </div>
         </div>
@@ -98,7 +98,7 @@ const ProjectLifecycle = () => {
           {projectPhases.map((ph, i) => (
             <div key={ph.id} style={{ flex: 1, textAlign: 'center', padding: '12px 4px', background: `${ph.color}12`, border: `1px solid ${ph.color}30`, borderRadius: i === 0 ? 'var(--radius-md) 0 0 var(--radius-md)' : i === projectPhases.length - 1 ? '0 var(--radius-md) var(--radius-md) 0' : 0 }}>
               <p style={{ fontSize: 10, fontWeight: 700, color: ph.color, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{ph.name}</p>
-              <p style={{ fontSize: 18, fontWeight: 700, color: 'white', marginTop: 4 }}>{projects.filter(p => p.currentPhase === ph.name).length}</p>
+              <p style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-main)', marginTop: 4 }}>{projects.filter(p => p.currentPhase === ph.name).length}</p>
             </div>
           ))}
         </div>
@@ -119,7 +119,7 @@ const ProjectLifecycle = () => {
                       <Home size={22} style={{ color: phase?.color }} />
                     </div>
                     <div>
-                      <h3 style={{ fontSize: 17, fontWeight: 700, color: 'white', marginBottom: 3 }}>{p.customerName}</h3>
+                      <h3 style={{ fontSize: 17, fontWeight: 700, color: 'var(--text-main)', marginBottom: 3 }}>{p.customerName}</h3>
                       <p style={{ fontSize: 12, color: 'var(--text-dim)' }}>{p.projectName} · {p.config} · {p.area} sqft</p>
                     </div>
                   </div>
@@ -130,7 +130,7 @@ const ProjectLifecycle = () => {
                     </div>
                     <div style={{ textAlign: 'center' }}>
                       <p style={{ fontSize: 10, color: 'var(--text-dim)', textTransform: 'uppercase' }}>CONTRACT</p>
-                      <p style={{ fontSize: 16, fontWeight: 700, color: 'white', marginTop: 2 }}>{formatCurrency(p.contractValue)}</p>
+                      <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)', marginTop: 2 }}>{formatCurrency(p.contractValue)}</p>
                     </div>
                     <div style={{ textAlign: 'center', minWidth: 80 }}>
                       <p style={{ fontSize: 10, color: 'var(--text-dim)', textTransform: 'uppercase' }}>PAID</p>
@@ -158,23 +158,38 @@ const ProjectLifecycle = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className="animate-fade-in">
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-        <button onClick={() => setSelectedProject(null)} style={{ padding: '8px 14px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-muted)', cursor: 'pointer', fontSize: 13 }}>← Back</button>
-        <div style={{ flex: 1 }}>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: 'white' }}>{proj.customerName} — {proj.projectName}</h1>
-          <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>{proj.config} · {proj.area} sqft · Contract: {formatCurrency(proj.contractValue)}</p>
+      {/* ── COMPACT HEADER ── */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 12, marginBottom: 16, borderBottom: '1px solid var(--border)' }}>
+        {/* Left: Identity */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <button onClick={() => setSelectedProject(null)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 32, height: 32, borderRadius: 'var(--radius-sm)', background: 'transparent', border: '1px solid var(--border)', color: 'var(--text-muted)', cursor: 'pointer', transition: 'all 0.2s' }} onMouseEnter={e => { e.currentTarget.style.background = 'var(--glass-hover)'; e.currentTarget.style.color = 'var(--text-main)'; }} onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)'; }}>
+            <ChevronLeft size={16} />
+          </button>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-main)', margin: 0, lineHeight: 1 }}>{proj.customerName} — {proj.projectName}</h1>
+              <Badge variant="outline" style={{ color: currentPhaseObj?.color, borderColor: `${currentPhaseObj?.color}50`, fontSize: 10, padding: '2px 8px' }}>{proj.currentPhase}</Badge>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 11, color: 'var(--text-dim)' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><Home size={12} style={{ color: 'var(--primary)' }}/> {proj.config}</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><MapPin size={12} /> {proj.area} sqft</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><IndianRupee size={12} /> Contract: {formatCurrency(proj.contractValue)}</span>
+            </div>
+          </div>
         </div>
-        <Badge variant="outline" style={{ color: currentPhaseObj?.color, borderColor: `${currentPhaseObj?.color}50`, fontSize: 13, padding: '6px 14px' }}>{proj.currentPhase}</Badge>
-        <Button variant="danger" size="sm" onClick={() => {
-          if (confirm('Are you sure you want to cancel this project? This will mark the lead as Not Qualified.')) {
-            setProjects(prev => prev.map(p => p.id === proj.id ? { ...p, currentPhase: 'Cancelled', status: 'Not Qualified' } : p));
-            // In a real app, this would also call transitionStatus(proj.leadId, 'Not Qualified')
-            setSelectedProject(null);
-          }
-        }}>
-          <XCircle size={14} style={{ marginRight: 6 }} /> Cancel Project
-        </Button>
+
+        {/* Right: Actions */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <Button variant="danger" size="sm" onClick={() => {
+            if (confirm('Are you sure you want to cancel this project? This will mark the lead as Not Qualified.')) {
+              setProjects(prev => prev.map(p => p.id === proj.id ? { ...p, currentPhase: 'Cancelled', status: 'Not Qualified' } : p));
+              setSelectedProject(null);
+            }
+          }} style={{ height: 30, padding: '0 12px', fontSize: 11 }}>
+            <XCircle size={12} style={{ marginRight: 4 }} /> Cancel Project
+          </Button>
+        </div>
       </div>
 
       {/* Phase Progress Strip */}
@@ -201,7 +216,7 @@ const ProjectLifecycle = () => {
       {/* Payment Summary */}
       <Card style={{ padding: 0, overflow: 'hidden' }}>
         <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3 style={{ fontSize: 14, fontWeight: 700, color: 'white' }}>Payment Summary</h3>
+          <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-main)' }}>Payment Summary</h3>
           <div style={{ display: 'flex', gap: 12 }}>
             <span style={{ fontSize: 12, color: '#34D399', fontWeight: 600 }}>Paid: {formatCurrency(proj.totalPaid)}</span>
             <span style={{ fontSize: 12, color: '#F87171', fontWeight: 600 }}>Pending: {formatCurrency(proj.totalPending)}</span>
@@ -211,7 +226,7 @@ const ProjectLifecycle = () => {
           {proj.payments.map((pm, i) => (
             <div key={i} style={{ flex: 1, padding: '14px 16px', borderRight: i < 3 ? '1px solid var(--border)' : 'none', background: pm.status === 'Paid' ? 'rgba(52,211,153,0.04)' : 'transparent' }}>
               <p style={{ fontSize: 10, fontWeight: 600, color: pm.status === 'Paid' ? '#34D399' : 'var(--text-dim)', textTransform: 'uppercase' }}>{pm.milestone}</p>
-              <p style={{ fontSize: 16, fontWeight: 700, color: 'white', margin: '4px 0' }}>₹{pm.amount.toLocaleString()}</p>
+              <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)', margin: '4px 0' }}>₹{pm.amount.toLocaleString()}</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                 {pm.status === 'Paid' ? <CheckCircle size={10} style={{ color: '#34D399' }} /> : <Clock size={10} style={{ color: 'var(--text-dim)' }} />}
                 <span style={{ fontSize: 10, color: pm.status === 'Paid' ? '#34D399' : 'var(--text-dim)' }}>{pm.status === 'Paid' ? formatDate(pm.date) : 'Pending'}</span>
@@ -252,7 +267,7 @@ const ProjectLifecycle = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <p style={{ fontSize: 10, fontWeight: 700, color: '#60A5FA', textTransform: 'uppercase' }}>Design Manager</p>
-                <p style={{ fontSize: 15, fontWeight: 700, color: 'white', marginTop: 4 }}>{proj.designManager?.name || 'Not assigned'}</p>
+                <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-main)', marginTop: 4 }}>{proj.designManager?.name || 'Not assigned'}</p>
                 {proj.designManager && <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>Assigned by {proj.designManager.assignedBy} · {fmtDT(proj.designManager.assignedDate)}</p>}
               </div>
               <div style={{ padding: 10, background: 'rgba(248,113,113,0.06)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(248,113,113,0.2)' }}>
@@ -269,7 +284,7 @@ const ProjectLifecycle = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                   <FileText size={18} style={{ color: d.status === 'Approved' ? '#34D399' : '#60A5FA' }} />
                   <div>
-                    <h4 style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>{d.version} — {d.name}</h4>
+                    <h4 style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>{d.version} — {d.name}</h4>
                     <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>Created: {fmtDT(d.createdDate)} · Costing: {formatCurrency(d.costing)}</p>
                   </div>
                 </div>
@@ -359,7 +374,7 @@ const ProjectLifecycle = () => {
                       <Factory size={18} style={{ color: '#FBBF24' }} />
                     </div>
                     <div>
-                      <h4 style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>{pm.name}</h4>
+                      <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>{pm.name}</h4>
                       <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>Scope: {pm.scope || '-'} · Assigned by {pm.assignedBy}</p>
                     </div>
                   </div>
@@ -388,13 +403,13 @@ const ProjectLifecycle = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 14 }}>
             {proj.productionNotes.map((n, i) => (
               <div key={i} style={{ padding: '10px 14px', background: 'var(--bg-main)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
-                <p style={{ fontSize: 12, color: 'white' }}>{n.note}</p>
+                <p style={{ fontSize: 12, color: 'var(--text-main)' }}>{n.note}</p>
                 <p style={{ fontSize: 10, color: 'var(--text-dim)', marginTop: 4 }}>{n.by} · {fmtDT(n.date)}</p>
               </div>
             ))}
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <input value={noteInput} onChange={e => setNoteInput(e.target.value)} placeholder="Add production note..." style={{ flex: 1, padding: '10px 14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 13 }} />
+            <input value={noteInput} onChange={e => setNoteInput(e.target.value)} placeholder="Add production note..." style={{ flex: 1, padding: '10px 14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 13 }} />
             <Button variant="primary" onClick={() => addProductionNote(proj.id)}>Add Note</Button>
           </div>
 
@@ -412,7 +427,7 @@ const ProjectLifecycle = () => {
             <Card style={{ padding: 16 }}>
               <h4 style={{ fontSize: 13, fontWeight: 700, color: '#EC4899', marginBottom: 8 }}>QC Manager</h4>
               {proj.qcManager ? (
-                <p style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>{proj.qcManager.name}<span style={{ fontSize: 11, color: 'var(--text-dim)', marginLeft: 8 }}>Assigned by {proj.qcManager.assignedBy}</span></p>
+                <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>{proj.qcManager.name}<span style={{ fontSize: 11, color: 'var(--text-dim)', marginLeft: 8 }}>Assigned by {proj.qcManager.assignedBy}</span></p>
               ) : (
                 <Button variant="outline" size="sm" onClick={() => setShowAssignModal({ projectId: proj.id, role: 'QC Manager' })}>Assign QC Manager</Button>
               )}
@@ -438,7 +453,7 @@ const ProjectLifecycle = () => {
                 {qcChecklistTemplate.map(item => (
                   <tr key={item.id} style={{ borderBottom: '1px solid var(--border)' }}>
                     <td style={{ padding: '8px 14px' }}><input type="checkbox" style={{ accentColor: '#EC4899' }} /></td>
-                    <td style={{ padding: '8px 14px', fontSize: 12, fontWeight: 600, color: 'white' }}>{item.category}</td>
+                    <td style={{ padding: '8px 14px', fontSize: 12, fontWeight: 600, color: 'var(--text-main)' }}>{item.category}</td>
                     <td style={{ padding: '8px 14px', fontSize: 12, color: 'var(--text-muted)' }}>{item.item}</td>
                     <td style={{ padding: '8px 14px' }}>{item.required ? <Badge variant="hot" style={{ fontSize: 9 }}>Required</Badge> : <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>Optional</span>}</td>
                     <td style={{ padding: '8px 14px' }}><Badge variant="gray" style={{ fontSize: 9 }}>Pending</Badge></td>
@@ -468,7 +483,7 @@ const ProjectLifecycle = () => {
             <Card style={{ padding: 16 }}>
               <h4 style={{ fontSize: 13, fontWeight: 700, color: '#F97316', marginBottom: 8 }}>Project Manager</h4>
               {proj.projectManager ? (
-                <p style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>{proj.projectManager.name}</p>
+                <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>{proj.projectManager.name}</p>
               ) : (
                 <Button variant="outline" size="sm" onClick={() => setShowAssignModal({ projectId: proj.id, role: 'Project Manager' })}>Assign Project Manager</Button>
               )}
@@ -495,12 +510,12 @@ const ProjectLifecycle = () => {
           {proj.handoverCompleted ? (
             <Card style={{ padding: 40, textAlign: 'center', background: 'rgba(20,184,166,0.06)', border: '1px solid rgba(20,184,166,0.3)' }}>
               <CheckCircle size={48} style={{ color: '#14B8A6', margin: '0 auto 16px' }} />
-              <h3 style={{ fontSize: 22, fontWeight: 700, color: 'white' }}>Project Handed Over! 🎉</h3>
+              <h3 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-main)' }}>Project Handed Over! 🎉</h3>
               <p style={{ fontSize: 14, color: 'var(--text-muted)', marginTop: 8 }}>OTP verified & handover completed on {fmtDT(proj.handoverDate)}</p>
             </Card>
           ) : (
             <Card style={{ padding: 24 }}>
-              <h4 style={{ fontSize: 15, fontWeight: 700, color: 'white', marginBottom: 12 }}>OTP Handover Verification</h4>
+              <h4 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-main)', marginBottom: 12 }}>OTP Handover Verification</h4>
               <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16 }}>Send OTP to customer (and all applicants/co-applicants) for final handover confirmation.</p>
               <Button variant="primary" onClick={() => initiateHandover(proj.id)}>
                 <Smartphone size={14} style={{ marginRight: 6 }} /> Send Handover OTP
@@ -516,7 +531,7 @@ const ProjectLifecycle = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {projectTeam.filter(t => t.role === showAssignModal.role && t.active).map(t => (
               <button key={t.id} onClick={() => handleAssign(showAssignModal.projectId, showAssignModal.role, t.id)}
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', cursor: 'pointer', transition: 'all 0.2s' }}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', cursor: 'pointer', transition: 'all 0.2s' }}
                 onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--primary)'}
                 onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}>
                 <div>
@@ -540,7 +555,7 @@ const ProjectLifecycle = () => {
               <p style={{ fontSize: 11, color: '#14B8A6' }}>Demo OTP: <strong>{p?.handoverOtp}</strong></p>
             </div>
             <input value={otpInput} onChange={e => setOtpInput(e.target.value)} placeholder="Enter 6-digit OTP" maxLength={6}
-              style={{ width: '100%', padding: '14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 22, textAlign: 'center', letterSpacing: 8, fontWeight: 700, marginBottom: 14 }} />
+              style={{ width: '100%', padding: '14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 22, textAlign: 'center', letterSpacing: 8, fontWeight: 700, marginBottom: 14 }} />
             <Button variant="primary" onClick={() => verifyHandover(showOtpHandover)} style={{ width: '100%' }}>
               <ShieldCheck size={14} style={{ marginRight: 6 }} /> Verify & Complete Handover
             </Button>
@@ -556,7 +571,7 @@ const PhaseSection = ({ title, color, icon: Icon, children }) => (
   <Card style={{ padding: 20, borderLeft: `3px solid ${color}` }}>
     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
       <Icon size={18} style={{ color }} />
-      <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>{title}</h3>
+      <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>{title}</h3>
     </div>
     {children}
   </Card>

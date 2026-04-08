@@ -96,7 +96,7 @@ const ReportingDashboard = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className="animate-fade-in">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'white', marginBottom: 4 }}>Reporting & Exports</h1>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-main)', marginBottom: 4 }}>Reporting & Exports</h1>
           <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>6 charts with table · Call analytics · Conversion metrics · Export with masked PII</p>
         </div>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
@@ -244,7 +244,7 @@ const ReportingDashboard = () => {
               <tbody>
                 {pendingFollowups.slice(0, 15).map(l => (
                   <tr key={l.id} style={{ borderBottom: '1px solid var(--border)' }}>
-                    <td style={{ padding: '8px 12px', fontSize: 12, fontWeight: 600, color: 'white' }}>{maskName(l.name)}</td>
+                    <td style={{ padding: '8px 12px', fontSize: 12, fontWeight: 600, color: 'var(--text-main)' }}>{maskName(l.name)}</td>
                     <td style={{ padding: '8px 12px' }}><Badge variant={l.status === 'Meeting Scheduled' ? 'nurture' : 'warm'} style={{ fontSize: 9 }}>{l.status}</Badge></td>
                     <td style={{ padding: '8px 12px', fontSize: 11, color: '#F87171' }}>{new Date(getNextFollowUp(l)).toLocaleDateString()}</td>
                     <td style={{ padding: '8px 12px', fontSize: 11, color: 'var(--text-muted)' }}>{l.assignedToName || '-'}</td>
@@ -262,7 +262,7 @@ const ReportingDashboard = () => {
       {/* Manager-wise Table */}
       <Card style={{ padding: 0, overflow: 'hidden' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>Lead Stage Count by Manager</h3>
+          <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>Lead Stage Count by Manager</h3>
           <span style={{ fontSize: 11, color: 'var(--text-dim)' }}>SOW: 6 charts + table</span>
         </div>
         <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
@@ -276,12 +276,12 @@ const ReportingDashboard = () => {
           <tbody>
             {managerData.map(m => (
               <tr key={m.name} style={{ borderBottom: '1px solid var(--border)' }}>
-                <td style={{ padding: '10px 16px', fontSize: 13, fontWeight: 600, color: 'white' }}>{maskName(m.name)}</td>
+                <td style={{ padding: '10px 16px', fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>{maskName(m.name)}</td>
                 <td style={{ padding: '10px 16px', fontSize: 13, color: 'var(--text-muted)' }}>{m.untouched}</td>
                 <td style={{ padding: '10px 16px', fontSize: 13, color: '#FBBF24' }}>{m.attempted}</td>
                 <td style={{ padding: '10px 16px', fontSize: 13, color: '#60A5FA' }}>{m.validated}</td>
                 <td style={{ padding: '10px 16px', fontSize: 13, color: '#34D399', fontWeight: 600 }}>{m.converted}</td>
-                <td style={{ padding: '10px 16px', fontSize: 13, fontWeight: 600, color: 'white' }}>{m.total}</td>
+                <td style={{ padding: '10px 16px', fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>{m.total}</td>
               </tr>
             ))}
           </tbody>
@@ -291,14 +291,14 @@ const ReportingDashboard = () => {
   );
 };
 
-const selectStyle = { padding: '8px 14px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 13 };
-const tooltipStyle = { backgroundColor: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 12 };
+const selectStyle = { padding: '8px 14px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 13 };
+const tooltipStyle = { backgroundColor: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 12 };
 
 const KpiCard = ({ label, value, sub, icon: Icon, color, up }) => (
   <Card style={{ padding: 18, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
     <div>
       <p style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase', marginBottom: 4 }}>{label}</p>
-      <h3 style={{ fontSize: 26, fontWeight: 700, color: 'white' }}>{value}</h3>
+      <h3 style={{ fontSize: 26, fontWeight: 700, color: 'var(--text-main)' }}>{value}</h3>
       <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, marginTop: 4, color: up ? '#34D399' : 'var(--text-dim)' }}>
         {up != null && (up ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />)}
         <span>{sub}</span>
@@ -312,7 +312,7 @@ const KpiCard = ({ label, value, sub, icon: Icon, color, up }) => (
 
 const ChartHeader = ({ title, subtitle }) => (
   <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'white' }}>{title}</h3>
+    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-main)' }}>{title}</h3>
     <span style={{ fontSize: 11, color: 'var(--text-dim)' }}>{subtitle}</span>
   </div>
 );

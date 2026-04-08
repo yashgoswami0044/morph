@@ -63,7 +63,7 @@ const Escalations = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="animate-fade-in">
       <div>
-        <h1 style={{ fontSize: 24, fontWeight: 700, color: 'white', marginBottom: 4 }}>Escalation Center</h1>
+        <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-main)', marginBottom: 4 }}>Escalation Center</h1>
         <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>48h no-contact alerts, missed meetings, overdue follow-ups & lead recycling.</p>
       </div>
 
@@ -118,7 +118,7 @@ const Escalations = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                   <Calendar size={20} style={{ color: '#FBBF24' }} />
                   <div>
-                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'white' }}>{lead.name}</h3>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-main)' }}>{lead.name}</h3>
                     <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>{lead.project} · {lead.meetingObj?.visitType || 'Site Visit'}</p>
                   </div>
                 </div>
@@ -139,7 +139,7 @@ const Escalations = () => {
                   </div>
                   <div>
                     <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>Assigned To</span>
-                    <p style={{ fontSize: 12, color: 'white' }}>{lead.assignedToName || '—'}</p>
+                    <p style={{ fontSize: 12, color: 'var(--text-main)' }}>{lead.assignedToName || '—'}</p>
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
@@ -183,7 +183,7 @@ const Escalations = () => {
               <tbody>
                 {overdueFollowups.map(l => (
                   <tr key={l.id} style={{ borderBottom: '1px solid var(--border)' }}>
-                    <td style={{ padding: '10px 14px', fontSize: 13, fontWeight: 600, color: 'white' }}>{l.name}</td>
+                    <td style={{ padding: '10px 14px', fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>{l.name}</td>
                     <td style={{ padding: '10px 14px' }}><Badge variant="warm" style={{ fontSize: 9 }}>{l.status}</Badge></td>
                     <td style={{ padding: '10px 14px', fontSize: 12, color: '#EC4899' }}>{l.followUpDate.toLocaleDateString()}</td>
                     <td style={{ padding: '10px 14px', fontSize: 14, fontWeight: 700, color: l.daysOverdue > 3 ? '#F87171' : '#FBBF24' }}>{l.daysOverdue}d</td>
@@ -215,7 +215,7 @@ const Escalations = () => {
                   {lead.name[0]}
                 </div>
                 <div>
-                  <h4 style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>{lead.name}</h4>
+                  <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>{lead.name}</h4>
                   <p style={{ fontSize: 12, color: 'var(--text-dim)' }}>{lead.project} · {lead.config}</p>
                   <p style={{ fontSize: 11, color: '#F87171', marginTop: 4 }}>Reason: {lead.notQualifiedReason || 'Not specified'}</p>
                 </div>
@@ -240,7 +240,7 @@ const Escalations = () => {
       {activeTab === 'matrix' && (
         <Card style={{ padding: 0, overflow: 'hidden' }}>
           <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>Escalation Rules Matrix</h3>
+            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>Escalation Rules Matrix</h3>
             <p style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 4 }}>SLA-based multi-level escalation rules per specification.</p>
           </div>
           <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
@@ -254,7 +254,7 @@ const Escalations = () => {
             <tbody>
               {escalationMatrix.map(rule => (
                 <tr key={rule.id} style={{ borderBottom: '1px solid var(--border)' }}>
-                  <td style={{ padding: '14px 16px', fontSize: 13, color: 'white', fontWeight: 500, maxWidth: 250 }}>{rule.scenario}</td>
+                  <td style={{ padding: '14px 16px', fontSize: 13, color: 'var(--text-main)', fontWeight: 500, maxWidth: 250 }}>{rule.scenario}</td>
                   <td style={{ padding: '14px 16px', fontSize: 12, color: 'var(--text-muted)' }}>{rule.level1}</td>
                   <td style={{ padding: '14px 16px', fontSize: 12, color: '#FBBF24' }}>{rule.level2}</td>
                   <td style={{ padding: '14px 16px', fontSize: 12, color: '#F87171' }}>{rule.level3}</td>
@@ -281,7 +281,7 @@ const EscKpi = ({ label, value, color, icon: Icon }) => (
   <Card style={{ padding: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
     <div>
       <p style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase' }}>{label}</p>
-      <h3 style={{ fontSize: 26, fontWeight: 700, color: 'white', marginTop: 4 }}>{value}</h3>
+      <h3 style={{ fontSize: 26, fontWeight: 700, color: 'var(--text-main)', marginTop: 4 }}>{value}</h3>
     </div>
     <div style={{ width: 40, height: 40, borderRadius: 'var(--radius-md)', background: `${color}12`, border: `1px solid ${color}30`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <Icon size={18} style={{ color }} />
@@ -295,7 +295,7 @@ const EscalationCard = ({ lead, navigate, assignLead }) => (
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <AlertTriangle size={20} style={{ color: '#F87171' }} />
         <div>
-          <h3 style={{ fontSize: 15, fontWeight: 700, color: 'white' }}>{lead.name}</h3>
+          <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-main)' }}>{lead.name}</h3>
           <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>{lead.project} · {lead.config} · {lead.status}</p>
         </div>
       </div>
@@ -308,7 +308,7 @@ const EscalationCard = ({ lead, navigate, assignLead }) => (
       <div style={{ display: 'flex', gap: 20 }}>
         <div>
           <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>Assigned To</span>
-          <p style={{ fontSize: 12, fontWeight: 600, color: 'white' }}>{lead.assignedToName || 'Unassigned'} ({lead.assignedRole || '—'})</p>
+          <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-main)' }}>{lead.assignedToName || 'Unassigned'} ({lead.assignedRole || '—'})</p>
         </div>
         <div>
           <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>SLA Rule</span>

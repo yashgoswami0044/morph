@@ -49,7 +49,7 @@ const SalesProcess = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="animate-fade-in">
       <div>
-        <h1 style={{ fontSize: 24, fontWeight: 700, color: 'white', marginBottom: 4 }}>Sales Process</h1>
+        <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-main)', marginBottom: 4 }}>Sales Process</h1>
         <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>Estimation → Quotation → Payment → Contract lifecycle.</p>
       </div>
 
@@ -84,7 +84,7 @@ const SalesProcess = () => {
                   </div>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <h3 style={{ fontSize: 15, fontWeight: 700, color: 'white' }}>{est.id}</h3>
+                      <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-main)' }}>{est.id}</h3>
                       <EstStatusBadge status={est.status} />
                     </div>
                     <p style={{ fontSize: 12, color: 'var(--text-dim)' }}>{est.leadName} · {est.project} · {est.config} · {est.area} sqft</p>
@@ -129,18 +129,18 @@ const SalesProcess = () => {
                     <tbody>
                       {est.items.map((item, i) => (
                         <tr key={i} style={{ borderBottom: '1px solid var(--border)' }}>
-                          <td style={{ padding: '10px 16px', fontSize: 12, fontWeight: 600, color: 'white' }}>{item.category}</td>
+                          <td style={{ padding: '10px 16px', fontSize: 12, fontWeight: 600, color: 'var(--text-main)' }}>{item.category}</td>
                           <td style={{ padding: '10px 16px', fontSize: 12, color: 'var(--text-muted)' }}>{item.description}</td>
                           <td style={{ padding: '10px 16px', fontSize: 12, color: 'var(--text-muted)' }}>{item.qty}</td>
                           <td style={{ padding: '10px 16px', fontSize: 12, color: 'var(--text-muted)' }}>₹{item.rate.toLocaleString()}</td>
-                          <td style={{ padding: '10px 16px', fontSize: 12, fontWeight: 600, color: 'white' }}>₹{item.amount.toLocaleString()}</td>
+                          <td style={{ padding: '10px 16px', fontSize: 12, fontWeight: 600, color: 'var(--text-main)' }}>₹{item.amount.toLocaleString()}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                   <div style={{ padding: '16px 20px', background: 'var(--bg-main)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ display: 'flex', gap: 24 }}>
-                      <div><span style={{ fontSize: 10, color: 'var(--text-dim)' }}>SUBTOTAL</span><p style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>₹{est.totalAmount.toLocaleString()}</p></div>
+                      <div><span style={{ fontSize: 10, color: 'var(--text-dim)' }}>SUBTOTAL</span><p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>₹{est.totalAmount.toLocaleString()}</p></div>
                       <div><span style={{ fontSize: 10, color: 'var(--text-dim)' }}>DISCOUNT ({est.discountPercent}%)</span><p style={{ fontSize: 14, fontWeight: 600, color: '#F87171' }}>-₹{(est.totalAmount - est.finalAmount).toLocaleString()}</p></div>
                       <div><span style={{ fontSize: 10, color: 'var(--text-dim)' }}>GST (18%)</span><p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-muted)' }}>₹{est.gst.toLocaleString()}</p></div>
                       <div><span style={{ fontSize: 10, color: '#34D399' }}>GRAND TOTAL</span><p style={{ fontSize: 18, fontWeight: 700, color: '#34D399' }}>₹{est.grandTotal.toLocaleString()}</p></div>
@@ -174,7 +174,7 @@ const SalesProcess = () => {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                    <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>{q.id}</h3>
+                    <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>{q.id}</h3>
                     <EstStatusBadge status={q.status} />
                   </div>
                   <p style={{ fontSize: 12, color: 'var(--text-dim)' }}>{q.leadName} · {q.project} · From: {q.estimationId}</p>
@@ -225,14 +225,14 @@ const SalesProcess = () => {
                   </div>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <h3 style={{ fontSize: 15, fontWeight: 700, color: 'white' }}>{pay.id}</h3>
+                      <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-main)' }}>{pay.id}</h3>
                       <PayStatusBadge status={pay.status} />
                     </div>
                     <p style={{ fontSize: 12, color: 'var(--text-dim)' }}>{pay.leadName} · {pay.project} · {pay.config}</p>
                   </div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <p style={{ fontSize: 22, fontWeight: 700, color: 'white' }}>₹{pay.amount.toLocaleString()}</p>
+                  <p style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-main)' }}>₹{pay.amount.toLocaleString()}</p>
                   <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>{pay.paymentMode} · {formatDate(pay.collectionDate)}</p>
                 </div>
               </div>
@@ -278,7 +278,7 @@ const SalesProcess = () => {
               <div style={{ padding: '18px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border)' }}>
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                    <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>{cnt.id}</h3>
+                    <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>{cnt.id}</h3>
                     <Badge variant={cnt.status === 'Active' ? 'success' : 'warm'}>{cnt.status}</Badge>
                   </div>
                   <p style={{ fontSize: 12, color: 'var(--text-dim)' }}>{cnt.leadName} · {cnt.project} · {cnt.config}</p>
@@ -305,7 +305,7 @@ const SalesProcess = () => {
                   {cnt.paymentSchedule.map((ms, i) => (
                     <div key={i} style={{ padding: 12, borderRadius: 'var(--radius-md)', background: ms.status === 'Paid' ? 'rgba(52,211,153,0.06)' : 'var(--bg-main)', border: `1px solid ${ms.status === 'Paid' ? 'rgba(52,211,153,0.2)' : 'var(--border)'}` }}>
                       <p style={{ fontSize: 11, fontWeight: 600, color: ms.status === 'Paid' ? '#34D399' : 'var(--text-dim)', marginBottom: 6 }}>{ms.milestone}</p>
-                      <p style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>₹{ms.amount.toLocaleString()}</p>
+                      <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>₹{ms.amount.toLocaleString()}</p>
                       <p style={{ fontSize: 10, color: 'var(--text-dim)', marginTop: 4 }}>Due: {formatDate(ms.dueDate)}</p>
                       <Badge variant={ms.status === 'Paid' ? 'success' : 'gray'} style={{ fontSize: 9, marginTop: 6 }}>{ms.status}</Badge>
                     </div>
@@ -345,7 +345,7 @@ const SalesProcess = () => {
 };
 
 /* ── HELPERS ── */
-const inputStyle = { width: '100%', padding: '10px 14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 13, outline: 'none' };
+const inputStyle = { width: '100%', padding: '10px 14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 13, outline: 'none' };
 
 const ModalField = ({ label, value, onChange, placeholder, type = 'text' }) => (
   <div>

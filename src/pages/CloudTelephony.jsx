@@ -91,7 +91,7 @@ const CloudTelephony = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className="animate-fade-in">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'white', marginBottom: 4 }}>Cloud Telephony</h1>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-main)', marginBottom: 4 }}>Cloud Telephony</h1>
           <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>Click-to-call, post-call feedback, inbound routing & call analytics.</p>
         </div>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
@@ -115,7 +115,7 @@ const CloudTelephony = () => {
                 <Phone size={22} style={{ color: '#34D399' }} />
               </div>
               <div>
-                <h3 style={{ fontSize: 18, fontWeight: 700, color: 'white' }}>{activeCall.name || 'Unknown'}</h3>
+                <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-main)' }}>{activeCall.name || 'Unknown'}</h3>
                 <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>{activeCall.phone} · via {callLanding === 'smartflow' ? 'SmartFlow' : 'Phone Device'}</p>
               </div>
             </div>
@@ -137,7 +137,7 @@ const CloudTelephony = () => {
       {/* Post-Call Feedback Modal */}
       {showFeedback && (
         <Card style={{ padding: 24, border: '1px solid rgba(168,137,68,0.3)' }}>
-          <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white', marginBottom: 4 }}>Post-Call Feedback</h3>
+          <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)', marginBottom: 4 }}>Post-Call Feedback</h3>
           <p style={{ fontSize: 12, color: 'var(--text-dim)', marginBottom: 16 }}>Call with {activeCall?.name} · Duration: {formatTime(callTimer)}</p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
             <div>
@@ -209,12 +209,12 @@ const CloudTelephony = () => {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
           {/* Call Queue */}
           <Card>
-            <h3 style={{ fontSize: 15, fontWeight: 700, color: 'white', marginBottom: 14 }}>Click-to-Call Queue</h3>
+            <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-main)', marginBottom: 14 }}>Click-to-Call Queue</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {pendingLeads.map(l => (
                 <div key={l.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px', background: 'var(--bg-main)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
                   <div>
-                    <h4 style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>{l.name}</h4>
+                    <h4 style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>{l.name}</h4>
                     <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>{l.phone} · <Badge variant={l.status === 'Untouched' ? 'gray' : 'warm'} style={{ fontSize: 8 }}>{l.status}</Badge></p>
                   </div>
                   <div style={{ display: 'flex', gap: 6 }}>
@@ -243,12 +243,12 @@ const CloudTelephony = () => {
               <div style={{ display: 'flex', gap: 12 }}>
                 <div style={{ flex: 1, padding: 14, background: callLanding === 'smartflow' ? 'rgba(168,137,68,0.08)' : 'var(--bg-main)', borderRadius: 'var(--radius-md)', border: `1px solid ${callLanding === 'smartflow' ? 'var(--primary)' : 'var(--border)'}`, cursor: 'pointer' }} onClick={() => setCallLanding('smartflow')}>
                   <Headphones size={22} style={{ color: callLanding === 'smartflow' ? 'var(--primary)' : 'var(--text-dim)', marginBottom: 6 }} />
-                  <p style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>SmartFlow</p>
+                  <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>SmartFlow</p>
                   <p style={{ fontSize: 10, color: 'var(--text-dim)' }}>Browser-based calling with CRM integration</p>
                 </div>
                 <div style={{ flex: 1, padding: 14, background: callLanding === 'phone' ? 'rgba(96,165,250,0.08)' : 'var(--bg-main)', borderRadius: 'var(--radius-md)', border: `1px solid ${callLanding === 'phone' ? '#60A5FA' : 'var(--border)'}`, cursor: 'pointer' }} onClick={() => setCallLanding('phone')}>
                   <Smartphone size={22} style={{ color: callLanding === 'phone' ? '#60A5FA' : 'var(--text-dim)', marginBottom: 6 }} />
-                  <p style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>Phone Device</p>
+                  <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>Phone Device</p>
                   <p style={{ fontSize: 10, color: 'var(--text-dim)' }}>Call landing on registered mobile device</p>
                 </div>
               </div>
@@ -267,11 +267,11 @@ const CloudTelephony = () => {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             {/* Campaign Routing */}
             <Card>
-              <h3 style={{ fontSize: 15, fontWeight: 700, color: 'white', marginBottom: 14 }}>Campaign Call Routing</h3>
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-main)', marginBottom: 14 }}>Campaign Call Routing</h3>
               {routingRules.filter(r => r.type === 'Campaign').map(r => (
                 <div key={r.id} style={{ padding: '12px 14px', background: 'var(--bg-main)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', marginBottom: 8 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                    <h4 style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>{r.name}</h4>
+                    <h4 style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>{r.name}</h4>
                     <Badge variant={r.active ? 'success' : 'gray'}>{r.active ? 'Active' : 'Off'}</Badge>
                   </div>
                   <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>DID: <span style={{ color: 'var(--primary-light)' }}>{r.did}</span></p>
@@ -282,11 +282,11 @@ const CloudTelephony = () => {
 
             {/* Customer Incoming */}
             <Card>
-              <h3 style={{ fontSize: 15, fontWeight: 700, color: 'white', marginBottom: 14 }}>Customer Incoming Call Routing</h3>
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-main)', marginBottom: 14 }}>Customer Incoming Call Routing</h3>
               {routingRules.filter(r => r.type === 'Customer').map(r => (
                 <div key={r.id} style={{ padding: '12px 14px', background: 'var(--bg-main)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', marginBottom: 8 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                    <h4 style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>{r.name}</h4>
+                    <h4 style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>{r.name}</h4>
                     <div style={{ display: 'flex', gap: 6 }}>
                       {r.sticky && <Badge variant="nurture" style={{ fontSize: 8 }}>STICKY</Badge>}
                       <Badge variant={r.active ? 'success' : 'gray'}>{r.active ? 'Active' : 'Off'}</Badge>
@@ -309,7 +309,7 @@ const CloudTelephony = () => {
       {activeTab === 'logs' && (
         <Card style={{ padding: 0, overflow: 'hidden' }}>
           <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>Recent Call Logs</h3>
+            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>Recent Call Logs</h3>
           </div>
           <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
             <thead>
@@ -325,7 +325,7 @@ const CloudTelephony = () => {
                   <td style={{ padding: '10px 14px' }}>
                     {c.type === 'outbound' ? <PhoneOutgoing size={14} style={{ color: '#60A5FA' }} /> : <PhoneIncoming size={14} style={{ color: '#34D399' }} />}
                   </td>
-                  <td style={{ padding: '10px 14px', fontSize: 13, fontWeight: 600, color: 'white' }}>{c.leadName}</td>
+                  <td style={{ padding: '10px 14px', fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>{c.leadName}</td>
                   <td style={{ padding: '10px 14px', fontSize: 12, color: 'var(--text-muted)' }}>{c.phone}</td>
                   <td style={{ padding: '10px 14px', fontSize: 12, color: 'var(--text-muted)', fontFamily: 'monospace' }}>{c.duration}</td>
                   <td style={{ padding: '10px 14px' }}><Badge variant={c.outcome === 'Connected' ? 'success' : c.outcome === 'No Answer' ? 'warm' : 'gray'}>{c.outcome}</Badge></td>
@@ -343,7 +343,7 @@ const CloudTelephony = () => {
       {activeTab === 'config' && (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
           <Card style={{ padding: 20 }}>
-            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white', marginBottom: 14 }}>Telephony Provider</h3>
+            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)', marginBottom: 14 }}>Telephony Provider</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {[
                 { label: 'Provider', value: 'Cloud Telephony (Knowlarity / Exotel)' },
@@ -360,7 +360,7 @@ const CloudTelephony = () => {
             </div>
           </Card>
           <Card style={{ padding: 20 }}>
-            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white', marginBottom: 14 }}>Call Landing Settings</h3>
+            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)', marginBottom: 14 }}>Call Landing Settings</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {[
                 { label: 'SmartFlow (Browser)', value: 'WebRTC-based calling with screen pop. CRM auto-loads lead details on incoming call.' },
@@ -384,7 +384,7 @@ const CloudTelephony = () => {
 };
 
 const landingBtnStyle = { padding: '6px 12px', borderRadius: 'var(--radius-sm)', fontSize: 11, fontWeight: 500, display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer', transition: 'all 0.2s' };
-const inputStyle = { width: '100%', padding: '10px 14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 13, outline: 'none', lineHeight: 1.5 };
+const inputStyle = { width: '100%', padding: '10px 14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 13, outline: 'none', lineHeight: 1.5 };
 const labelStyle = { fontSize: 11, color: 'var(--text-dim)', display: 'block', marginBottom: 6, fontWeight: 600, textTransform: 'uppercase' };
 
 const StatCard = ({ label, value, icon: Icon, color }) => (
@@ -392,7 +392,7 @@ const StatCard = ({ label, value, icon: Icon, color }) => (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <div>
         <p style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase' }}>{label}</p>
-        <h3 style={{ fontSize: 24, fontWeight: 700, color: 'white', marginTop: 4 }}>{value}</h3>
+        <h3 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-main)', marginTop: 4 }}>{value}</h3>
       </div>
       <div style={{ width: 38, height: 38, borderRadius: 'var(--radius-md)', background: `${color}12`, border: `1px solid ${color}30`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Icon size={18} style={{ color }} />

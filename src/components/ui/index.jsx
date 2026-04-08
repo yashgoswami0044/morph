@@ -23,12 +23,12 @@ export const Button = ({ children, className, variant = 'primary', size = 'md', 
   const variants = {
     primary: {
       background: 'linear-gradient(to bottom, var(--primary-light), var(--primary-dark))',
-      color: '#080a0f',
+      color: 'var(--bg-main)',
       border: '1px solid var(--primary)',
     },
     secondary: {
       background: 'var(--bg-card)',
-      color: 'white',
+      color: 'var(--text-main)',
       border: '1px solid var(--border)',
     },
     outline: {
@@ -93,7 +93,7 @@ export const Input = ({ label, error, className, style: userStyle, ...props }) =
           width: '100%',
           background: 'var(--bg-main)',
           border: `1px solid ${error ? 'var(--status-hot)' : 'var(--border)'}`,
-          color: 'white',
+          color: 'var(--text-main)',
           padding: '10px 14px',
           borderRadius: 'var(--radius-md)',
           outline: 'none',
@@ -144,17 +144,17 @@ export const Badge = ({ children, variant = 'gray', className, style: userStyle,
 export const Accordion = ({ title, icon: Icon, defaultOpen = false, children, className, headerRight }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   return (
-    <Card className={className} style={{ padding: 0, overflow: 'visible', display: 'flex', flexDirection: 'column' }}>
-      <button 
-        onClick={() => setIsOpen(!isOpen)} 
-        style={{ 
-          width: '100%', 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center', 
-          padding: '14px 16px', 
-          background: 'var(--bg-main)', 
-          border: 'none', 
+    <Card className={className} style={{ padding: 0, overflow: 'clip', display: 'flex', flexDirection: 'column' }}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '14px 16px',
+          background: 'var(--bg-main)',
+          border: 'none',
           cursor: 'pointer',
           outline: 'none',
           borderBottom: isOpen ? '1px solid var(--border)' : 'none',
@@ -162,7 +162,7 @@ export const Accordion = ({ title, icon: Icon, defaultOpen = false, children, cl
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           {Icon && <Icon size={14} style={{ color: 'var(--primary)' }} />}
-          <h3 style={{ fontSize: 13, fontWeight: 700, color: 'white', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{title}</h3>
+          <h3 style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-main)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{title}</h3>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           {headerRight && <div onClick={e => e.stopPropagation()}>{headerRight}</div>}
@@ -190,7 +190,7 @@ export const Modal = ({ onClose, title, children, width = 520 }) => {
     <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)', zIndex: 9999, transition: 'all 0.3s ease' }} onClick={onClose}>
       <div className="animate-slide-in-right" style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: width, maxWidth: '100%', background: 'var(--bg-card)', borderLeft: '1px solid var(--border)', display: 'flex', flexDirection: 'column', boxShadow: '-24px 0 48px rgba(0,0,0,0.6)' }} onClick={e => e.stopPropagation()}>
         <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3 style={{ fontSize: 18, fontWeight: 700, color: 'white' }}>{title || ''}</h3>
+          <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-main)' }}>{title || ''}</h3>
           <button onClick={onClose} style={{ color: 'var(--text-muted)', cursor: 'pointer', padding: 4, borderRadius: '50%', marginLeft: 'auto' }} onMouseEnter={e => e.currentTarget.style.color='white'} onMouseLeave={e => e.currentTarget.style.color='var(--text-muted)'}>
             <XCircle size={24} />
           </button>

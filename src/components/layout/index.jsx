@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom';
 import {
   Home, List, Plus, CheckCircle, BarChart2, Settings, LogOut, Search, Bell,
   FileText, AlertTriangle, BookOpen, ArrowRightLeft, MapPin, IndianRupee, Layers, PieChart, MessageSquare,
-  ChevronLeft, ChevronRight, ChevronDown,
-  Phone, Calendar
+  ChevronLeft, ChevronRight, ChevronDown, Sun, Moon,
+  Phone, Calendar, GitMerge
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useLeads } from '../../context/LeadContext.jsx';
@@ -41,6 +41,7 @@ export const Sidebar = () => {
     { name: 'Site Visits', icon: MapPin, path: '/site-visits', roles: ['Sales Manager', 'Sales Executive', 'Regional Manager', 'CRM Head'] },
     { name: 'Sales Process', icon: IndianRupee, path: '/sales-process', roles: ['Sales Manager', 'Sales Executive', 'Regional Manager', 'CRM Head'] },
     { name: 'Projects', icon: Layers, path: '/projects', roles: ['Sales Manager', 'Sales Executive', 'Regional Manager', 'CRM Head'] },
+    { name: 'Unified Pipeline', icon: GitMerge, path: '/pipeline', roles: ['Sales Manager', 'Regional Manager', 'CRM Head'] },
     { name: 'Reports', icon: PieChart, path: '/reports', roles: ['Regional Manager', 'Sales Manager', 'CRM Head'] },
     { name: 'Communication', icon: MessageSquare, path: '/communication', roles: ['Sales Manager', 'Sales Executive', 'Regional Manager', 'CRM Head'] },
     { name: 'Telephony', icon: Phone, path: '/telephony', roles: ['Pre-sales Executive', 'Regional Manager', 'CRM Head'] },
@@ -62,7 +63,7 @@ export const Sidebar = () => {
           transform: isCollapsed ? 'translate(-50%, -50%) scale(1)' : 'translate(-50%, -50%) scale(0.5)',
           opacity: isCollapsed ? 1 : 0, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
         }} />
-        <img src={logo} alt="Morph" style={{
+        <img src={logo} alt="Morph" className="sidebar-logo" style={{
           height: 32, objectFit: 'contain', position: 'absolute', top: '50%', left: 24,
           transform: isCollapsed ? 'translateY(-50%) translateX(-20px)' : 'translateY(-50%) translateX(0)',
           opacity: isCollapsed ? 0 : 1, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
@@ -75,14 +76,14 @@ export const Sidebar = () => {
             style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}
             className={({ isActive }) => `sidebar-item ${isActive ? 'sidebar-item--active' : ''}`}
             title={isCollapsed ? item.name : undefined}>
-            
+
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 20 }}>
               <item.icon size={20} />
             </div>
 
             <div style={{
               display: 'flex', alignItems: 'center', overflow: 'hidden', whiteSpace: 'nowrap',
-              maxWidth: isCollapsed ? 0 : 200, opacity: isCollapsed ? 0 : 1,
+              opacity: isCollapsed ? 0 : 1, width: '100%',
               marginLeft: isCollapsed ? 0 : 12, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
             }}>
               <span style={{ flex: 1 }}>{item.name}</span>
@@ -108,7 +109,7 @@ export const Sidebar = () => {
 
       <style>{`
         .sidebar-item { display: flex; align-items: center; padding: 0.625rem 0.875rem; border-radius: var(--radius-md); font-size: 13px; font-weight: 500; color: var(--text-muted); transition: all 0.2s; text-decoration: none; }
-        .sidebar-item:hover { color: #fff; background: rgba(255,255,255,0.04); }
+        .sidebar-item:hover { color: #A88944; background: var(--glass-hover); }
         .sidebar-item--active { color: var(--primary-light) !important; background: var(--primary-bg) !important; border-left: 3px solid var(--primary); }
       `}</style>
     </aside>
@@ -120,76 +121,168 @@ export const Header = () => {
   const { notifications, markNotificationRead } = useLeads();
   const [showNotifs, setShowNotifs] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [theme, setTheme] = useState('dark');
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const unreadCount = notifications.filter(n => !n.read).length;
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
 
   return (
     <header className="app-header">
-      <div style={{ position: 'relative', maxWidth: 420, flex: 1 }}>
-        <Search style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-dim)' }} size={18} />
-        <input type="text" placeholder="Search leads, projects (Ctrl+K)" style={{ width: '100%', paddingLeft: 42, paddingRight: 16, height: 40, background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', color: 'white', fontSize: 13, outline: 'none' }} />
+      {/* Search Bar */}
+      <div style={{ position: 'relative', width: 380, flexShrink: 0 }}>
+        <Search style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: isSearchFocused ? 'var(--primary)' : 'var(--text-dim)', transition: 'color 0.2s ease' }} size={16} />
+        <input
+          type="text"
+          placeholder="Search leads, projects..."
+          onFocus={() => setIsSearchFocused(true)}
+          onBlur={() => setIsSearchFocused(false)}
+          style={{
+            width: '100%', paddingLeft: 40, paddingRight: 64, height: 40,
+            background: isSearchFocused ? 'var(--bg-elevated)' : 'var(--bg-main)',
+            border: `1px solid ${isSearchFocused ? 'var(--primary)' : 'var(--border)'}`,
+            borderRadius: 'var(--radius-lg)', color: 'var(--text-main)', fontSize: 13,
+            outline: 'none', transition: 'all 0.2s ease',
+            boxShadow: isSearchFocused ? 'var(--shadow-gold)' : 'none'
+          }}
+        />
+        <div style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
+          <kbd style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '4px', padding: '2px 6px', fontSize: 10, color: 'var(--text-muted)', fontFamily: 'inherit', fontWeight: 600, boxShadow: 'var(--shadow-sm)' }}>Ctrl K</kbd>
+        </div>
       </div>
 
+      <div style={{ flex: 1 }}></div>
+
       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+        {/* Region Indicator */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 12px', background: 'var(--glass-light)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border)' }}>
+          <span className="status-dot pulsing"></span>
+          <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-main)' }}>{user?.region || 'Bangalore East'}</span>
+        </div>
+
+        <div className="header-divider"></div>
+
+        {/* Theme Toggle */}
+        <button onClick={toggleTheme} className="header-icon-btn" title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}>
+          {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+        </button>
+
         {/* Notification Bell */}
         <div style={{ position: 'relative' }}>
-          <button onClick={() => setShowNotifs(!showNotifs)} style={{ position: 'relative', padding: 8, borderRadius: 'var(--radius-md)', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', color: 'var(--text-muted)', cursor: 'pointer' }}>
-            <Bell size={20} />
+          <button onClick={() => { setShowNotifs(!showNotifs); setShowProfileMenu(false); }} className={`header-icon-btn ${showNotifs ? 'active' : ''}`} title="Notifications">
+            <Bell size={18} />
             {unreadCount > 0 && (
-              <span style={{ position: 'absolute', top: 2, right: 2, minWidth: 16, height: 16, background: '#EF4444', borderRadius: '50%', border: '2px solid var(--bg-content)', fontSize: 9, fontWeight: 700, color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{unreadCount}</span>
+              <span className="notif-badge">{unreadCount > 9 ? '9+' : unreadCount}</span>
             )}
           </button>
 
           {showNotifs && (
-            <div style={{ position: 'absolute', right: 0, top: 48, width: 380, maxHeight: 400, overflowY: 'auto', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', boxShadow: '0 12px 32px rgba(0,0,0,0.4)', zIndex: 100 }}>
-              <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h4 style={{ fontSize: 14, fontWeight: 700, color: 'white' }}>Notifications</h4>
-                <span style={{ fontSize: 11, color: 'var(--text-dim)' }}>{unreadCount} unread</span>
+            <div className="header-dropdown animate-fade-in" style={{ right: -60, width: 340 }}>
+              <div style={{ padding: '16px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)', margin: 0 }}>Notifications</h4>
+                <Badge variant="hot" style={{ fontSize: 10 }}>{unreadCount} New</Badge>
               </div>
-              {notifications.slice(0, 15).map(n => (
-                <div key={n.id} onClick={() => markNotificationRead(n.id)} style={{ padding: '10px 16px', borderBottom: '1px solid var(--border)', background: n.read ? 'transparent' : 'rgba(168,137,68,0.05)', cursor: 'pointer', transition: 'background 0.2s' }}>
-                  <p style={{ fontSize: 12, color: n.read ? 'var(--text-muted)' : 'white', marginBottom: 2 }}>{n.message}</p>
-                  <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>{new Date(n.timestamp).toLocaleTimeString()}</span>
+              <div style={{ maxHeight: 320, overflowY: 'auto' }} className="custom-scrollbar">
+                {notifications.slice(0, 5).map(n => (
+                  <div key={n.id} onClick={() => markNotificationRead(n.id)} className="dropdown-item" style={{ background: n.read ? 'transparent' : 'var(--primary-bg)' }}>
+                    <div style={{ width: 8, height: 8, borderRadius: '50%', background: n.read ? 'transparent' : 'var(--primary)', marginTop: 4, flexShrink: 0 }}></div>
+                    <div style={{ flex: 1 }}>
+                      <p style={{ fontSize: 13, color: n.read ? 'var(--text-muted)' : 'var(--text-main)', marginBottom: 4, lineHeight: 1.4 }}>{n.message}</p>
+                      <span style={{ fontSize: 11, color: 'var(--text-dim)' }}>{new Date(n.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                    </div>
+                  </div>
+                ))}
+                {notifications.length === 0 && (
+                  <div style={{ padding: '32px 16px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+                    <Bell size={24} style={{ color: 'var(--text-dim)', opacity: 0.5 }} />
+                    <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>You're all caught up!</p>
+                  </div>
+                )}
+              </div>
+              {notifications.length > 0 && (
+                <div style={{ padding: '10px', borderTop: '1px solid var(--border)', textAlign: 'center' }}>
+                  <button style={{ fontSize: 12, color: 'var(--primary)', fontWeight: 500, background: 'transparent', border: 'none', cursor: 'pointer' }} onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'} onMouseLeave={e => e.currentTarget.style.textDecoration = 'none'}>Mark all as read</button>
                 </div>
-              ))}
-              {notifications.length === 0 && <p style={{ padding: 24, textAlign: 'center', fontSize: 13, color: 'var(--text-dim)' }}>No notifications</p>}
+              )}
             </div>
           )}
         </div>
 
-        <div style={{ width: 1, height: 28, background: 'var(--border)' }}></div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#34D399' }}></span>
-          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>{user?.region || 'All Regions'}</span>
-        </div>
+        {/* <div className="header-divider"></div> */}
 
-        <div style={{ width: 1, height: 28, background: 'var(--border)' }}></div>
-
+        {/* Profile Menu */}
         <div style={{ position: 'relative' }}>
-          <button onClick={() => { setShowProfileMenu(!showProfileMenu); setShowNotifs(false); }} style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 8px', borderRadius: 'var(--radius-md)' }} onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.03)'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-            <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--bg-content)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', fontWeight: 700, fontSize: 13 }}>
-              {user?.name?.[0]?.toUpperCase()}
+          <button onClick={() => { setShowProfileMenu(!showProfileMenu); setShowNotifs(false); }} className={`profile-trigger ${showProfileMenu ? 'active' : ''}`}>
+            <div className="avatar">
+              {user?.name?.[0]?.toUpperCase() || 'D'}
             </div>
-            <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
-              <span style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>{user?.name}</span>
-              <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>{user?.role}</span>
+            <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-main)', lineHeight: 1.2 }}>{user?.name || 'Demo'}</span>
+              <span style={{ fontSize: 11, color: 'var(--text-dim)', lineHeight: 1.2 }}>{user?.role || 'CRM Head'}</span>
             </div>
-            <ChevronDown size={14} style={{ color: 'var(--text-dim)', marginLeft: 4 }} />
           </button>
 
           {showProfileMenu && (
-            <div style={{ position: 'absolute', right: 0, top: 48, width: 220, background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', boxShadow: '0 12px 32px rgba(0,0,0,0.4)', zIndex: 100, padding: 8, animation: 'fadeIn 0.2s' }}>
-              <div style={{ padding: '8px 12px' }}>
-                <p style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>{user?.name}</p>
-                <p style={{ fontSize: 11, color: 'var(--text-muted)' }}>{user?.email || 'admin@morph.com'}</p>
+            <div className="header-dropdown animate-fade-in" style={{ right: 0, width: 240 }}>
+              <div style={{ padding: '16px', display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div className="avatar" style={{ width: 40, height: 40, fontSize: 16 }}>
+                  {user?.name?.[0]?.toUpperCase() || 'D'}
+                </div>
+                <div>
+                  <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)', marginBottom: 2 }}>{user?.name || 'Demo User'}</p>
+                  <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>{user?.email || 'admin@morph.com'}</p>
+                </div>
               </div>
-              <div style={{ height: 1, background: 'var(--border)', margin: '4px 0' }} />
-              <button onClick={logout} style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '10px 12px', background: 'transparent', color: '#F87171', border: 'none', borderRadius: 'var(--radius-sm)', cursor: 'pointer', textAlign: 'left', fontSize: 13 }} onMouseEnter={e => e.currentTarget.style.background = 'rgba(248,113,113,0.08)'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-                <LogOut size={16} /> Logout
-              </button>
+              <div style={{ height: 1, background: 'var(--border)' }} />
+              <div style={{ padding: '8px' }}>
+                <button className="dropdown-menu-item">
+                  <Settings size={16} /> Account Settings
+                </button>
+                <div style={{ height: 1, background: 'var(--border)', margin: '4px 0' }} />
+                <button onClick={logout} className="dropdown-menu-item danger">
+                  <LogOut size={16} /> Logout
+                </button>
+              </div>
             </div>
           )}
         </div>
       </div>
+
+      <style>{`
+        .header-icon-btn { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--radius-md); background: var(--glass-light); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .header-icon-btn:hover { background: var(--glass-hover); color: var(--text-main); border-color: var(--border-highlight); transform: translateY(-1px); }
+        .header-icon-btn.active { background: var(--primary-bg); color: var(--primary); border-color: var(--primary); }
+
+        .header-divider { width: 1px; height: 24px; background: linear-gradient(to bottom, transparent, var(--border), transparent); }
+
+        .notif-badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; background: var(--status-hot); border-radius: 9px; border: 2px solid var(--bg-header); font-size: 10px; font-weight: 700; color: white; display: flex; align-items: center; justify-content: center; padding: 0 4px; animation: popIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28); }
+
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--status-success); }
+        .status-dot.pulsing { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4); animation: pulseGreen 2s infinite; }
+
+        .profile-trigger { display: flex; align-items: center; gap: 10px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 4px 10px 4px 4px; border-radius: var(--radius-lg); transition: all 0.2s; }
+        .profile-trigger:hover, .profile-trigger.active { background: var(--glass-hover); border-color: var(--border); }
+
+        .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--primary-bg); border: 1px solid var(--border-highlight); display: flex; align-items: center; justify-content: center; color: var(--primary); font-weight: 700; font-size: 13px; }
+
+        .header-dropdown { position: absolute; top: calc(100% + 12px); background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg), var(--shadow-gold); z-index: 100; overflow: hidden; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); transform-origin: top right; }
+
+        .dropdown-item { padding: 12px 16px; display: flex; gap: 12px; cursor: pointer; transition: background 0.2s; border-bottom: 1px solid var(--border); }
+        .dropdown-item:last-child { border-bottom: none; }
+        .dropdown-item:hover { background: var(--glass-hover) !important; }
+
+        .dropdown-menu-item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 12px; background: transparent; color: var(--text-main); border: none; border-radius: var(--radius-md); cursor: pointer; text-align: left; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+        .dropdown-menu-item:hover { background: var(--glass-hover); color: var(--primary); transform: translateX(2px); }
+        .dropdown-menu-item.danger { color: var(--status-hot); text-decoration: none !important; }
+        .dropdown-menu-item.danger:hover { background: rgba(248, 113, 113, 0.1); color: var(--status-hot); transform: translateX(2px); }
+
+        @keyframes pulseGreen { 0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4); } 70% { box-shadow: 0 0 0 6px rgba(52, 211, 153, 0); } 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); } }
+        @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+      `}</style>
     </header>
   );
 };

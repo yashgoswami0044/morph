@@ -94,7 +94,7 @@ const SiteVisitManager = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="animate-fade-in">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'white', marginBottom: 4 }}>Site Visit Management</h1>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-main)', marginBottom: 4 }}>Site Visit Management</h1>
           <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>QR scan check-in, OTP verification for CP leads, no-show tracking & escalation.</p>
         </div>
         <Button variant="primary" onClick={() => setShowNewVisit(!showNewVisit)}>
@@ -153,7 +153,7 @@ const SiteVisitManager = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                   <CheckCircle size={20} style={{ color: '#34D399' }} />
                   <div>
-                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'white' }}>{visit.leadName}</h3>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-main)' }}>{visit.leadName}</h3>
                     <p style={{ fontSize: 12, color: 'var(--text-dim)' }}>{visit.visitProject} · {visit.location}</p>
                   </div>
                 </div>
@@ -194,7 +194,7 @@ const SiteVisitManager = () => {
                     <AlertOctagon size={20} style={{ color: '#F87171' }} />
                   }
                   <div>
-                    <h4 style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>{visit.leadName}</h4>
+                    <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>{visit.leadName}</h4>
                     <p style={{ fontSize: 12, color: 'var(--text-dim)' }}>
                       {visit.customerNoShow ? '👤 Customer No-Show — Lead stays in Presales bucket' : '⚠ Sales Rep No-Show — Auto-escalated to Regional Manager'}
                     </p>
@@ -214,7 +214,7 @@ const SiteVisitManager = () => {
       {activeTab === 'collision' && (
         <Card style={{ padding: 0, overflow: 'hidden' }}>
           <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>CP Collision Rules (Internal vs. Channel Partner)</h3>
+            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>CP Collision Rules (Internal vs. Channel Partner)</h3>
             <p style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 4 }}>A CP lead is only "locked" to a partner if the customer validates via OTP during the site visit.</p>
           </div>
           <div style={{ padding: 20, display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -222,7 +222,7 @@ const SiteVisitManager = () => {
               <div key={rule.id} style={{ padding: 16, background: 'var(--bg-main)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
                   <Badge variant={rule.priority === 'High' ? 'hot' : 'warm'}>{rule.priority}</Badge>
-                  <h4 style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>{rule.scenario}</h4>
+                  <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>{rule.scenario}</h4>
                 </div>
                 <p style={{ fontSize: 13, color: 'var(--primary-light)' }}>Resolution: {rule.resolution}</p>
               </div>
@@ -241,13 +241,13 @@ const SiteVisitManager = () => {
       {showQrModal && (
         <Modal onClose={() => setShowQrModal(null)} title="QR Code Check-In">
           <div style={{ textAlign: 'center', padding: 20 }}>
-            <div style={{ width: 180, height: 180, background: 'white', borderRadius: 'var(--radius-lg)', margin: '0 auto 20px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
+            <div style={{ width: 180, height: 180, background: 'var(--bg-card)', borderRadius: 'var(--radius-lg)', margin: '0 auto 20px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
               <div style={{ width: '100%', height: '100%', border: '3px solid #000', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                 <QrCode size={64} style={{ color: '#000' }} />
                 <div style={{ position: 'absolute', inset: 0, background: 'repeating-linear-gradient(0deg, transparent, transparent 14px, #000 14px, #000 15px)', opacity: 0.15 }} />
               </div>
             </div>
-            <p style={{ fontSize: 14, color: 'white', fontWeight: 600, marginBottom: 8 }}>Scan QR Code at Site</p>
+            <p style={{ fontSize: 14, color: 'var(--text-main)', fontWeight: 600, marginBottom: 8 }}>Scan QR Code at Site</p>
             <p style={{ fontSize: 12, color: 'var(--text-dim)', marginBottom: 24 }}>
               The Sales Manager scans this QR code using GRE app or Sales app to check in. This moves the lead from "Meeting Scheduled" → "Meeting Done".
             </p>
@@ -274,7 +274,7 @@ const SiteVisitManager = () => {
                 <div>
                   <label style={{ fontSize: 12, color: 'var(--text-muted)', display: 'block', marginBottom: 6 }}>OTP Code (Demo: {visit?.otpCode})</label>
                   <input value={otpInput} onChange={e => setOtpInput(e.target.value)} placeholder="Enter 6-digit OTP" maxLength={6}
-                    style={{ width: '100%', padding: '14px 16px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 20, textAlign: 'center', letterSpacing: 8, fontWeight: 700 }} />
+                    style={{ width: '100%', padding: '14px 16px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 20, textAlign: 'center', letterSpacing: 8, fontWeight: 700 }} />
                 </div>
                 <Button variant="primary" onClick={() => handleVerifyOtp(showOtpModal)} disabled={otpInput.length !== 6}>
                   <ShieldCheck size={16} style={{ marginRight: 6 }} /> Verify & Lock to CP
@@ -299,7 +299,7 @@ const SiteVisitManager = () => {
               </p>
             </div>
             <textarea value={remarkInput} onChange={e => setRemarkInput(e.target.value)} rows={4} placeholder="e.g. Customer not visited site / Both spouses attended..."
-              style={{ width: '100%', padding: '12px 14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 13, resize: 'vertical' }} />
+              style={{ width: '100%', padding: '12px 14px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 13, resize: 'vertical' }} />
             <div style={{ display: 'flex', gap: 12 }}>
               <Button variant="primary" onClick={() => handleLockRemarks(showRemark)} style={{ flex: 1 }}>
                 <Lock size={14} style={{ marginRight: 6 }} /> Save & Lock Remarks
@@ -322,7 +322,7 @@ const VisitCard = ({ visit, onQrScan, onSendOtp, onCustomerNoShow, onSalesRepNoS
           {visit.leadName[0]}
         </div>
         <div>
-          <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>{visit.leadName}</h3>
+          <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>{visit.leadName}</h3>
           <p style={{ fontSize: 12, color: 'var(--text-dim)' }}>{visit.visitProject} · {visit.location}</p>
         </div>
       </div>
@@ -380,7 +380,7 @@ const VisitCard = ({ visit, onQrScan, onSendOtp, onCustomerNoShow, onSalesRepNoS
 const InfoCard = ({ icon: Icon, color, title, desc }) => (
   <div style={{ padding: 16, borderRadius: 'var(--radius-lg)', background: `${color}08`, border: `1px solid ${color}25` }}>
     <Icon size={20} style={{ color, marginBottom: 8 }} />
-    <h4 style={{ fontSize: 13, fontWeight: 700, color: 'white', marginBottom: 4 }}>{title}</h4>
+    <h4 style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-main)', marginBottom: 4 }}>{title}</h4>
     <p style={{ fontSize: 11, color: 'var(--text-dim)', lineHeight: 1.4 }}>{desc}</p>
   </div>
 );
@@ -388,7 +388,7 @@ const InfoCard = ({ icon: Icon, color, title, desc }) => (
 const MiniInfo = ({ label, value }) => (
   <div>
     <span style={{ fontSize: 10, fontWeight: 600, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</span>
-    <p style={{ fontSize: 13, color: 'white', marginTop: 4, fontWeight: 500 }}>{value}</p>
+    <p style={{ fontSize: 13, color: 'var(--text-main)', marginTop: 4, fontWeight: 500 }}>{value}</p>
   </div>
 );
 

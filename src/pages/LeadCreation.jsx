@@ -66,7 +66,7 @@ const LeadCreation = () => {
           <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'rgba(52,211,153,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
             <CheckCircle size={40} style={{ color: '#34D399' }} />
           </div>
-          <h2 style={{ fontSize: 22, fontWeight: 700, color: 'white', marginBottom: 8 }}>Lead Created!</h2>
+          <h2 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-main)', marginBottom: 8 }}>Lead Created!</h2>
           <p style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 24 }}>"{form.name}" has been added and auto-assigned via sticky routing.</p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
             <Button variant="primary" onClick={() => navigate('/leads')}>View Queue</Button>
@@ -80,7 +80,7 @@ const LeadCreation = () => {
   return (
     <div style={{ maxWidth: 720, margin: '0 auto' }} className="animate-fade-in">
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{ fontSize: 24, fontWeight: 700, color: 'white' }}>New Lead</h1>
+        <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-main)' }}>New Lead</h1>
         <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>Step {step} of 3 — {step === 1 ? 'Contact Info' : step === 2 ? 'Property Details' : 'Services & Notes'}</p>
       </div>
 
@@ -94,7 +94,7 @@ const LeadCreation = () => {
       <Card style={{ padding: 28 }}>
         {step === 1 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white', display: 'flex', alignItems: 'center', gap: 8 }}><User size={18} /> Contact Information</h3>
+            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: 8 }}><User size={18} /> Contact Information</h3>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
               <FormField label="Full Name *" value={form.name} onChange={v => update('name', v)} placeholder="e.g. Rohan Krishnan" />
               <FormField label="Primary Phone *" value={form.phone} onChange={v => update('phone', v)} placeholder="+91 98860 12345" />
@@ -144,7 +144,7 @@ const LeadCreation = () => {
 
         {step === 2 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white', display: 'flex', alignItems: 'center', gap: 8 }}><Home size={18} /> Property Details</h3>
+            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: 8 }}><Home size={18} /> Property Details</h3>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
               <SelectField label="Project *" value={form.project} options={projects.map(p => p.name)} onChange={handleProjectChange} />
               <FormField label="Builder" value={form.builder} onChange={v => update('builder', v)} disabled />
@@ -164,7 +164,7 @@ const LeadCreation = () => {
 
         {step === 3 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white', display: 'flex', alignItems: 'center', gap: 8 }}><FileText size={18} /> Expected Services & Notes</h3>
+            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: 8 }}><FileText size={18} /> Expected Services & Notes</h3>
             <div>
               <label style={labelStyle}>Expected Services</label>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
@@ -195,7 +195,7 @@ const LeadCreation = () => {
             </div>
             <div>
               <label style={labelStyle}>Notes</label>
-              <textarea rows={3} value={form.notes} onChange={e => update('notes', e.target.value)} placeholder="Key details..." style={{ width: '100%', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', padding: '10px 14px', fontSize: 13, resize: 'vertical', outline: 'none' }} />
+              <textarea rows={3} value={form.notes} onChange={e => update('notes', e.target.value)} placeholder="Key details..." style={{ width: '100%', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', padding: '10px 14px', fontSize: 13, resize: 'vertical', outline: 'none' }} />
             </div>
           </div>
         )}
@@ -221,14 +221,14 @@ const FormField = ({ label, value, onChange, placeholder, type = 'text', disable
   <div>
     <label style={labelStyle}>{label}</label>
     <input type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} disabled={disabled}
-      style={{ width: '100%', background: disabled ? 'var(--bg-card)' : 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', padding: '10px 14px', fontSize: 13, outline: 'none' }} />
+      style={{ width: '100%', background: disabled ? 'var(--bg-card)' : 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', padding: '10px 14px', fontSize: 13, outline: 'none' }} />
   </div>
 );
 
 const SelectField = ({ label, value, options, onChange }) => (
   <div>
     <label style={labelStyle}>{label}</label>
-    <select value={value} onChange={e => onChange(e.target.value)} style={{ width: '100%', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', padding: '10px 14px', fontSize: 13 }}>
+    <select value={value} onChange={e => onChange(e.target.value)} style={{ width: '100%', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', padding: '10px 14px', fontSize: 13 }}>
       {options.map(o => <option key={o}>{o}</option>)}
     </select>
   </div>

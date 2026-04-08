@@ -110,7 +110,7 @@ const LeadQueue = () => {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'white' }}>Lead Queue</h1>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-main)' }}>Lead Queue</h1>
           <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>{sortedLeads.length} leads · Sorted by {sortBy}</p>
         </div>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
@@ -205,17 +205,17 @@ const LeadQueue = () => {
         <Card style={{ padding: 16, display: 'flex', gap: 12, flexWrap: 'wrap', animation: 'fadeIn 0.2s' }}>
           <div style={{ position: 'relative', flex: '1 1 200px' }}>
             <Search size={14} style={{ position: 'absolute', left: 10, top: 10, color: 'var(--text-dim)' }} />
-            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search name, phone, project..." style={{ width: '100%', padding: '8px 12px 8px 34px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 13, fontFamily: 'inherit' }} />
+            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search name, phone, project..." style={{ width: '100%', padding: '8px 12px 8px 34px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 13, fontFamily: 'inherit' }} />
           </div>
-          <select value={regionFilter} onChange={e => setRegionFilter(e.target.value)} style={{ padding: '8px 12px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 13, fontFamily: 'inherit' }}>
+          <select value={regionFilter} onChange={e => setRegionFilter(e.target.value)} style={{ padding: '8px 12px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 13, fontFamily: 'inherit' }}>
             <option>All</option>
             {regions.map(r => <option key={r}>{r}</option>)}
           </select>
-          <select value={sourceFilter} onChange={e => setSourceFilter(e.target.value)} style={{ padding: '8px 12px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 13, fontFamily: 'inherit' }}>
+          <select value={sourceFilter} onChange={e => setSourceFilter(e.target.value)} style={{ padding: '8px 12px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 13, fontFamily: 'inherit' }}>
             <option>All</option>
             {leadSources.map(s => <option key={s}>{s}</option>)}
           </select>
-          <select value={sortBy} onChange={e => setSortBy(e.target.value)} style={{ padding: '8px 12px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 13, fontFamily: 'inherit' }}>
+          <select value={sortBy} onChange={e => setSortBy(e.target.value)} style={{ padding: '8px 12px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 13, fontFamily: 'inherit' }}>
             <option value="priority">Score (Highest)</option>
             <option value="followup">Follow-up Date</option>
             <option value="value">Value (Highest)</option>
@@ -242,14 +242,14 @@ const LeadQueue = () => {
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                   {/* Score */}
-                  <div style={{ width: 44, height: 44, borderRadius: '50%', flexShrink: 0, border: `2px solid ${sc.color || '#9CA3AF'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-main)', fontWeight: 700, fontSize: 14, color: 'white' }}>
+                  <div style={{ width: 44, height: 44, borderRadius: '50%', flexShrink: 0, border: `2px solid ${sc.color || '#9CA3AF'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-main)', fontWeight: 700, fontSize: 14, color: 'var(--text-main)' }}>
                     {lead.score || 0}
                   </div>
 
                   {/* Info */}
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2, flexWrap: 'wrap' }}>
-                      <span style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>{lead.name}</span>
+                      <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>{lead.name}</span>
                       <Badge variant="outline" style={{ ...sc, fontSize: 9, padding: '2px 6px' }}>{lead.status}</Badge>
                       {isInbound && <Badge variant="warm" style={{ fontSize: 9, padding: '2px 6px' }}>⚡ INBOUND</Badge>}
                       {overdueH && overdueH > 48 && <Badge variant="hot" style={{ fontSize: 9, padding: '2px 4px' }}>OVERDUE {overdueH}h</Badge>}
@@ -278,7 +278,7 @@ const LeadQueue = () => {
                   {/* Right */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                     <div style={{ textAlign: 'right' }}>
-                      <p style={{ fontSize: 16, fontWeight: 700, color: lead.value >= 20 ? '#34D399' : 'white' }}>₹{lead.value}L</p>
+                      <p style={{ fontSize: 16, fontWeight: 700, color: lead.value >= 20 ? '#34D399' : 'var(--text-main)' }}>₹{lead.value}L</p>
                       <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>{lead.source}</p>
                     </div>
                     <button onClick={e => { e.stopPropagation(); navigate(`/leads/${lead.id}`); }} style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--primary-bg)', border: '1px solid var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', cursor: 'pointer' }}>
@@ -415,7 +415,7 @@ const LeadQueue = () => {
                         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8 }}>
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
-                              <span style={{ fontSize: 13, fontWeight: 600, color: 'white', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-main)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                 {lead.name}
                               </span>
                               {isInbound && (
@@ -436,7 +436,7 @@ const LeadQueue = () => {
                             border: `2px solid ${sc.color || '#9CA3AF'}`,
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
                             background: 'var(--bg-card)',
-                            fontWeight: 700, fontSize: 12, color: 'white',
+                            fontWeight: 700, fontSize: 12, color: 'var(--text-main)',
                           }}>
                             {lead.score || 0}
                           </div>
@@ -474,11 +474,11 @@ const LeadQueue = () => {
                           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                           padding: '6px 8px',
                           borderRadius: 'var(--radius-sm)',
-                          background: 'rgba(255,255,255,0.02)',
-                          border: '1px solid rgba(255,255,255,0.04)',
+                          background: 'var(--glass-light)',
+                          border: '1px solid var(--glass-hover)',
                           marginBottom: 6,
                         }}>
-                          <span style={{ fontSize: 14, fontWeight: 700, color: lead.value >= 20 ? '#34D399' : 'white' }}>
+                          <span style={{ fontSize: 14, fontWeight: 700, color: lead.value >= 20 ? '#34D399' : 'var(--text-main)' }}>
                             ₹{lead.value}L
                           </span>
                           <span style={{ fontSize: 10, color: 'var(--text-dim)', fontWeight: 500 }}>

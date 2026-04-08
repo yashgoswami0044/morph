@@ -2,6 +2,8 @@ import React from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { useAuth } from './context/AuthContext.jsx';
+import MorphLoader from './components/ui/MorphLoader.jsx';
+
 import { Sidebar, Header, PageTransition } from './components/layout/index.jsx';
 import Login from './pages/Login.jsx';
 import Dashboard from './pages/Dashboard.jsx';
@@ -17,6 +19,7 @@ import SiteVisitManager from './pages/SiteVisitManager.jsx';
 import SalesProcess from './pages/SalesProcess.jsx';
 import ProjectLifecycle from './pages/ProjectLifecycle.jsx';
 import ReportingDashboard from './pages/ReportingDashboard.jsx';
+import UnifiedPipeline from './pages/UnifiedPipeline.jsx';
 import CommunicationHub from './pages/CommunicationHub.jsx';
 import CloudTelephony from './pages/CloudTelephony.jsx';
 import CalendarManagement from './pages/CalendarManagement.jsx';
@@ -28,7 +31,7 @@ const App = () => {
   if (loading) {
     return (
       <div className="h-screen w-screen flex items-center justify-center" style={{ background: 'var(--bg-main)' }}>
-        <div className="w-12 h-12 border-4 border-[var(--primary)] border-t-transparent rounded-full animate-spin"></div>
+        <MorphLoader />
       </div>
     );
   }
@@ -62,6 +65,7 @@ const App = () => {
               <Route path="/site-visits" element={<PageTransition><SiteVisitManager /></PageTransition>} />
               <Route path="/sales-process" element={<PageTransition><SalesProcess /></PageTransition>} />
               <Route path="/projects" element={<PageTransition><ProjectLifecycle /></PageTransition>} />
+              <Route path="/pipeline" element={<PageTransition><UnifiedPipeline /></PageTransition>} />
               <Route path="/reports" element={<PageTransition><ReportingDashboard /></PageTransition>} />
               <Route path="/communication" element={<PageTransition><CommunicationHub /></PageTransition>} />
               <Route path="/telephony" element={<PageTransition><CloudTelephony /></PageTransition>} />

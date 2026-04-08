@@ -13,7 +13,7 @@ const Settings = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24, paddingBottom: 40 }} className="animate-fade-in">
       <div>
-        <h1 style={{ fontSize: 24, fontWeight: 700, color: 'white' }}>System Settings</h1>
+        <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-main)' }}>System Settings</h1>
         <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>Configure teams, data masters, routing, escalation, and integrations.</p>
       </div>
 
@@ -51,7 +51,7 @@ const TeamManagement = () => (
   <Card style={{ padding: 24 }}>
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
       <div>
-        <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>Team Management</h3>
+        <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>Team Management</h3>
         <p style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 4 }}>All roles: Pre-sales, Sales, Regional Manager, CRM Head.</p>
       </div>
       <Button variant="primary" size="sm"><Plus size={16} style={{ marginRight: 6 }} /> Add Member</Button>
@@ -63,7 +63,7 @@ const TeamManagement = () => (
             <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--bg-card)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', fontWeight: 700, fontSize: 14 }}>{member.name[0]}</div>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <h4 style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>{member.name}</h4>
+                <h4 style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>{member.name}</h4>
                 {!member.active && <Badge variant="gray">Inactive</Badge>}
                 <Badge variant={member.role === 'CRM Head' ? 'hot' : member.role.includes('Manager') ? 'warm' : member.role.includes('Sales') && !member.role.includes('Pre') ? 'nurture' : 'success'} style={{ fontSize: 9 }}>{member.role}</Badge>
               </div>
@@ -85,7 +85,7 @@ const TeamManagement = () => (
 const BuilderMaster = () => (
   <Card style={{ padding: 24, overflow: 'hidden' }}>
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-      <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>Builder Project Master</h3>
+      <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>Builder Project Master</h3>
       <Button variant="primary" size="sm"><Plus size={16} /> Add Project</Button>
     </div>
     <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
@@ -96,7 +96,7 @@ const BuilderMaster = () => (
         <tbody>
           {projects.map((p, i) => (
             <tr key={p.id} style={{ borderBottom: i < projects.length - 1 ? '1px solid var(--border)' : 'none' }}>
-              <td style={{ padding: '12px 16px', fontSize: 13, fontWeight: 600, color: 'white' }}>{p.name}</td>
+              <td style={{ padding: '12px 16px', fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>{p.name}</td>
               <td style={{ padding: '12px 16px', fontSize: 12, color: 'var(--text-muted)' }}>{p.builder}</td>
               <td style={{ padding: '12px 16px', fontSize: 12, color: 'var(--text-dim)' }}>{p.region}</td>
               <td style={{ padding: '12px 16px', fontSize: 11, color: 'var(--primary-light)' }}>{p.configs?.join(', ')}</td>
@@ -115,13 +115,13 @@ const CSVUpload = () => {
   const [mapping, setMapping] = useState(false);
   return (
     <Card style={{ padding: 24 }}>
-      <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>Bulk Builder List Upload</h3>
+      <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>Bulk Builder List Upload</h3>
       <p style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 4, marginBottom: 24 }}>Upload CSV lists from offline sources or channel partners.</p>
       {!mapping ? (
         <div style={{ padding: 40, border: '2px dashed var(--border)', borderRadius: 'var(--radius-lg)', textAlign: 'center', background: 'var(--bg-main)', cursor: 'pointer' }}
           onClick={() => { setFile(true); setTimeout(() => setMapping(true), 800); }}>
-          {!file ? (<><UploadCloud size={40} style={{ color: 'var(--text-dim)', margin: '0 auto 16px' }} /><h4 style={{ color: 'white', marginBottom: 8 }}>Click to browse or drag & drop</h4><p style={{ fontSize: 12, color: 'var(--text-dim)' }}>CSV or Excel files only</p></>) :
-            (<><FileText size={40} style={{ color: 'var(--primary)', margin: '0 auto 16px' }} /><h4 style={{ color: 'white' }}>Reading File...</h4></>)}
+          {!file ? (<><UploadCloud size={40} style={{ color: 'var(--text-dim)', margin: '0 auto 16px' }} /><h4 style={{ color: 'var(--text-main)', marginBottom: 8 }}>Click to browse or drag & drop</h4><p style={{ fontSize: 12, color: 'var(--text-dim)' }}>CSV or Excel files only</p></>) :
+            (<><FileText size={40} style={{ color: 'var(--primary)', margin: '0 auto 16px' }} /><h4 style={{ color: 'var(--text-main)' }}>Reading File...</h4></>)}
         </div>
       ) : (
         <div style={{ animation: 'fadeIn 0.3s ease' }}>
@@ -138,19 +138,19 @@ const CSVUpload = () => {
 /* ── NOTIFICATIONS ── */
 const NotificationRules = () => (
   <Card style={{ padding: 24 }}>
-    <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white', marginBottom: 4 }}>Notification Rules</h3>
+    <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)', marginBottom: 4 }}>Notification Rules</h3>
     <p style={{ fontSize: 12, color: 'var(--text-dim)', marginBottom: 24 }}>Internal SLAs and system alerts.</p>
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       {notificationRules.map(rule => (
         <div key={rule.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 16, borderBottom: '1px solid var(--border)' }}>
           <div>
-            <h4 style={{ fontSize: 13, fontWeight: 600, color: 'white', marginBottom: 4 }}>{rule.name}</h4>
+            <h4 style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-main)', marginBottom: 4 }}>{rule.name}</h4>
             <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>{rule.trigger} → {rule.recipients}</p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <span style={{ fontSize: 11, color: 'var(--primary)' }}>{rule.channel}</span>
             <div style={{ width: 44, height: 24, borderRadius: 12, background: rule.active ? 'var(--primary)' : 'var(--border)', position: 'relative', cursor: 'pointer' }}>
-              <div style={{ width: 18, height: 18, borderRadius: '50%', background: 'white', position: 'absolute', top: 3, left: rule.active ? 23 : 3, transition: 'all 0.2s' }} />
+              <div style={{ width: 18, height: 18, borderRadius: '50%', background: 'var(--bg-card)', position: 'absolute', top: 3, left: rule.active ? 23 : 3, transition: 'all 0.2s' }} />
             </div>
           </div>
         </div>
@@ -166,7 +166,7 @@ const NotificationRules = () => (
 const EscalationConfig = () => (
   <Card style={{ padding: 0, overflow: 'hidden' }}>
     <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)' }}>
-      <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>Escalation Matrix</h3>
+      <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>Escalation Matrix</h3>
       <p style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 4 }}>SLA-based multi-level escalation rules.</p>
     </div>
     <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
@@ -180,7 +180,7 @@ const EscalationConfig = () => (
       <tbody>
         {escalationMatrix.map((rule, i) => (
           <tr key={rule.id} style={{ borderBottom: i < escalationMatrix.length - 1 ? '1px solid var(--border)' : 'none' }}>
-            <td style={{ padding: '14px 16px', fontSize: 13, color: 'white', fontWeight: 500, maxWidth: 250 }}>{rule.scenario}</td>
+            <td style={{ padding: '14px 16px', fontSize: 13, color: 'var(--text-main)', fontWeight: 500, maxWidth: 250 }}>{rule.scenario}</td>
             <td style={{ padding: '14px 16px', fontSize: 12, color: 'var(--text-muted)' }}>{rule.level1}</td>
             <td style={{ padding: '14px 16px', fontSize: 12, color: '#FBBF24' }}>{rule.level2}</td>
             <td style={{ padding: '14px 16px', fontSize: 12, color: '#F87171' }}>{rule.level3}</td>
@@ -198,7 +198,7 @@ const StickyRoutingConfig = () => (
   <Card style={{ padding: 0, overflow: 'hidden' }}>
     <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <div>
-        <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>Sticky Routing Rules</h3>
+        <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>Sticky Routing Rules</h3>
         <p style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 4 }}>Auto-assignment based on region, project, language.</p>
       </div>
       <Button variant="primary" size="sm"><Plus size={14} style={{ marginRight: 6 }} /> Add Rule</Button>
@@ -215,7 +215,7 @@ const StickyRoutingConfig = () => (
         {stickyRouting.map((rule, i) => (
           <tr key={rule.id} style={{ borderBottom: i < stickyRouting.length - 1 ? '1px solid var(--border)' : 'none' }}>
             <td style={{ padding: '14px 16px' }}><Badge variant={rule.type === 'Region' ? 'success' : rule.type === 'Language' ? 'nurture' : 'warm'}>{rule.type}</Badge></td>
-            <td style={{ padding: '14px 16px', fontSize: 13, color: 'white', fontWeight: 500 }}>{rule.match}</td>
+            <td style={{ padding: '14px 16px', fontSize: 13, color: 'var(--text-main)', fontWeight: 500 }}>{rule.match}</td>
             <td style={{ padding: '14px 16px', fontSize: 13, color: 'var(--primary-light)' }}>{rule.assignName} ({rule.assignTo})</td>
             <td style={{ padding: '14px 16px', fontSize: 13, color: 'var(--text-dim)' }}>P{rule.priority}</td>
           </tr>
@@ -231,7 +231,7 @@ const MasterFieldsList = () => (
     {Object.entries(masterFields).map(([group, fields]) => (
       <Card key={group} style={{ padding: 0, overflow: 'hidden' }}>
         <div style={{ padding: '14px 20px', background: 'var(--bg-main)', borderBottom: '1px solid var(--border)' }}>
-          <h4 style={{ fontSize: 13, fontWeight: 700, color: 'white', textTransform: 'capitalize' }}>{group.replace(/([A-Z])/g, ' $1')}</h4>
+          <h4 style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-main)', textTransform: 'capitalize' }}>{group.replace(/([A-Z])/g, ' $1')}</h4>
         </div>
         <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
           <thead>
@@ -244,7 +244,7 @@ const MasterFieldsList = () => (
           <tbody>
             {fields.map((f, i) => (
               <tr key={f.field} style={{ borderBottom: i < fields.length - 1 ? '1px solid var(--border)' : 'none' }}>
-                <td style={{ padding: '10px 16px', fontSize: 12, fontWeight: 600, color: 'white' }}>{f.field}</td>
+                <td style={{ padding: '10px 16px', fontSize: 12, fontWeight: 600, color: 'var(--text-main)' }}>{f.field}</td>
                 <td style={{ padding: '10px 16px', fontSize: 11, color: 'var(--primary-light)' }}>{f.type}</td>
                 <td style={{ padding: '10px 16px' }}>{f.required ? <Badge variant="success" style={{ fontSize: 9 }}>Required</Badge> : <span style={{ fontSize: 11, color: 'var(--text-dim)' }}>Optional</span>}</td>
                 <td style={{ padding: '10px 16px', fontSize: 10, color: 'var(--text-dim)', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{f.values || '—'}</td>
@@ -261,7 +261,7 @@ const MasterFieldsList = () => (
 const MoEngageConfig = () => (
   <Card style={{ padding: 24 }}>
     <div style={{ marginBottom: 20 }}>
-      <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>MoEngage Integration</h3>
+      <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>MoEngage Integration</h3>
       <p style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 4 }}>Push lead details and status changes to MoEngage for triggered workflows.</p>
     </div>
     <div style={{ display: 'flex', gap: 16, marginBottom: 24 }}>
@@ -269,19 +269,19 @@ const MoEngageConfig = () => (
         <p style={{ fontSize: 11, color: '#34D399', fontWeight: 600, marginBottom: 6 }}>CONNECTION STATUS</p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#34D399' }} />
-          <span style={{ fontSize: 15, fontWeight: 700, color: 'white' }}>LIVE — Connected</span>
+          <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-main)' }}>LIVE — Connected</span>
         </div>
       </div>
       <div style={{ flex: 1, padding: 16, background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)' }}>
         <p style={{ fontSize: 11, color: 'var(--text-dim)', fontWeight: 600, marginBottom: 6 }}>TOTAL EVENTS PUSHED</p>
-        <span style={{ fontSize: 22, fontWeight: 700, color: 'white' }}>{moengageEventLog.length}</span>
+        <span style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-main)' }}>{moengageEventLog.length}</span>
       </div>
     </div>
     <h4 style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>Events Pushed on Each Stage</h4>
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       {['lead_created', 'status_attempted', 'status_validated', 'status_meeting_scheduled', 'status_meeting_done', 'status_proposal_sent', 'status_converted', 'status_not_qualified', 'lead_reassigned'].map(event => (
         <div key={event} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px', background: 'var(--bg-main)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
-          <span style={{ fontSize: 13, color: 'white', fontFamily: 'monospace' }}>{event}</span>
+          <span style={{ fontSize: 13, color: 'var(--text-main)', fontFamily: 'monospace' }}>{event}</span>
           <Badge variant="success" style={{ fontSize: 9 }}>ACTIVE</Badge>
         </div>
       ))}
@@ -308,7 +308,7 @@ const TabItem = ({ icon: Icon, label, active, onClick }) => (
 /* ── ACCESS MANAGEMENT ── */
 const AccessManagement = () => (
   <Card style={{ padding: 24 }}>
-    <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white', marginBottom: 4 }}>Access Management</h3>
+    <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)', marginBottom: 4 }}>Access Management</h3>
     <p style={{ fontSize: 12, color: 'var(--text-dim)', marginBottom: 20 }}>Portal authentication, SSO configuration, and employee management (Admin only).</p>
 
     {/* Authentication Methods */}
@@ -318,7 +318,7 @@ const AccessManagement = () => (
         <div style={{ padding: 16, background: 'var(--bg-card)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(52,211,153,0.2)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
             <Shield size={16} style={{ color: '#34D399' }} />
-            <span style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>SSO Login</span>
+            <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>SSO Login</span>
           </div>
           <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>Single Sign-On via corporate identity provider.</p>
           <Badge variant="success" style={{ marginTop: 8 }}>Enabled</Badge>
@@ -326,7 +326,7 @@ const AccessManagement = () => (
         <div style={{ padding: 16, background: 'var(--bg-card)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(96,165,250,0.2)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
             <Smartphone size={16} style={{ color: '#60A5FA' }} />
-            <span style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>EMP ID + OTP</span>
+            <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>EMP ID + OTP</span>
           </div>
           <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>Employee ID login with mobile OTP verification.</p>
           <Badge variant="success" style={{ marginTop: 8 }}>Enabled</Badge>
@@ -334,7 +334,7 @@ const AccessManagement = () => (
         <div style={{ padding: 16, background: 'var(--bg-card)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
             <Lock size={16} style={{ color: 'var(--text-dim)' }} />
-            <span style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>Email + Password</span>
+            <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>Email + Password</span>
           </div>
           <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>Fallback authentication method.</p>
           <Badge variant="gray" style={{ marginTop: 8 }}>Fallback</Badge>
@@ -366,7 +366,7 @@ const AccessManagement = () => (
           {teamMembers.map(m => (
             <tr key={m.id} style={{ borderBottom: '1px solid var(--border)' }}>
               <td style={{ padding: '8px 12px', fontSize: 12, color: 'var(--primary-light)', fontFamily: 'monospace' }}>{m.id}</td>
-              <td style={{ padding: '8px 12px', fontSize: 12, fontWeight: 600, color: 'white' }}>{m.name}</td>
+              <td style={{ padding: '8px 12px', fontSize: 12, fontWeight: 600, color: 'var(--text-main)' }}>{m.name}</td>
               <td style={{ padding: '8px 12px' }}><Badge variant={m.role.includes('Manager') ? 'warm' : 'success'} style={{ fontSize: 9 }}>{m.role}</Badge></td>
               <td style={{ padding: '8px 12px', fontSize: 11, color: 'var(--text-muted)' }}>{m.region}</td>
               <td style={{ padding: '8px 12px', fontSize: 11, color: '#60A5FA' }}>SSO + OTP</td>
@@ -397,7 +397,7 @@ const AccessManagement = () => (
             { role: 'CRM Head', perms: ['✅', '✅', '✅', '✅', '✅', '✅', '✅', '✅'] },
           ].map(r => (
             <tr key={r.role} style={{ borderBottom: '1px solid var(--border)' }}>
-              <td style={{ padding: '8px 10px', fontSize: 12, fontWeight: 600, color: 'white' }}>{r.role}</td>
+              <td style={{ padding: '8px 10px', fontSize: 12, fontWeight: 600, color: 'var(--text-main)' }}>{r.role}</td>
               {r.perms.map((p, i) => <td key={i} style={{ padding: '8px 10px', fontSize: 14, textAlign: 'center' }}>{p}</td>)}
             </tr>
           ))}

@@ -766,6 +766,36 @@ export const estimationStatuses = ["Draft", "Pending Verification", "Verified", 
 
 export const mockEstimations = [
   {
+    id: "EST-2026-000", leadId: "L-1008", leadName: "Vijay Kumar",
+    project: "Embassy Lake Terraces", config: "Penthouse", area: 4200,
+    createdBy: { id: "SE02", name: "Divya Menon", role: "Sales Executive", date: "2026-03-28T10:00:00" },
+    verifiedBy: { id: "SM01", name: "Vishal Reddy", role: "Sales Manager", date: "2026-03-28T15:00:00" },
+    authorizedBy: { id: "RM01", name: "Karthik R", role: "Regional Manager", date: "2026-03-29T10:00:00" },
+    status: "Authorized",
+    items: [
+      { category: "Full Turnkey", description: "Complete Home Interiors — Penthouse Premium Package", qty: 1, rate: 4200000, amount: 4200000 },
+      { category: "Modular Kitchen", description: "Island Kitchen + Acrylic + Hafele Hardware", qty: 1, rate: 650000, amount: 650000 },
+      { category: "Wardrobes", description: "4-Door Sliding Wardrobes x5 (All Bedrooms)", qty: 5, rate: 185000, amount: 925000 },
+      { category: "Home Theater", description: "Dolby Atmos 7.1 Surround Sound Room", qty: 1, rate: 750000, amount: 750000 },
+      { category: "Loose Furniture", description: "Italian Import Sofa + Dining + King Beds", qty: 1, rate: 1100000, amount: 1100000 },
+      { category: "False Ceiling", description: "Gypsum + POP + Cove Lighting (all rooms)", qty: 1, rate: 320000, amount: 320000 },
+      { category: "Electrical", description: "Full Rewiring + Smart Home Switches + MCB", qty: 1, rate: 280000, amount: 280000 },
+    ],
+    totalAmount: 8225000,
+    discountPercent: 3.2,
+    finalAmount: 7962000,
+    gst: 1433160,
+    grandTotal: 9395160,
+    validUntil: "2026-04-10",
+    digitalSignature: { signed: true, signedBy: "Karthik R", signedDate: "2026-03-29T10:00:00" },
+    sharedWithCustomer: true, sharedDate: "2026-03-29T11:00:00", sharedVia: "Email + WhatsApp",
+    notes: "Premium penthouse package. Italian luxury throughout. Vastu compliant layout.",
+    revisionHistory: [
+      { version: "v1", date: "2026-03-26", changedBy: "Divya Menon", note: "Initial estimate submitted" },
+      { version: "v2", date: "2026-03-28", changedBy: "Vishal Reddy", note: "Added Home Theater, revised furniture spec" },
+    ],
+  },
+  {
     id: "EST-2026-001", leadId: "L-1003", leadName: "Amit Hegde",
     project: "Godrej Eternity", config: "3.5BHK", area: 1850,
     createdBy: { id: "SE01", name: "Ankit Sharma", role: "Sales Executive", date: "2026-04-03T10:00:00" },
@@ -821,6 +851,18 @@ export const mockEstimations = [
 export const quotationStatuses = ["Draft", "Sent to Customer", "Customer Accepted", "Customer Rejected", "Expired", "Revised"];
 
 export const mockQuotations = [
+  {
+    id: "QTN-2026-000", estimationId: "EST-2026-000", leadId: "L-1008", leadName: "Vijay Kumar",
+    project: "Embassy Lake Terraces", config: "Penthouse",
+    createdDate: "2026-03-29T12:00:00",
+    grandTotal: 8500000,
+    paymentTerms: "30% Advance on Signing, 40% at Design Sign-off, 20% Pre-handover, 10% Post-handover",
+    validUntil: "2026-04-12",
+    status: "Customer Accepted",
+    digitalSignature: { signed: true, signedBy: "Karthik R", signedDate: "2026-03-29T12:00:00" },
+    sentVia: "Email + WhatsApp", sentDate: "2026-03-29T13:00:00",
+    customerResponse: { accepted: true, responseDate: "2026-03-30T10:00:00", responseMode: "WhatsApp", remarks: "Proceed. Will sign contract next week." },
+  },
   {
     id: "QTN-2026-001", estimationId: "EST-2026-001", leadId: "L-1003", leadName: "Amit Hegde",
     project: "Godrej Eternity", config: "3.5BHK",

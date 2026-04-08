@@ -43,7 +43,7 @@ const Login = () => {
           <img src={logo} alt="Morph Interiors" style={{
             width: 220, margin: '0 auto 2.5rem', filter: 'drop-shadow(0 0 20px rgba(168,137,68,0.35))',
           }} />
-          <h1 style={{ fontSize: 28, fontWeight: 700, color: 'white', marginBottom: 12, letterSpacing: '-0.02em' }}>
+          <h1 style={{ fontSize: 28, fontWeight: 700, color: 'var(--text-main)', marginBottom: 12, letterSpacing: '-0.02em' }}>
             CRM & VISUALIZATION
           </h1>
           <p style={{
@@ -77,7 +77,7 @@ const Login = () => {
       {/* Right Panel */}
       <div style={{ width: '60%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '3rem' }}>
         <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: 440 }} className="animate-fade-in">
-          <h2 style={{ fontSize: 28, fontWeight: 700, color: 'white', marginBottom: 8 }}>Welcome Back</h2>
+          <h2 style={{ fontSize: 28, fontWeight: 700, color: 'var(--text-main)', marginBottom: 8 }}>Welcome Back</h2>
           <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 14 }}>
             Enter your credentials to access the Morph Presales engine.
           </p>
@@ -95,7 +95,7 @@ const Login = () => {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <label style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-muted)' }}>Log in as</label>
-                <select value={role} onChange={(e) => setRole(e.target.value)} style={{ background: 'var(--bg-main)', border: '1px solid var(--border)', color: 'white', padding: '10px 14px', borderRadius: 'var(--radius-md)', fontSize: 14 }}>
+                <select value={role} onChange={(e) => setRole(e.target.value)} style={{ background: 'var(--bg-main)', border: '1px solid var(--border)', color: 'var(--text-main)', padding: '10px 14px', borderRadius: 'var(--radius-md)', fontSize: 14 }}>
                   <option value="Pre-sales Executive">Pre-sales Executive</option>
                   <option value="Regional Manager">Regional Manager</option>
                   <option value="Sales Manager">Sales Manager</option>
@@ -105,7 +105,7 @@ const Login = () => {
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <label style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-muted)' }}>Region</label>
-                <select value={region} onChange={(e) => setRegion(e.target.value)} style={{ background: 'var(--bg-main)', border: '1px solid var(--border)', color: 'white', padding: '10px 14px', borderRadius: 'var(--radius-md)', fontSize: 14 }}>
+                <select value={region} onChange={(e) => setRegion(e.target.value)} style={{ background: 'var(--bg-main)', border: '1px solid var(--border)', color: 'var(--text-main)', padding: '10px 14px', borderRadius: 'var(--radius-md)', fontSize: 14 }}>
                   {regions.map(r => <option key={r} value={r}>{r}</option>)}
                 </select>
               </div>

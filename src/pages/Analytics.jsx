@@ -61,12 +61,12 @@ const Analytics = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="animate-fade-in">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'white' }}>Pipeline Analytics</h1>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-main)' }}>Pipeline Analytics</h1>
           <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>Strategic performance overview across all regions.</p>
         </div>
         <div style={{ display: 'flex', gap: 12 }}>
           <select value={timeframe} onChange={e => setTimeframe(e.target.value)}
-            style={{ padding: '8px 14px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 13 }}>
+            style={{ padding: '8px 14px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 13 }}>
             <option>Last 7 Days</option>
             <option>Last 30 Days</option>
             <option>This Quarter</option>
@@ -88,7 +88,7 @@ const Analytics = () => {
       <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 16 }}>
         <Card>
           <div style={{ marginBottom: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>Conversion Funnel</h3>
+            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>Conversion Funnel</h3>
             <span style={{ fontSize: 11, color: 'var(--text-dim)' }}>Drop-off analysis</span>
           </div>
           <div style={{ height: 320 }}>
@@ -97,7 +97,7 @@ const Analytics = () => {
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" horizontal={false} />
                 <XAxis type="number" hide />
                 <YAxis dataKey="name" type="category" fontSize={11} stroke="var(--text-muted)" width={120} axisLine={false} tickLine={false} />
-                <RechartsTooltip cursor={{ fill: 'rgba(255,255,255,0.02)' }} contentStyle={{ backgroundColor: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 12 }} />
+                <RechartsTooltip cursor={{ fill: 'var(--glass-light)' }} contentStyle={{ backgroundColor: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 12 }} />
                 <Bar dataKey="count" barSize={24} radius={[0, 4, 4, 0]}>
                   {funnelData.map((entry, index) => (
                     <Cell key={index} fill={entry.fill} />
@@ -110,7 +110,7 @@ const Analytics = () => {
 
         <Card>
           <div style={{ marginBottom: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>Regional Breakdown</h3>
+            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>Regional Breakdown</h3>
             <span style={{ fontSize: 11, color: 'var(--text-dim)' }}>Top 5 Regions</span>
           </div>
           <div style={{ height: 200 }}>
@@ -121,7 +121,7 @@ const Analytics = () => {
                     <Cell key={index} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <RechartsTooltip contentStyle={{ backgroundColor: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 12 }} />
+                <RechartsTooltip contentStyle={{ backgroundColor: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 12 }} />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -134,7 +134,7 @@ const Analytics = () => {
                 </div>
                 <div style={{ display: 'flex', gap: 16 }}>
                   <span style={{ color: 'var(--text-dim)', width: 60, textAlign: 'right' }}>{region.leads} leads</span>
-                  <span style={{ color: 'white', fontWeight: 600, width: 40, textAlign: 'right' }}>{region.qual}</span>
+                  <span style={{ color: 'var(--text-main)', fontWeight: 600, width: 40, textAlign: 'right' }}>{region.qual}</span>
                 </div>
               </div>
             ))}
@@ -145,7 +145,7 @@ const Analytics = () => {
       {/* Builder-wise conversion */}
       <Card style={{ padding: 0, overflow: 'hidden' }}>
         <div style={{ padding: '20px', borderBottom: '1px solid var(--border)' }}>
-          <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>Builder Project Performance</h3>
+          <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>Builder Project Performance</h3>
           <p style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 4 }}>Identify high-converting projects for partnership investment.</p>
         </div>
         <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
@@ -160,10 +160,10 @@ const Analytics = () => {
             {builderData.map(b => (
               <tr key={b.name} style={{ borderBottom: '1px solid var(--border)' }}>
                 <td style={{ padding: '14px 20px' }}>
-                  <p style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>{b.name}</p>
+                  <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-main)' }}>{b.name}</p>
                   <p style={{ fontSize: 11, color: 'var(--text-dim)' }}>{b.builder}</p>
                 </td>
-                <td style={{ padding: '14px 20px', fontSize: 13, color: 'white' }}>{b.leads}</td>
+                <td style={{ padding: '14px 20px', fontSize: 13, color: 'var(--text-main)' }}>{b.leads}</td>
                 <td style={{ padding: '14px 20px', fontSize: 13, color: 'var(--primary-light)' }}>{b.contact}</td>
                 <td style={{ padding: '14px 20px', fontSize: 13, color: '#34D399', fontWeight: 600 }}>{b.qual}</td>
               </tr>
@@ -174,7 +174,7 @@ const Analytics = () => {
 
       {/* Executive Scorecards */}
       <div>
-        <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white', marginBottom: 16 }}>Executive Scorecards</h3>
+        <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)', marginBottom: 16 }}>Executive Scorecards</h3>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
           {execs.map(exec => (
             <Card key={exec.name} style={{ padding: 20 }}>
@@ -183,7 +183,7 @@ const Analytics = () => {
                   {exec.name[0]}
                 </div>
                 <div>
-                  <h4 style={{ fontSize: 15, fontWeight: 700, color: 'white' }}>{exec.name}</h4>
+                  <h4 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-main)' }}>{exec.name}</h4>
                   <p style={{ fontSize: 11, color: 'var(--text-dim)', display: 'flex', alignItems: 'center', gap: 4 }}><MapPin size={10} /> {exec.region}</p>
                 </div>
               </div>
@@ -213,7 +213,7 @@ const Analytics = () => {
       {/* Possession Wave */}
       <Card>
         <div style={{ marginBottom: 20 }}>
-          <h3 style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>12-Month Possession Wave Forecast</h3>
+          <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>12-Month Possession Wave Forecast</h3>
           <p style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 4 }}>Capacity planning based on upcoming builder handovers across all regions.</p>
         </div>
         <div style={{ height: 260 }}>
@@ -222,7 +222,7 @@ const Analytics = () => {
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
               <XAxis dataKey="month" stroke="var(--text-dim)" fontSize={11} axisLine={false} tickLine={false} />
               <YAxis stroke="var(--text-dim)" fontSize={11} axisLine={false} tickLine={false} />
-              <RechartsTooltip cursor={{ fill: 'rgba(255,255,255,0.02)' }} contentStyle={{ backgroundColor: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'white', fontSize: 12 }} />
+              <RechartsTooltip cursor={{ fill: 'var(--glass-light)' }} contentStyle={{ backgroundColor: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 12 }} />
               <Bar dataKey="leads" radius={[4, 4, 0, 0]}>
                 {waveData.map((entry, index) => (
                   <Cell key={index} fill={entry.type === 'urgent' ? '#F87171' : entry.type === 'approaching' ? '#FBBF24' : '#60A5FA'} />
@@ -240,7 +240,7 @@ const KPIItem = ({ label, value, sub, icon: Icon, up }) => (
   <Card style={{ padding: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid var(--border)' }}>
     <div>
       <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }}>{label}</p>
-      <h3 style={{ fontSize: 26, fontWeight: 700, color: 'white', marginBottom: 4 }}>{value}</h3>
+      <h3 style={{ fontSize: 26, fontWeight: 700, color: 'var(--text-main)', marginBottom: 4 }}>{value}</h3>
       <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: up ? '#34D399' : '#F87171' }}>
         {up ? <TrendingUp size={12} /> : <TrendingUp size={12} style={{ transform: 'rotate(180deg)' }} />}
         <span>{sub}</span>
@@ -264,7 +264,7 @@ const MetricGroup = ({ title, children, highlight }) => (
 const MiniMetric = ({ label, value }) => (
   <div>
     <p style={{ fontSize: 9, color: 'var(--text-muted)', marginBottom: 2 }}>{label}</p>
-    <p style={{ fontSize: 12, fontWeight: 600, color: 'white' }}>{value}</p>
+    <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-main)' }}>{value}</p>
   </div>
 );
 

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="38" height="32" fill="none">
+  <style data-anim="stroke">
+    @keyframes kf_stroke_Vector_1{0%{stroke-dasharray:170.4649658203125px;stroke-dashoffset:170.4649658203125px}to{stroke-dasharray:170.4649658203125px;stroke-dashoffset:0}}
+  </style>
+  <path id="Vector 1" d="M17.029 18.227h15c1.167 0 3.6-.7 4-3.5.5-3.5-8-12.5-12-7.5-3.2 4-9.667 14-12.5 18.5-1 1.166-3.7 2.3-6.5-2.5-1.5-2-1-4.5 3-4.5h6.5l2 .5 4.5 2c2.833 1.333 7.6 4.5 4 6.5-2 1-6 5-8-.5-.4-1.6-.167-5 0-6.5l-1-4v-8.5c.167-3.334-1.2-9.3-8-6.5-7.5 3.5-10 6.5-2.5 10.5 6 3.2 10.167 5.333 11.5 6Z" stroke="url(#paint0_linear_27924_43098)" stroke-width="2" style="stroke-dasharray:170.4649658203125px;stroke-dashoffset:170.4649658203125px;animation:1s linear 0s 1 normal forwards kf_stroke_Vector_1;will-change:stroke-dashoffset,filter,fill-opacity"/>
+  <defs>
+    <linearGradient id="paint0_linear_27924_43098" x1="1.5" y1="-1.774" x2="28.5" y2="31.227" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#710f1c"/>
+      <stop offset="1" stop-color="#e31c24"/>
+    </linearGradient>
+  </defs>
+</svg>
