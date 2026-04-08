@@ -36,7 +36,7 @@ const Dashboard = () => {
 
   const priorityCalls = [...leads]
     .filter(l => ['Untouched', 'Attempted', 'Validated', 'Meeting Scheduled'].includes(l.status))
-    .sort((a, b) => (b.score || 0) - (a.score || 0))
+    .sort((a, b) => (b.value || 0) - (a.value || 0))
     .slice(0, 6);
 
   const execTeam = teamMembers.filter(t => t.role === 'Pre-sales Executive' && t.active);
@@ -206,7 +206,10 @@ const Dashboard = () => {
               <div key={lead.id} onClick={() => navigate(`/leads/${lead.id}`)} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 20px', cursor: 'pointer', borderBottom: idx < priorityCalls.length - 1 ? '1px solid var(--border)' : 'none', transition: 'background 0.2s' }}
                 onMouseEnter={e => e.currentTarget.style.background = 'var(--bg-elevated)'}
                 onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-                <ScoreRing score={lead.score} />
+                {/* Avatar Initial */}
+                <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', border: `1px solid ${statusColors[lead.status]?.color || 'var(--border)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 700, color: statusColors[lead.status]?.color || 'var(--text-main)', flexShrink: 0 }}>
+                  {lead.name.charAt(0)}
+                </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>{lead.name}</span>
@@ -269,7 +272,7 @@ const Dashboard = () => {
         <div>
           {[
             { icon: Phone, color: '#34D399', name: 'Sneha G', action: 'Made a call to Rohan Krishnan', sub: 'Connected (12m 45s)', time: '10 mins ago' },
-            { icon: Star, color: '#FBBF24', name: 'SYSTEM', action: 'Qualified Suresh Menon — Proposal Sent', sub: 'Score: 91', time: '1 hour ago' },
+            { icon: Star, color: '#FBBF24', name: 'SYSTEM', action: 'Qualified Suresh Menon — Proposal Sent', sub: 'High Value: ₹35L', time: '1 hour ago' },
             { icon: ArrowRight, color: '#A88944', name: 'Vishal Reddy', action: 'Assigned Amit Hegde to Ankit Sharma', sub: 'Sales Executive', time: '2 hours ago' },
             { icon: CheckCircle, color: '#34D399', name: 'Divya Menon', action: 'Converted Vijay Kumar — ₹85L', sub: 'Full turnkey penthouse project', time: '3 hours ago' },
             { icon: AlertTriangle, color: '#F87171', name: 'SYSTEM', action: 'Escalation: Kavitha Nair not contacted', sub: 'SLA breach > 48h', time: '4 hours ago' },
@@ -312,20 +315,6 @@ const MiniStat = ({ label, value, target, good }) => (
     </p>
   </div>
 );
-
-const ScoreRing = ({ score }) => {
-  const color = score >= 75 ? '#F87171' : score >= 50 ? '#FBBF24' : '#60A5FA';
-  const r = 16; const circ = 2 * Math.PI * r;
-  return (
-    <div style={{ position: 'relative', width: 40, height: 40, flexShrink: 0 }}>
-      <svg width={40} height={40} style={{ transform: 'rotate(-90deg)' }}>
-        <circle cx={20} cy={20} r={r} fill="none" stroke="var(--border)" strokeWidth={3} />
-        <circle cx={20} cy={20} r={r} fill="none" stroke={color} strokeWidth={3} strokeDasharray={circ} strokeDashoffset={circ - (circ * score / 100)} strokeLinecap="round" />
-      </svg>
-      <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: 'var(--text-main)' }}>{score}</span>
-    </div>
-  );
-};
 
 const Legend = ({ color, label }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>

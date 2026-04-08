@@ -44,9 +44,9 @@ const Analytics = () => {
 
   // Spec 8.4: Executive Scorecards
   const execs = [
-    { name: 'Rahul V', region: 'Bangalore East', calls: 840, connect: '65%', duration: '6m 20s', cpl: 2.1, qualRate: '21%', avgScore: 68, approvalRate: '94%', convVisit: '82%', convSignUp: '55%' },
-    { name: 'Sneha G', region: 'Bangalore North', calls: 910, connect: '58%', duration: '5m 45s', cpl: 2.4, qualRate: '18%', avgScore: 62, approvalRate: '88%', convVisit: '76%', convSignUp: '48%' },
-    { name: 'Meera K', region: 'Mumbai', calls: 760, connect: '61%', duration: '7m 10s', cpl: 1.8, qualRate: '16%', avgScore: 65, approvalRate: '90%', convVisit: '79%', convSignUp: '51%' },
+    { name: 'Rahul V', region: 'Bangalore East', calls: 840, connect: '65%', duration: '6m 20s', cpl: 2.1, qualRate: '21%', avgValue: '28L', approvalRate: '94%', convVisit: '82%', convSignUp: '55%' },
+    { name: 'Sneha G', region: 'Bangalore North', calls: 910, connect: '58%', duration: '5m 45s', cpl: 2.4, qualRate: '18%', avgValue: '35L', approvalRate: '88%', convVisit: '76%', convSignUp: '48%' },
+    { name: 'Meera K', region: 'Mumbai', calls: 760, connect: '61%', duration: '7m 10s', cpl: 1.8, qualRate: '16%', avgValue: '25L', approvalRate: '90%', convVisit: '79%', convSignUp: '51%' },
   ];
 
   // Spec 8.5: 12-Month Possession Wave
@@ -197,7 +197,7 @@ const Analytics = () => {
                 </MetricGroup>
                 <MetricGroup title="Quality">
                   <MiniMetric label="Qual Rate" value={exec.qualRate} />
-                  <MiniMetric label="Avg Score" value={exec.avgScore} />
+                  <MiniMetric label="Avg Value" value={exec.avgValue} />
                   <MiniMetric label="Approval" value={exec.approvalRate} />
                 </MetricGroup>
                 <MetricGroup title="Outcome (Closed Loop)" highlight>

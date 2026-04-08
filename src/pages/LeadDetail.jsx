@@ -91,21 +91,7 @@ const LeadDetail = () => {
 
   const formatTime = (s) => `${Math.floor(s / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
 
-  const calculateScore = () => {
-    if (!lead) return 0;
-    let score = 0;
-    const possMonths = lead.possession ? (new Date(lead.possession) - Date.now()) / (1000 * 60 * 60 * 24 * 30) : 10;
-    if (possMonths < 3) score += 35; else if (possMonths < 6) score += 28; else if (possMonths < 12) score += 17.5; else score += 7;
-    if (form.budget >= 15) score += 25; else if (form.budget >= 10) score += 17.5; else if (form.budget >= 5) score += 10; else score += 2.5;
-    if (form.scope.includes('Full Home Interiors')) score += 20; else if (form.scope.length >= 2) score += 14; else if (form.scope.length >= 1) score += 8; else score += 4;
-    const readinessMap = { 'Want to start immediately': 20, 'Within 1 month': 16, 'Within 3 months': 10, 'Within 6 months': 8, 'After possession': 4, 'Not decided': 4 };
-    score += readinessMap[form.readiness] || 4;
-    return Math.round(score);
-  };
-
-  const currentScore = lead ? calculateScore() : 0;
-  const scoreColor = currentScore >= 75 ? '#F87171' : currentScore >= 50 ? '#FBBF24' : '#60A5FA';
-
+  const avatarColor = statusColors[lead?.status]?.color || 'var(--primary)';
   const handleEndCall = () => {
     setActiveCall(false);
     setShowCallOutcome(true);
@@ -202,7 +188,6 @@ const LeadDetail = () => {
             ]
           : [
               { label: 'Lead Value',  value: lead.value ? `₹${lead.value}L` : '—',           color: lead.value >= 20 ? '#34D399' : 'var(--text-main)' },
-              { label: 'Lead Score',  value: lead.score != null ? `${lead.score}/100` : '—', color: '#FBBF24' },
               { label: 'Status',      value: lead.status,                                    color: accentColor },
               { label: 'Source',      value: lead.source || '—',                             color: 'var(--text-muted)' },
             ];
@@ -267,22 +252,22 @@ const LeadDetail = () => {
                     {lead.assignedToName && <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>👤 {lead.assignedToName}</span>}
                     {lead.project && <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><Home size={11} /> {lead.project}</span>}
                   </div>
-                  {/* Progress bar: payment for converted, score bar for others */}
-                  <div style={{ marginTop: 7, display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <div style={{ height: 4, width: 150, background: 'rgba(255,255,255,0.07)', borderRadius: 2, overflow: 'hidden' }}>
-                      <div style={{
-                        height: '100%',
-                        width: isConverted ? `${paidPct}%` : `${lead.score || 0}%`,
-                        background: isConverted
-                          ? 'linear-gradient(90deg, var(--primary), #34D399)'
-                          : `linear-gradient(90deg, ${accentColor}80, ${accentColor})`,
-                        borderRadius: 2,
-                      }} />
+                  {/* Progress bar: payment for converted leads only */}
+                  {isConverted && (
+                    <div style={{ marginTop: 7, display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <div style={{ height: 4, width: 150, background: 'rgba(255,255,255,0.07)', borderRadius: 2, overflow: 'hidden' }}>
+                        <div style={{
+                          height: '100%',
+                          width: `${paidPct}%`,
+                          background: 'linear-gradient(90deg, var(--primary), #34D399)',
+                          borderRadius: 2,
+                        }} />
+                      </div>
+                      <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>
+                        {paidPct}% paid
+                      </span>
                     </div>
-                    <span style={{ fontSize: 10, color: 'var(--text-dim)' }}>
-                      {isConverted ? `${paidPct}% paid` : `Score: ${lead.score || 0}/100`}
-                    </span>
-                  </div>
+                  )}
                 </div>
               </div>
 
@@ -340,7 +325,7 @@ const LeadDetail = () => {
           <Card style={{ padding: 20, textAlign: 'center', position: 'relative' }}>
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 80, background: 'linear-gradient(180deg, rgba(168,137,68,0.15) 0%, transparent 100%)', zIndex: 0 }} />
             <div style={{ position: 'relative', zIndex: 1 }}>
-              <div style={{ width: 72, height: 72, borderRadius: '50%', margin: '0 auto 12px', background: 'var(--bg-card)', border: `2px solid ${scoreColor}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, fontWeight: 700, color: 'var(--text-main)', boxShadow: `0 8px 24px ${scoreColor}30` }}>{lead.name[0]}</div>
+              <div style={{ width: 72, height: 72, borderRadius: '50%', margin: '0 auto 12px', background: 'var(--bg-card)', border: `2px solid ${avatarColor}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, fontWeight: 700, color: 'var(--text-main)', boxShadow: `0 8px 24px ${avatarColor}30` }}>{lead.name[0]}</div>
               <h2 style={{ fontSize: 17, fontWeight: 700, color: 'var(--text-main)' }}>{lead.name}</h2>
               <p style={{ fontSize: 12, color: 'var(--primary)', marginTop: 4 }}>{lead.source}</p>
             </div>
@@ -688,37 +673,6 @@ const LeadDetail = () => {
         {/* ── RIGHT PANEL ── */}
         <div className="custom-scrollbar" style={{ display: 'flex', flexDirection: 'column', gap: 14, overflowY: 'auto', paddingRight: 4, paddingBottom: 24 }}>
 
-          {/* Score Card */}
-          <Card style={{ padding: 20, background: 'var(--bg-elevated)', border: `1px solid ${scoreColor}40` }}>
-            <h3 style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-main)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 16, textAlign: 'center' }}>Score</h3>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
-              <div style={{ position: 'relative', width: 100, height: 100 }}>
-                <svg width={100} height={100} style={{ transform: 'rotate(-90deg)' }}>
-                  <circle cx={50} cy={50} r={42} fill="none" stroke="var(--bg-main)" strokeWidth={7} />
-                  <circle cx={50} cy={50} r={42} fill="none" stroke={scoreColor} strokeWidth={7} strokeDasharray={264} strokeDashoffset={264 - 264 * currentScore / 100} strokeLinecap="round" style={{ transition: 'all 0.5s' }} />
-                </svg>
-                <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                  <span style={{ fontSize: 28, fontWeight: 700, color: 'var(--text-main)' }}>{currentScore}</span>
-                </div>
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {[{ label: 'Possession', value: lead.possession ? ((new Date(lead.possession) - Date.now()) / (30*24*60*60*1000) < 6 ? 28 : 17) : 7, max: 35, color: '#F87171' },
-                { label: 'Budget', value: form.budget >= 15 ? 25 : 17, max: 25, color: '#FBBF24' },
-                { label: 'Scope', value: form.scope.length >= 2 ? 20 : 10, max: 20, color: '#34D399' },
-                { label: 'Intent', value: form.readiness?.includes('month') ? 20 : 10, max: 20, color: '#60A5FA' },
-              ].map(d => (
-                <div key={d.label}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--text-dim)', marginBottom: 4 }}>
-                    <span>{d.label}</span><span style={{ color: 'var(--text-main)', fontWeight: 600 }}>{d.value}/{d.max}</span>
-                  </div>
-                  <div style={{ height: 4, background: 'var(--bg-main)', borderRadius: 2, overflow: 'hidden' }}>
-                    <div style={{ height: '100%', width: `${(d.value / d.max) * 100}%`, background: d.color, borderRadius: 2, transition: 'width 0.4s' }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Card>
 
           {/* Status History */}
           <Accordion title="Status History" icon={ArrowRight} defaultOpen={false}>

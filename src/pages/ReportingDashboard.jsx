@@ -82,8 +82,8 @@ const ReportingDashboard = () => {
   });
 
   const handleExport = () => {
-    const headers = ['ID', 'Name', 'Phone', 'Email', 'Status', 'Source', 'Region', 'Score', 'Assigned To'];
-    const rows = leads.map(l => [l.id, maskName(l.name), maskPhone(l.phone), maskEmail(l.email), l.status, l.source, l.region, l.score, l.assignedToName || '-'].join(','));
+    const headers = ['ID', 'Name', 'Phone', 'Email', 'Status', 'Source', 'Region', 'Value', 'Assigned To'];
+    const rows = leads.map(l => [l.id, maskName(l.name), maskPhone(l.phone), maskEmail(l.email), l.status, l.source, l.region, l.value, l.assignedToName || '-'].join(','));
     const csv = [headers.join(','), ...rows].join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);

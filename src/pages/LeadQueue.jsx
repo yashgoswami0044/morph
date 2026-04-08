@@ -20,7 +20,7 @@ const LeadQueue = () => {
   const [statusFilter, setStatusFilter] = useState(searchParams.get('status') || 'All');
   const [regionFilter, setRegionFilter] = useState('All');
   const [sourceFilter, setSourceFilter] = useState('All');
-  const [sortBy, setSortBy] = useState('priority');
+  const [sortBy, setSortBy] = useState('value');
   const [showFilters, setShowFilters] = useState(false);
   const [viewMode, setViewMode] = useState('list'); // 'list' or 'kanban'
 
@@ -50,7 +50,7 @@ const LeadQueue = () => {
         if (aInbound !== bInbound) return bInbound - aInbound;
       }
 
-      if (sortBy === 'priority') return (b.score || 0) - (a.score || 0);
+      if (sortBy === 'value') return (b.value || 0) - (a.value || 0);
       if (sortBy === 'followup') {
         const aDate = getNextFollowUp(a) || getNextMeeting(a);
         const bDate = getNextFollowUp(b) || getNextMeeting(b);
@@ -216,9 +216,8 @@ const LeadQueue = () => {
             {leadSources.map(s => <option key={s}>{s}</option>)}
           </select>
           <select value={sortBy} onChange={e => setSortBy(e.target.value)} style={{ padding: '8px 12px', background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--text-main)', fontSize: 13, fontFamily: 'inherit' }}>
-            <option value="priority">Score (Highest)</option>
-            <option value="followup">Follow-up Date</option>
             <option value="value">Value (Highest)</option>
+            <option value="followup">Follow-up Date</option>
             <option value="oldest">Oldest First</option>
           </select>
         </Card>
@@ -241,9 +240,9 @@ const LeadQueue = () => {
                 {isInbound && lead.status === 'Untouched' && <div style={{ position: 'absolute', top: 0, left: 0, width: 4, height: '100%', background: '#FBBF24' }} />}
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                  {/* Score */}
-                  <div style={{ width: 44, height: 44, borderRadius: '50%', flexShrink: 0, border: `2px solid ${sc.color || '#9CA3AF'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-main)', fontWeight: 700, fontSize: 14, color: 'var(--text-main)' }}>
-                    {lead.score || 0}
+                  {/* Avatar Avatar */}
+                  <div style={{ width: 44, height: 44, borderRadius: '50%', flexShrink: 0, border: `2px solid ${sc.color || '#9CA3AF'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', background: `${sc.color || '#9CA3AF'}15`, fontWeight: 700, fontSize: 18, color: sc.color || 'var(--text-main)' }}>
+                    {lead.name.charAt(0)}
                   </div>
 
                   {/* Info */}
@@ -411,7 +410,7 @@ const LeadQueue = () => {
                           <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 2, background: 'linear-gradient(90deg, #FBBF24, transparent)' }} />
                         )}
 
-                        {/* Top row: Name + Score */}
+                        {/* Top row: Name + Avatar */}
                         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8 }}>
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
@@ -435,10 +434,10 @@ const LeadQueue = () => {
                             width: 34, height: 34, borderRadius: '50%', flexShrink: 0,
                             border: `2px solid ${sc.color || '#9CA3AF'}`,
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            background: 'var(--bg-card)',
-                            fontWeight: 700, fontSize: 12, color: 'var(--text-main)',
+                            background: `${sc.color || '#9CA3AF'}15`,
+                            fontWeight: 700, fontSize: 16, color: sc.color || 'var(--text-main)',
                           }}>
-                            {lead.score || 0}
+                            {lead.name.charAt(0)}
                           </div>
                         </div>
 

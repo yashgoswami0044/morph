@@ -99,24 +99,18 @@ const ReviewQueue = () => {
 
 const ReviewCard = ({ lead, onApprove, onReturn, onEscalate, onRecycle, onAssignPresales, isReturning, returnReason, onReturnReasonChange, onCancelReturn }) => {
   const isNotQualified = lead.reviewType === 'notqualified';
-  const scoreColor = lead.score >= 75 ? '#F87171' : lead.score >= 50 ? '#FBBF24' : '#60A5FA';
+  const scoreColor = statusColors[lead.status]?.color || 'var(--primary)';
   const sc = statusColors[lead.status] || {};
 
-  const possMonths = lead.possession ? (new Date(lead.possession) - Date.now()) / (1000 * 60 * 60 * 24 * 30) : 10;
-  const breakdown = [
-    { label: 'Possession', value: possMonths < 3 ? 35 : possMonths < 6 ? 28 : possMonths < 12 ? 17.5 : 7, max: 35, color: '#F87171' },
-    { label: 'Budget', value: lead.budget >= 15 ? 25 : lead.budget >= 10 ? 17.5 : 10, max: 25, color: '#FBBF24' },
-    { label: 'Scope', value: lead.scope?.includes('Full Home Interiors') ? 20 : (lead.scope?.length || 0) >= 2 ? 14 : 8, max: 20, color: '#34D399' },
-    { label: 'Readiness', value: lead.readiness === 'Want to start immediately' ? 20 : lead.readiness === 'Within 1 month' ? 16 : 10, max: 20, color: '#60A5FA' },
-  ];
+
 
   return (
     <Card style={{ padding: 0, overflow: 'hidden', border: isNotQualified ? '1px solid rgba(248,113,113,0.3)' : isReturning ? '1px solid #FBBF24' : '1px solid var(--border)', transition: 'all 0.3s ease' }}>
       {/* Header */}
       <div style={{ padding: '20px 24px', background: isNotQualified ? 'rgba(248,113,113,0.04)' : 'var(--bg-main)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <div style={{ width: 44, height: 44, borderRadius: '50%', border: `2px solid ${scoreColor}`, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-card)', fontWeight: 700, color: 'var(--text-main)', fontSize: 15, boxShadow: `0 0 10px ${scoreColor}40` }}>
-            {lead.score || 0}
+          <div style={{ width: 44, height: 44, borderRadius: '50%', border: `2px solid ${scoreColor}`, display: 'flex', alignItems: 'center', justifyContent: 'center', background: `${scoreColor}15`, fontWeight: 700, color: scoreColor, fontSize: 18, boxShadow: `0 0 10px ${scoreColor}40` }}>
+            {lead.name.charAt(0)}
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -139,22 +133,7 @@ const ReviewCard = ({ lead, onApprove, onReturn, onEscalate, onRecycle, onAssign
 
       {/* Body */}
       <div style={{ display: 'flex' }}>
-        {/* Score Breakdown */}
         <div style={{ width: 260, padding: 20, borderRight: '1px solid var(--border)', background: 'var(--bg-card)', flexShrink: 0 }}>
-          <h4 style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 16 }}>Score Validation</h4>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {breakdown.map(dim => (
-              <div key={dim.label}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--text-dim)', marginBottom: 5 }}>
-                  <span>{dim.label}</span>
-                  <span style={{ color: 'var(--text-main)', fontWeight: 600 }}>{dim.value}<span style={{ color: 'var(--border-highlight)' }}>/{dim.max}</span></span>
-                </div>
-                <div style={{ height: 5, background: 'var(--bg-main)', borderRadius: 3, overflow: 'hidden', border: '1px solid var(--border)' }}>
-                  <div style={{ height: '100%', width: `${(dim.value / dim.max) * 100}%`, background: dim.color, borderRadius: 3 }} />
-                </div>
-              </div>
-            ))}
-          </div>
           {/* Services tags */}
           {lead.expectedServices?.length > 0 && (
             <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--border)' }}>
@@ -194,7 +173,7 @@ const ReviewCard = ({ lead, onApprove, onReturn, onEscalate, onRecycle, onAssign
           {isReturning && (
             <div style={{ marginTop: 20, padding: 16, background: 'rgba(251,191,36,0.06)', borderRadius: 'var(--radius-lg)', border: '1px solid rgba(251,191,36,0.3)', animation: 'fadeIn 0.2s' }}>
               <label style={{ fontSize: 13, fontWeight: 600, color: '#FBBF24', marginBottom: 10, display: 'block' }}>Return to Executive — Reason</label>
-              <textarea value={returnReason} onChange={e => onReturnReasonChange(e.target.value)} placeholder="e.g. Score seems high. Did you confirm budget?" rows={3} autoFocus
+              <textarea value={returnReason} onChange={e => onReturnReasonChange(e.target.value)} placeholder="e.g. Needs more information. Did you confirm budget?" rows={3} autoFocus
                 style={{ width: '100%', background: 'var(--bg-main)', border: '1px solid rgba(251,191,36,0.4)', color: 'var(--text-main)', padding: 14, borderRadius: 'var(--radius-md)', fontSize: 14, resize: 'none', outline: 'none' }} />
               <div style={{ display: 'flex', gap: 12, marginTop: 14 }}>
                 <Button onClick={onReturn} style={{ background: '#FBBF24', color: '#000', fontWeight: 700, opacity: returnReason.trim() ? 1 : 0.5 }}>Confirm Return</Button>

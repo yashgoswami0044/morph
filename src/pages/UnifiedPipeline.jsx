@@ -83,14 +83,7 @@ const UnifiedPipeline = () => {
     return 'pending';
   };
 
-  // Score card for selected lead
-  const score = selectedLead?.score || 0;
-  const scoreData = [
-    { label: 'Possession', value: 28, max: 35, color: '#F87171' },
-    { label: 'Budget', value: 25, max: 25, color: '#FBBF24' },
-    { label: 'Scope', value: 10, max: 20, color: '#34D399' },
-    { label: 'Intent', value: 10, max: 20, color: '#60A5FA' },
-  ];
+
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="animate-fade-in">
@@ -142,7 +135,6 @@ const UnifiedPipeline = () => {
                     <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><MapPin size={12} /> {selectedLead.region}</span>
                     <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><Layers size={12} /> {selectedLead.config} · {selectedLead.area} sqft</span>
                     <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><User size={12} /> Assigned: {selectedLead.assignedToName}</span>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><Star size={12} style={{ color: '#FBBF24' }} /> Score: {selectedLead.score}/100</span>
                   </div>
                 </div>
               </div>
@@ -438,41 +430,6 @@ const UnifiedPipeline = () => {
             {/* ── RIGHT: SIDEBAR CARDS ── */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
 
-              {/* Score Card */}
-              <Card style={{ padding: 20 }}>
-                <h3 style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase', marginBottom: 16, textAlign: 'center' }}>Lead Score Card</h3>
-                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
-                  <div style={{ position: 'relative', width: 90, height: 90 }}>
-                    <svg width={90} height={90} style={{ transform: 'rotate(-90deg)' }}>
-                      <circle cx={45} cy={45} r={38} fill="none" stroke="var(--bg-main)" strokeWidth={6} />
-                      <circle cx={45} cy={45} r={38} fill="none" stroke="#34D399" strokeWidth={6}
-                        strokeDasharray={239} strokeDashoffset={239 - 239 * score / 100}
-                        strokeLinecap="round" style={{ transition: 'all 0.5s' }} />
-                    </svg>
-                    <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                      <span style={{ fontSize: 26, fontWeight: 700, color: 'var(--text-main)' }}>{score}</span>
-                    </div>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  {scoreData.map(d => (
-                    <div key={d.label}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--text-dim)', marginBottom: 4 }}>
-                        <span>{d.label}</span>
-                        <span style={{ color: 'var(--text-main)', fontWeight: 600 }}>{d.value}/{d.max}</span>
-                      </div>
-                      <div style={{ height: 4, background: 'var(--bg-main)', borderRadius: 2, overflow: 'hidden' }}>
-                        <div style={{ height: '100%', width: `${(d.value / d.max) * 100}%`, background: d.color, borderRadius: 2 }} />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                {score >= 75 && (
-                  <div style={{ marginTop: 12, padding: '8px 12px', background: 'rgba(52,211,153,0.06)', border: '1px solid rgba(52,211,153,0.2)', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
-                    <span style={{ fontSize: 11, color: '#34D399', fontWeight: 600 }}>✦ Premium Lead — High Priority</span>
-                  </div>
-                )}
-              </Card>
 
               {/* Payment Milestones */}
               {project && (

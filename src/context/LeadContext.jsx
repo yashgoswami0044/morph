@@ -19,7 +19,7 @@ export const LeadProvider = ({ children }) => {
       id: `L-${Date.now()}`,
       status: 'Untouched',
       previousStatus: null,
-      score: 0,
+
       statusHistory: [{ status: 'Untouched', date: new Date().toISOString(), by: 'System' }],
       callHistory: [],
       moengage: { pushed: true, lastSync: new Date().toISOString(), events: ['lead_created'] },
@@ -252,8 +252,8 @@ export const LeadProvider = ({ children }) => {
         if (bDate) return 1;
       }
 
-      // Default: score descending
-      return (b.score || 0) - (a.score || 0);
+      // Default: value descending
+      return (b.value || 0) - (a.value || 0);
     });
   }, [leads]);
 
