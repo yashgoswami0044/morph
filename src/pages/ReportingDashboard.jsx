@@ -14,7 +14,7 @@ import {
 } from 'recharts';
 
 const ReportingDashboard = () => {
-  const { leads, moengageLog, getNextFollowUp } = useLeads();
+  const { leads, getNextFollowUp } = useLeads();
   const { user } = useAuth();
   const [timeframe, setTimeframe] = useState('Last 30 Days');
   const [maskPII, setMaskPII] = useState(false);

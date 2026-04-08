@@ -5,7 +5,7 @@ import {
   Trash2, Edit, Save, FileText, CheckCircle, MapPin, Check,
   AlertTriangle, ArrowRightLeft, BookOpen, Zap, Target, Shield, Smartphone, Lock
 } from 'lucide-react';
-import { builders, projects, teamMembers, notificationRules, escalationMatrix, stickyRouting, masterFields, moengageEventLog } from '../data/mockData.js';
+import { builders, projects, teamMembers, notificationRules, escalationMatrix, stickyRouting, masterFields } from '../data/mockData.js';
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState('team');
@@ -26,7 +26,7 @@ const Settings = () => {
           <TabItem icon={AlertTriangle} label="Escalation Matrix" active={activeTab === 'escalation'} onClick={() => setActiveTab('escalation')} />
           <TabItem icon={ArrowRightLeft} label="Sticky Routing" active={activeTab === 'sticky'} onClick={() => setActiveTab('sticky')} />
           <TabItem icon={FileText} label="Master Fields" active={activeTab === 'fields'} onClick={() => setActiveTab('fields')} />
-          <TabItem icon={Target} label="MoEngage Config" active={activeTab === 'moengage'} onClick={() => setActiveTab('moengage')} />
+
           <TabItem icon={Shield} label="Access Management" active={activeTab === 'access'} onClick={() => setActiveTab('access')} />
         </div>
 
@@ -38,7 +38,7 @@ const Settings = () => {
           {activeTab === 'escalation' && <EscalationConfig />}
           {activeTab === 'sticky' && <StickyRoutingConfig />}
           {activeTab === 'fields' && <MasterFieldsList />}
-          {activeTab === 'moengage' && <MoEngageConfig />}
+
           {activeTab === 'access' && <AccessManagement />}
         </div>
       </div>
@@ -255,41 +255,6 @@ const MasterFieldsList = () => (
       </Card>
     ))}
   </div>
-);
-
-/* ── MOENGAGE CONFIG ── */
-const MoEngageConfig = () => (
-  <Card style={{ padding: 24 }}>
-    <div style={{ marginBottom: 20 }}>
-      <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-main)' }}>MoEngage Integration</h3>
-      <p style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 4 }}>Push lead details and status changes to MoEngage for triggered workflows.</p>
-    </div>
-    <div style={{ display: 'flex', gap: 16, marginBottom: 24 }}>
-      <div style={{ flex: 1, padding: 16, background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.2)', borderRadius: 'var(--radius-md)' }}>
-        <p style={{ fontSize: 11, color: '#34D399', fontWeight: 600, marginBottom: 6 }}>CONNECTION STATUS</p>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#34D399' }} />
-          <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-main)' }}>LIVE — Connected</span>
-        </div>
-      </div>
-      <div style={{ flex: 1, padding: 16, background: 'var(--bg-main)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)' }}>
-        <p style={{ fontSize: 11, color: 'var(--text-dim)', fontWeight: 600, marginBottom: 6 }}>TOTAL EVENTS PUSHED</p>
-        <span style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-main)' }}>{moengageEventLog.length}</span>
-      </div>
-    </div>
-    <h4 style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>Events Pushed on Each Stage</h4>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      {['lead_created', 'status_attempted', 'status_validated', 'status_meeting_scheduled', 'status_meeting_done', 'status_proposal_sent', 'status_converted', 'status_not_qualified', 'lead_reassigned'].map(event => (
-        <div key={event} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px', background: 'var(--bg-main)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
-          <span style={{ fontSize: 13, color: 'var(--text-main)', fontFamily: 'monospace' }}>{event}</span>
-          <Badge variant="success" style={{ fontSize: 9 }}>ACTIVE</Badge>
-        </div>
-      ))}
-    </div>
-    <div style={{ marginTop: 20, display: 'flex', justifyContent: 'flex-end' }}>
-      <Button variant="primary"><Zap size={16} style={{ marginRight: 6 }} /> Test Push</Button>
-    </div>
-  </Card>
 );
 
 /* ── TAB ── */

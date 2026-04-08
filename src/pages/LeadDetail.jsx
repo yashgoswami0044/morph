@@ -19,7 +19,7 @@ const LeadDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { leads, updateLead, transitionStatus, assignLead, addCallLog, setFollowUp, scheduleMeeting, pushMoengageEvent } = useLeads();
+  const { leads, updateLead, transitionStatus, assignLead, addCallLog, setFollowUp, scheduleMeeting } = useLeads();
   const [lead, setLead] = useState(null);
 
   const [activeCall, setActiveCall] = useState(false);
@@ -115,8 +115,7 @@ const LeadDetail = () => {
     // Block any status change after Converted
     if (lead.status === 'Converted') return;
     transitionStatus(lead.id, newStatus, user?.name || 'User', reason ? { reason } : {});
-    // Trigger MoEngage communication on status change
-    pushMoengageEvent(lead.id, `moengage_comm_${newStatus.toLowerCase().replace(/\s/g, '_')}`, { status: newStatus, channel: 'MoEngage' });
+
     // Show post-visit summary form after Meeting Done
     if (newStatus === 'Meeting Done') setShowPostVisit(true);
   };
@@ -714,19 +713,7 @@ const LeadDetail = () => {
             </div>
           </Accordion>
 
-          {/* MoEngage Status */}
-          {lead.moengage && (
-            <Accordion title="MoEngage Status" icon={Target} defaultOpen={false} headerRight={<Badge variant="success" style={{ fontSize: 9 }}>SYNCED</Badge>}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              </div>
-              <p style={{ fontSize: 10, color: 'var(--text-dim)' }}>Last sync: {new Date(lead.moengage.lastSync).toLocaleString()}</p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 6 }}>
-                {(lead.moengage.events || []).map((ev, i) => (
-                  <span key={i} style={{ fontSize: 9, padding: '2px 6px', borderRadius: 4, background: 'var(--bg-main)', border: '1px solid var(--border)', color: 'var(--text-dim)' }}>{ev}</span>
-                ))}
-              </div>
-            </Accordion>
-          )}
+
         </div>
       </div>
 

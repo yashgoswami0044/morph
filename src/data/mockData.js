@@ -232,9 +232,7 @@ export const mockLeads = [
       { status: "Attempted", date: "2026-03-26T17:00:00", by: "Rahul V" },
       { status: "Validated", date: "2026-03-29T10:30:00", by: "Rahul V" },
       { status: "Meeting Scheduled", date: "2026-03-30T11:00:00", by: "Vishal Reddy" },
-    ],
-    moengage: { pushed: true, lastSync: "2026-03-30T11:05:00", events: ["lead_created", "status_attempted", "status_validated", "status_meeting_scheduled"] },
-  },
+    ],  },
   {
     id: "L-1002",
     name: "Priya Sharma",
@@ -278,9 +276,7 @@ export const mockLeads = [
       { status: "Untouched", date: "2026-03-28T09:00:00", by: "System" },
       { status: "Attempted", date: "2026-03-30T10:00:00", by: "Sneha G" },
       { status: "Validated", date: "2026-03-31T09:15:00", by: "Sneha G" },
-    ],
-    moengage: { pushed: true, lastSync: "2026-03-31T09:20:00", events: ["lead_created", "status_attempted", "status_validated"] },
-  },
+    ],  },
   {
     id: "L-1003",
     name: "Amit Hegde",
@@ -329,9 +325,7 @@ export const mockLeads = [
       { status: "Validated", date: "2026-03-30T14:45:00", by: "Deepak M" },
       { status: "Meeting Scheduled", date: "2026-03-31T10:00:00", by: "Vishal Reddy" },
       { status: "Meeting Done", date: "2026-04-02T16:00:00", by: "Ankit Sharma" },
-    ],
-    moengage: { pushed: true, lastSync: "2026-04-02T16:05:00", events: ["lead_created", "status_attempted", "status_validated", "status_meeting_scheduled", "status_meeting_done"] },
-  },
+    ],  },
   {
     id: "L-1004",
     name: "Anjali Rao",
@@ -374,9 +368,7 @@ export const mockLeads = [
     statusHistory: [
       { status: "Untouched", date: "2026-03-28T09:00:00", by: "System" },
       { status: "Attempted", date: "2026-03-28T11:00:00", by: "Rahul V" },
-    ],
-    moengage: { pushed: true, lastSync: "2026-03-28T11:05:00", events: ["lead_created", "status_attempted"] },
-  },
+    ],  },
   {
     id: "L-1005",
     name: "Suresh Menon",
@@ -425,9 +417,7 @@ export const mockLeads = [
       { status: "Meeting Scheduled", date: "2026-03-31T10:00:00", by: "Vishal Reddy" },
       { status: "Meeting Done", date: "2026-03-31T16:00:00", by: "Ankit Sharma" },
       { status: "Proposal Sent", date: "2026-04-01T09:00:00", by: "Ankit Sharma" },
-    ],
-    moengage: { pushed: true, lastSync: "2026-04-01T09:05:00", events: ["lead_created", "status_attempted", "status_validated", "status_meeting_scheduled", "status_meeting_done", "status_proposal_sent"] },
-  },
+    ],  },
   {
     id: "L-1006",
     name: "Ramesh Babu",
@@ -472,9 +462,7 @@ export const mockLeads = [
       { status: "Untouched", date: "2026-03-29T09:00:00", by: "System" },
       { status: "Attempted", date: "2026-03-30T09:00:00", by: "Meera K" },
       { status: "Not Qualified", date: "2026-03-30T09:05:00", by: "Meera K", reason: "Budget mismatch" },
-    ],
-    moengage: { pushed: true, lastSync: "2026-03-30T09:10:00", events: ["lead_created", "status_attempted", "status_not_qualified"] },
-  },
+    ],  },
   {
     id: "L-1007",
     name: "Kavitha Nair",
@@ -514,9 +502,7 @@ export const mockLeads = [
     callHistory: [],
     statusHistory: [
       { status: "Untouched", date: "2026-04-03T14:00:00", by: "System" },
-    ],
-    moengage: { pushed: true, lastSync: "2026-04-03T14:01:00", events: ["lead_created"] },
-  },
+    ],  },
   {
     id: "L-1008",
     name: "Vijay Kumar",
@@ -564,9 +550,7 @@ export const mockLeads = [
       { status: "Meeting Done", date: "2026-03-28T12:00:00", by: "Divya Menon" },
       { status: "Proposal Sent", date: "2026-03-29T10:00:00", by: "Divya Menon" },
       { status: "Converted", date: "2026-04-01T09:30:00", by: "Divya Menon" },
-    ],
-    moengage: { pushed: true, lastSync: "2026-04-01T09:35:00", events: ["lead_created", "status_attempted", "status_validated", "status_meeting_scheduled", "status_meeting_done", "status_proposal_sent", "status_converted"] },
-  },
+    ],  },
   {
     id: "L-1009",
     name: "Fatima Khan",
@@ -606,19 +590,10 @@ export const mockLeads = [
     callHistory: [],
     statusHistory: [
       { status: "Untouched", date: "2026-04-04T08:00:00", by: "System" },
-    ],
-    moengage: { pushed: true, lastSync: "2026-04-04T08:01:00", events: ["lead_created"] },
-  },
+    ],  },
 ];
 
-// ── MOENGAGE MOCK EVENTS LOG ──
-export const moengageEventLog = [
-  { id: 1, leadId: "L-1001", event: "status_meeting_scheduled", timestamp: "2026-03-30T11:05:00", payload: { status: "Meeting Scheduled", score: 88 }, synced: true },
-  { id: 2, leadId: "L-1003", event: "status_meeting_done", timestamp: "2026-04-02T16:05:00", payload: { status: "Meeting Done", score: 94 }, synced: true },
-  { id: 3, leadId: "L-1005", event: "status_proposal_sent", timestamp: "2026-04-01T09:05:00", payload: { status: "Proposal Sent", score: 91 }, synced: true },
-  { id: 4, leadId: "L-1006", event: "status_not_qualified", timestamp: "2026-03-30T09:10:00", payload: { status: "Not Qualified", reason: "Budget mismatch" }, synced: true },
-  { id: 5, leadId: "L-1008", event: "status_converted", timestamp: "2026-04-01T09:35:00", payload: { status: "Converted", value: 85 }, synced: true },
-];
+
 
 // ── MASTER FIELDS REFERENCE ──
 export const masterFields = {

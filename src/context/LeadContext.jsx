@@ -1,13 +1,11 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { mockLeads, statusFlow, teamMembers, moengageEventLog as initialMoengageLog } from '../data/mockData.js';
+import { mockLeads, statusFlow, teamMembers } from '../data/mockData.js';
 
 const LeadContext = createContext();
 
 export const LeadProvider = ({ children }) => {
   const [leads, setLeads] = useState(mockLeads);
   const [notifications, setNotifications] = useState([]);
-  const [moengageLog, setMoengageLog] = useState(initialMoengageLog);
-
   // ── Core CRUD ──
   const updateLead = useCallback((id, updates) => {
     setLeads(prev => prev.map(l => (l.id === id ? { ...l, ...updates } : l)));
@@ -21,12 +19,8 @@ export const LeadProvider = ({ children }) => {
       previousStatus: null,
 
       statusHistory: [{ status: 'Untouched', date: new Date().toISOString(), by: 'System' }],
-      callHistory: [],
-      moengage: { pushed: true, lastSync: new Date().toISOString(), events: ['lead_created'] },
-    };
-    setLeads(prev => [...prev, lead]);
-    pushMoengageEvent(lead.id, 'lead_created', { status: 'Untouched' });
-    addNotification('lead_created', `New lead "${lead.name}" added`, lead.id);
+      callHistory: [],    };
+    setLeads(prev => [...prev, lead]);    addNotification('lead_created', `New lead "${lead.name}" added`, lead.id);
     return lead;
   }, []);
 
@@ -97,9 +91,7 @@ export const LeadProvider = ({ children }) => {
         assignedRole: user.role,
       };
     }));
-    addNotification('assignment', `Lead reassigned to ${user.name} (${user.role})`, id);
-    pushMoengageEvent(id, 'lead_reassigned', { assignedTo: user.name, role: user.role });
-  }, []);
+    addNotification('assignment', `Lead reassigned to ${user.name} (${user.role})`, id);  }, []);
 
   // ── AUTO-ASSIGN INTERESTED LEADS TO SALES ──
   const autoAssignToSales = useCallback((id) => {
@@ -169,32 +161,6 @@ export const LeadProvider = ({ children }) => {
   const markNotificationRead = useCallback((id) => {
     setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
   }, []);
-
-  // ── MOENGAGE PUSH (mock) ──
-  const pushMoengageEvent = useCallback((leadId, event, payload) => {
-    const entry = {
-      id: Date.now(),
-      leadId,
-      event,
-      timestamp: new Date().toISOString(),
-      payload,
-      synced: true,
-    };
-    setMoengageLog(prev => [entry, ...prev]);
-
-    // Also update lead's moengage data
-    setLeads(prev => prev.map(lead =>
-      lead.id === leadId ? {
-        ...lead,
-        moengage: {
-          pushed: true,
-          lastSync: new Date().toISOString(),
-          events: [...(lead.moengage?.events || []), event],
-        },
-      } : lead
-    ));
-  }, []);
-
   // ── FOLLOW-UP & REMINDERS ──
   const setFollowUp = useCallback((id, date, forSales = false) => {
     setLeads(prev => prev.map(lead =>
@@ -263,7 +229,7 @@ export const LeadProvider = ({ children }) => {
       transitionStatus, assignLead, autoAssignToSales,
       scheduleMeeting, addCallLog, setFollowUp,
       notifications, addNotification, markNotificationRead,
-      moengageLog, pushMoengageEvent,
+      
       getPendingFirstCall, getOverdueFirstCall, getSortedLeads,
       getNextFollowUp, getNextMeeting, getNextFollowUpObj, getNextMeetingObj,
     }}>

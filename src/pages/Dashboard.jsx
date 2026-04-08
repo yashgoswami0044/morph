@@ -9,7 +9,7 @@ import {
   Calendar, Bell, Gauge, Timer
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { teamMembers, statusColors, leadStatuses, moengageEventLog } from '../data/mockData.js';
+import { teamMembers, statusColors, leadStatuses } from '../data/mockData.js';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -250,19 +250,7 @@ const Dashboard = () => {
         </Card>
       </div>
 
-      {/* MoEngage Sync Status */}
-      <Card style={{ padding: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(52,211,153,0.05)', border: '1px solid rgba(52,211,153,0.2)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(52,211,153,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Gauge size={18} style={{ color: '#34D399' }} />
-          </div>
-          <div>
-            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>MoEngage Integration</p>
-            <p style={{ fontSize: 12, color: '#34D399' }}>All {moengageEventLog.length} events synced · Last push: {new Date(moengageEventLog[0]?.timestamp || Date.now()).toLocaleString()}</p>
-          </div>
-        </div>
-        <Badge variant="success">LIVE</Badge>
-      </Card>
+
 
       {/* Activity Feed */}
       <Card style={{ padding: 0, overflow: 'hidden' }}>
@@ -276,7 +264,7 @@ const Dashboard = () => {
             { icon: ArrowRight, color: '#A88944', name: 'Vishal Reddy', action: 'Assigned Amit Hegde to Ankit Sharma', sub: 'Sales Executive', time: '2 hours ago' },
             { icon: CheckCircle, color: '#34D399', name: 'Divya Menon', action: 'Converted Vijay Kumar — ₹85L', sub: 'Full turnkey penthouse project', time: '3 hours ago' },
             { icon: AlertTriangle, color: '#F87171', name: 'SYSTEM', action: 'Escalation: Kavitha Nair not contacted', sub: 'SLA breach > 48h', time: '4 hours ago' },
-            { icon: Bell, color: '#60A5FA', name: 'MoEngage', action: 'Pushed status update for Priya Sharma', sub: 'Event: status_validated', time: '5 hours ago' },
+
           ].map((item, idx) => (
             <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 20px', borderBottom: '1px solid var(--border)' }}>
               <div style={{ width: 36, height: 36, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `${item.color}15`, color: item.color, flexShrink: 0 }}>

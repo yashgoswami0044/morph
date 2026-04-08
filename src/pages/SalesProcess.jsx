@@ -188,7 +188,7 @@ const SalesProcess = () => {
                 <QMini label="Payment Terms" value={q.paymentTerms} />
                 <QMini label="Sent Via" value={q.sentVia || '-'} />
                 <QMini label="Sent Date" value={formatDate(q.sentDate)} />
-                <QMini label="Customer Response" value={q.customerResponse || 'Awaiting'} />
+                <QMini label="Customer Response" value={q.customerResponse ? (q.customerResponse.accepted ? 'Accepted' : 'Rejected') : 'Awaiting'} />
               </div>
               {q.digitalSignature?.signed && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', background: 'rgba(52,211,153,0.06)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(52,211,153,0.15)' }}>
