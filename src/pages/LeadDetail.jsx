@@ -4,6 +4,7 @@ import { useLeads } from '../context/LeadContext.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { Card, Button, Badge, Accordion, Modal } from '../components/ui/index.jsx';
 import ProjectLifecycle from '../components/ProjectLifecycle.jsx';
+import EstimateManager from '../components/EstimateManager.jsx';
 import {
   Phone, Mail, MessageSquare, ChevronLeft, MapPin, Home, IndianRupee,
   Layers, Calendar, Clock, Save, CheckCircle, XCircle, AlertCircle,
@@ -192,7 +193,7 @@ const LeadDetail = () => {
             ];
 
         return (
-          <div style={{
+          <div className="print-hide" style={{
             borderRadius: 'var(--radius-lg)',
             border: `1px solid ${isConverted ? 'rgba(168,137,68,0.28)' : `${accentColor}22`}`,
             background: isConverted
@@ -317,10 +318,10 @@ const LeadDetail = () => {
       )}
 
       {/* ── 3 COLUMNS ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr 300px', gap: 20, flex: 1, minHeight: 0 }}>
+      <div className="print-block-override" style={{ display: 'grid', gridTemplateColumns: '300px 1fr 300px', gap: 20, flex: 1, minHeight: 0 }}>
 
         {/* ── LEFT PANEL ── */}
-        <div className="custom-scrollbar" style={{ display: 'flex', flexDirection: 'column', gap: 14, overflowY: 'auto', paddingRight: 4, paddingBottom: 24 }}>
+        <div className="custom-scrollbar print-hide" style={{ display: 'flex', flexDirection: 'column', gap: 14, overflowY: 'auto', paddingRight: 4, paddingBottom: 24 }}>
           <Card style={{ padding: 20, textAlign: 'center', position: 'relative' }}>
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 80, background: 'linear-gradient(180deg, rgba(168,137,68,0.15) 0%, transparent 100%)', zIndex: 0 }} />
             <div style={{ position: 'relative', zIndex: 1 }}>
@@ -404,7 +405,7 @@ const LeadDetail = () => {
         <div className="custom-scrollbar" style={{ display: 'flex', flexDirection: 'column', overflowY: 'auto', paddingRight: 4, paddingBottom: 24, gap: 14 }}>
 
           {/* ── TAB HEADER ── */}
-          <div style={{ display: 'flex', gap: 2, padding: 3, background: 'var(--bg-main)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
+          <div className="print-hide" style={{ display: 'flex', gap: 2, padding: 3, background: 'var(--bg-main)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
             <button onClick={() => setActiveTab('details')} style={{
               flex: 1, padding: '10px 16px', borderRadius: 'var(--radius-sm)',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
@@ -415,6 +416,17 @@ const LeadDetail = () => {
               boxShadow: activeTab === 'details' ? '0 0 12px rgba(168,137,68,0.15)' : 'none',
             }}>
               <ClipboardList size={15} /> Lead Details
+            </button>
+            <button onClick={() => setActiveTab('estimates')} style={{
+              flex: 1, padding: '10px 16px', borderRadius: 'var(--radius-sm)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+              fontSize: 13, fontWeight: 600, fontFamily: 'inherit', cursor: 'pointer',
+              border: 'none', transition: 'all 0.25s',
+              background: activeTab === 'estimates' ? 'linear-gradient(135deg, var(--primary-bg), rgba(168,137,68,0.25))' : 'transparent',
+              color: activeTab === 'estimates' ? 'var(--primary-light)' : 'var(--text-dim)',
+              boxShadow: activeTab === 'estimates' ? '0 0 12px rgba(168,137,68,0.15)' : 'none',
+            }}>
+              <FileText size={15} /> Estimates
             </button>
             <button onClick={() => setActiveTab('lifecycle')} style={{
               flex: 1, padding: '10px 16px', borderRadius: 'var(--radius-sm)',
@@ -667,10 +679,15 @@ const LeadDetail = () => {
           {activeTab === 'lifecycle' && (
             <CombinedJourneyTab lead={lead} user={user} />
           )}
+
+          {/* ── TAB: ESTIMATES ── */}
+          <div style={{ display: activeTab === 'estimates' ? 'block' : 'none' }}>
+            <EstimateManager lead={lead} updateLead={updateLead} />
+          </div>
         </div>
 
         {/* ── RIGHT PANEL ── */}
-        <div className="custom-scrollbar" style={{ display: 'flex', flexDirection: 'column', gap: 14, overflowY: 'auto', paddingRight: 4, paddingBottom: 24 }}>
+        <div className="custom-scrollbar print-hide" style={{ display: 'flex', flexDirection: 'column', gap: 14, overflowY: 'auto', paddingRight: 4, paddingBottom: 24 }}>
 
 
           {/* Status History */}

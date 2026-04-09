@@ -53,7 +53,7 @@ export const Sidebar = () => {
   const filteredNav = navItems.filter(item => item.roles.includes(user?.role));
 
   return (
-    <aside className="app-sidebar" style={{
+    <aside className="app-sidebar print-hide" style={{
       background: 'var(--bg-sidebar)', borderRight: '1px solid var(--border)',
       display: 'flex', flexDirection: 'column',
     }}>
@@ -132,7 +132,7 @@ export const Header = () => {
   const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
 
   return (
-    <header className="app-header">
+    <header className="app-header print-hide">
       {/* Search Bar */}
       <div style={{ position: 'relative', width: 380, flexShrink: 0 }}>
         <Search style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: isSearchFocused ? 'var(--primary)' : 'var(--text-dim)', transition: 'color 0.2s ease' }} size={16} />
