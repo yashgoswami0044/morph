@@ -743,23 +743,26 @@ export const mockEstimations = [
   {
     id: "EST-2026-000", leadId: "L-1008", leadName: "Vijay Kumar",
     project: "Embassy Lake Terraces", config: "Penthouse", area: 4200,
+    date: "2026-03-29",
     createdBy: { id: "SE02", name: "Divya Menon", role: "Sales Executive", date: "2026-03-28T10:00:00" },
     verifiedBy: { id: "SM01", name: "Vishal Reddy", role: "Sales Manager", date: "2026-03-28T15:00:00" },
     authorizedBy: { id: "RM01", name: "Karthik R", role: "Regional Manager", date: "2026-03-29T10:00:00" },
     status: "Authorized",
-    items: [
-      { category: "Full Turnkey", description: "Complete Home Interiors — Penthouse Premium Package", qty: 1, rate: 4200000, amount: 4200000 },
-      { category: "Modular Kitchen", description: "Island Kitchen + Acrylic + Hafele Hardware", qty: 1, rate: 650000, amount: 650000 },
-      { category: "Wardrobes", description: "4-Door Sliding Wardrobes x5 (All Bedrooms)", qty: 5, rate: 185000, amount: 925000 },
-      { category: "Home Theater", description: "Dolby Atmos 7.1 Surround Sound Room", qty: 1, rate: 750000, amount: 750000 },
-      { category: "Loose Furniture", description: "Italian Import Sofa + Dining + King Beds", qty: 1, rate: 1100000, amount: 1100000 },
-      { category: "False Ceiling", description: "Gypsum + POP + Cove Lighting (all rooms)", qty: 1, rate: 320000, amount: 320000 },
-      { category: "Electrical", description: "Full Rewiring + Smart Home Switches + MCB", qty: 1, rate: 280000, amount: 280000 },
+    rooms: [
+      {
+        id: "r1", name: "Global Scope", items: [
+          { id: "i1", category: "Full Turnkey", description: "Complete Home Interiors — Penthouse Premium Package", quantity: 1, rate: 4200000, amount: 4200000 },
+          { id: "i2", category: "Modular Kitchen", description: "Island Kitchen + Acrylic + Hafele Hardware", quantity: 1, rate: 650000, amount: 650000 },
+          { id: "i3", category: "Wardrobes", description: "4-Door Sliding Wardrobes x5 (All Bedrooms)", quantity: 5, rate: 185000, amount: 925000 },
+          { id: "i4", category: "Home Theater", description: "Dolby Atmos 7.1 Surround Sound Room", quantity: 1, rate: 750000, amount: 750000 },
+          { id: "i5", category: "Loose Furniture", description: "Italian Import Sofa + Dining + King Beds", quantity: 1, rate: 1100000, amount: 1100000 },
+          { id: "i6", category: "False Ceiling", description: "Gypsum + POP + Cove Lighting (all rooms)", quantity: 1, rate: 320000, amount: 320000 },
+          { id: "i7", category: "Electrical", description: "Full Rewiring + Smart Home Switches + MCB", quantity: 1, rate: 280000, amount: 280000 },
+        ]
+      }
     ],
-    totalAmount: 8225000,
-    discountPercent: 3.2,
-    finalAmount: 7962000,
-    gst: 1433160,
+    subTotal: 8225000,
+    discounts: [{ id: "d1", name: "Executive Discount", amount: 263000 }],
     grandTotal: 9395160,
     validUntil: "2026-04-10",
     digitalSignature: { signed: true, signedBy: "Karthik R", signedDate: "2026-03-29T10:00:00" },
@@ -773,23 +776,26 @@ export const mockEstimations = [
   {
     id: "EST-2026-001", leadId: "L-1003", leadName: "Amit Hegde",
     project: "Godrej Eternity", config: "3.5BHK", area: 1850,
+    date: "2026-04-03",
     createdBy: { id: "SE01", name: "Ankit Sharma", role: "Sales Executive", date: "2026-04-03T10:00:00" },
     verifiedBy: { id: "SM01", name: "Vishal Reddy", role: "Sales Manager", date: "2026-04-03T14:00:00" },
     authorizedBy: { id: "RM01", name: "Karthik R", role: "Regional Manager", date: "2026-04-03T16:00:00" },
     status: "Authorized",
-    items: [
-      { category: "Modular Kitchen", description: "L-Shaped Kitchen with Acrylic Finish", qty: 1, rate: 285000, amount: 285000 },
-      { category: "Wardrobes", description: "3-Door Sliding Wardrobe x3 (Master + Kids)", qty: 3, rate: 125000, amount: 375000 },
-      { category: "Living Room", description: "TV Unit + Crockery Unit + Shoe Rack", qty: 1, rate: 180000, amount: 180000 },
-      { category: "False Ceiling", description: "Gypsum False Ceiling (all rooms)", qty: 1, rate: 220000, amount: 220000 },
-      { category: "Painting", description: "Full Home Asian Royale Paint", qty: 1, rate: 175000, amount: 175000 },
-      { category: "Electrical", description: "Wiring + Switch Plates + Light Points", qty: 1, rate: 145000, amount: 145000 },
-      { category: "Civil Work", description: "Bathroom + Balcony Waterproofing", qty: 1, rate: 90000, amount: 90000 },
+    rooms: [
+      {
+        id: "r1", name: "Interiors Scope", items: [
+          { id: "i1", category: "Modular Kitchen", description: "L-Shaped Kitchen with Acrylic Finish", quantity: 1, rate: 285000, amount: 285000 },
+          { id: "i2", category: "Wardrobes", description: "3-Door Sliding Wardrobe x3 (Master + Kids)", quantity: 3, rate: 125000, amount: 375000 },
+          { id: "i3", category: "Living Room", description: "TV Unit + Crockery Unit + Shoe Rack", quantity: 1, rate: 180000, amount: 180000 },
+          { id: "i4", category: "False Ceiling", description: "Gypsum False Ceiling (all rooms)", quantity: 1, rate: 220000, amount: 220000 },
+          { id: "i5", category: "Painting", description: "Full Home Asian Royale Paint", quantity: 1, rate: 175000, amount: 175000 },
+          { id: "i6", category: "Electrical", description: "Wiring + Switch Plates + Light Points", quantity: 1, rate: 145000, amount: 145000 },
+          { id: "i7", category: "Civil Work", description: "Bathroom + Balcony Waterproofing", quantity: 1, rate: 90000, amount: 90000 },
+        ]
+      }
     ],
-    totalAmount: 1470000,
-    discountPercent: 5,
-    finalAmount: 1396500,
-    gst: 251370,
+    subTotal: 1470000,
+    discounts: [{ id: "d1", name: "Standard Promotion", amount: 73500 }],
     grandTotal: 1647870,
     validUntil: "2026-04-18",
     digitalSignature: { signed: true, signedBy: "Karthik R", signedDate: "2026-04-03T16:00:00" },
@@ -800,19 +806,22 @@ export const mockEstimations = [
   {
     id: "EST-2026-002", leadId: "L-1005", leadName: "Suresh Menon",
     project: "Purva Palm Beach", config: "4BHK", area: 2400,
+    date: "2026-04-01",
     createdBy: { id: "SE01", name: "Ankit Sharma", role: "Sales Executive", date: "2026-04-01T11:00:00" },
     verifiedBy: { id: "SM01", name: "Vishal Reddy", role: "Sales Manager", date: "2026-04-01T15:00:00" },
     authorizedBy: null,
     status: "Verified",
-    items: [
-      { category: "Full Turnkey", description: "Complete Home Interiors Package", qty: 1, rate: 3200000, amount: 3200000 },
-      { category: "Home Theater", description: "7.1 Surround Sound Room", qty: 1, rate: 650000, amount: 650000 },
-      { category: "Loose Furniture", description: "Sofa Set + Dining + Beds (Italian Import)", qty: 1, rate: 850000, amount: 850000 },
+    rooms: [
+      {
+        id: "r1", name: "Luxury Package", items: [
+          { id: "i1", category: "Full Turnkey", description: "Complete Home Interiors Package", quantity: 1, rate: 3200000, amount: 3200000 },
+          { id: "i2", category: "Home Theater", description: "7.1 Surround Sound Room", quantity: 1, rate: 650000, amount: 650000 },
+          { id: "i3", category: "Loose Furniture", description: "Sofa Set + Dining + Beds (Italian Import)", quantity: 1, rate: 850000, amount: 850000 },
+        ]
+      }
     ],
-    totalAmount: 4700000,
-    discountPercent: 3,
-    finalAmount: 4559000,
-    gst: 820620,
+    subTotal: 4700000,
+    discounts: [{ id: "d1", name: "Festival Offer", amount: 141000 }],
     grandTotal: 5379620,
     validUntil: "2026-04-15",
     digitalSignature: { signed: false, signedBy: null, signedDate: null },

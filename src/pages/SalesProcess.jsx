@@ -4,12 +4,14 @@ import { useAuth } from '../context/AuthContext.jsx';
 import {
   FileText, CheckCircle, XCircle, Clock, Send, Download, Plus,
   PenTool, ShieldCheck, IndianRupee, CreditCard, Upload, Eye,
-  ArrowRight, AlertTriangle, Hash, User, Building, Calendar, Lock, Unlock
+  ArrowRight, AlertTriangle, Hash, User, Building, Calendar, Lock, Unlock, Edit2
 } from 'lucide-react';
 import {
   mockEstimations, mockQuotations, mockPayments, mockContracts,
-  estimationStatuses, quotationStatuses, paymentStatuses, contractStatuses, projects
+  estimationStatuses, quotationStatuses, paymentStatuses, contractStatuses, projects, mockLeads
 } from '../data/mockData.js';
+import EstimatePreview from '../components/EstimatePreview.jsx';
+import EstimateBuilder from '../components/EstimateBuilder.jsx';
 
 const SalesProcess = () => {
   const { user } = useAuth();
@@ -20,6 +22,8 @@ const SalesProcess = () => {
   const [contracts] = useState(mockContracts);
   const [expandedEst, setExpandedEst] = useState(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [previewEst, setPreviewEst] = useState(null);
+  const [buildEst, setBuildEst] = useState(null);
   const [payForm, setPayForm] = useState({ leadName: '', amount: '', mode: 'Bank Transfer', pan: '', remarks: '' });
 
   const formatCurrency = (n) => `₹${(n / 100000).toFixed(2)}L`;
@@ -45,6 +49,93 @@ const SalesProcess = () => {
     setShowPaymentModal(false);
     setPayForm({ leadName: '', amount: '', mode: 'Bank Transfer', pan: '', remarks: '' });
   };
+
+  const handlePrint = () => {
+    const printContent = document.getElementById('printable-estimate')?.innerHTML;
+    if (!printContent) return;
+
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'fixed';
+    iframe.style.right = '0';
+    iframe.style.bottom = '0';
+    iframe.style.width = '0';
+    iframe.style.height = '0';
+    iframe.style.border = 'none';
+    document.body.appendChild(iframe);
+
+    const styles = Array.from(document.querySelectorAll('style, link[rel="stylesheet"]')).map(s => s.outerHTML).join('');
+
+    const iframeDoc = iframe.contentWindow.document;
+    iframeDoc.open();
+    iframeDoc.write(`
+      <html>
+        <head>
+          <title>Quotation - Morph</title>
+          ${styles}
+          <style>
+            @page { margin: 15mm; size: A4 portrait; }
+            body { background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; margin: 0; padding: 0; }
+            #printable-content > div { min-height: auto !important; max-width: 100% !important; min-width: 100% !important; width: 100% !important; margin: 0 auto !important; box-shadow: none !important; }
+          </style>
+        </head>
+        <body>
+          <div id="printable-content">${printContent}</div>
+        </body>
+      </html>
+    `);
+    iframeDoc.close();
+
+    setTimeout(() => {
+      iframe.contentWindow.focus();
+      iframe.contentWindow.print();
+      setTimeout(() => document.body.removeChild(iframe), 1000);
+    }, 500);
+  };
+
+  if (buildEst) {
+    return (
+      <div className="animate-fade-in" style={{ paddingBottom: 60, height: '100%' }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16 }}>
+          <Button variant="ghost" onClick={() => setBuildEst(null)} style={{ paddingLeft: 0 }}>
+            <ArrowRight size={16} style={{ marginRight: 4, transform: 'rotate(180deg)' }}/> Back to Queue
+          </Button>
+        </div>
+        <EstimateBuilder 
+          initialData={buildEst} 
+          onSave={(updatedEst) => {
+             setEstimations(prev => prev.map(e => e.id === updatedEst.id ? updatedEst : e));
+             setBuildEst(null);
+          }} 
+          onCancel={() => setBuildEst(null)} 
+        />
+      </div>
+    );
+  }
+
+  if (previewEst) {
+    return (
+      <div className="animate-fade-in print-preview-container" style={{ overflowX: 'auto', paddingBottom: 40, width: '100%', height: '100%' }}>
+        <div className="print:hidden" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, background: 'var(--bg-card)', padding: '12px 20px', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border)' }}>
+          <Button variant="ghost" onClick={() => setPreviewEst(null)} style={{ paddingLeft: 0 }}>
+            <ArrowRight size={16} style={{ marginRight: 4, transform: 'rotate(180deg)' }}/> Back to Queue
+          </Button>
+          <div style={{ display: 'flex', gap: 10 }}>
+            <Button variant="outline" onClick={() => { setBuildEst(previewEst); setPreviewEst(null); }}>
+              <Edit2 size={14} style={{ marginRight: 6 }}/> Edit
+            </Button>
+            <Button variant="primary" onClick={handlePrint}>
+              <Download size={14} style={{ marginRight: 6 }}/> Download PDF
+            </Button>
+          </div>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', width: '100%', padding: '0 20px' }}>
+          <div id="printable-estimate" style={{ width: '100%', maxWidth: '210mm' }}>
+            <EstimatePreview estimate={previewEst} lead={mockLeads.find(l => l.id === previewEst.leadId)} />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="animate-fade-in">
@@ -115,42 +206,23 @@ const SalesProcess = () => {
                 )}
               </div>
 
-              {/* Expanded: Line Items */}
+              {/* Expanded: Actions */}
               {expandedEst === est.id && (
                 <div style={{ animation: 'fadeIn 0.2s' }}>
-                  <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
-                    <thead>
-                      <tr style={{ background: 'var(--bg-card)', borderBottom: '1px solid var(--border)' }}>
-                        {['Category', 'Description', 'Qty', 'Rate', 'Amount'].map(h => (
-                          <th key={h} style={{ padding: '10px 16px', fontSize: 10, fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase' }}>{h}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {est.items.map((item, i) => (
-                        <tr key={i} style={{ borderBottom: '1px solid var(--border)' }}>
-                          <td style={{ padding: '10px 16px', fontSize: 12, fontWeight: 600, color: 'var(--text-main)' }}>{item.category}</td>
-                          <td style={{ padding: '10px 16px', fontSize: 12, color: 'var(--text-muted)' }}>{item.description}</td>
-                          <td style={{ padding: '10px 16px', fontSize: 12, color: 'var(--text-muted)' }}>{item.qty}</td>
-                          <td style={{ padding: '10px 16px', fontSize: 12, color: 'var(--text-muted)' }}>₹{item.rate.toLocaleString()}</td>
-                          <td style={{ padding: '10px 16px', fontSize: 12, fontWeight: 600, color: 'var(--text-main)' }}>₹{item.amount.toLocaleString()}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
                   <div style={{ padding: '16px 20px', background: 'var(--bg-main)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ display: 'flex', gap: 24 }}>
-                      <div><span style={{ fontSize: 10, color: 'var(--text-dim)' }}>SUBTOTAL</span><p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>₹{est.totalAmount.toLocaleString()}</p></div>
-                      <div><span style={{ fontSize: 10, color: 'var(--text-dim)' }}>DISCOUNT ({est.discountPercent}%)</span><p style={{ fontSize: 14, fontWeight: 600, color: '#F87171' }}>-₹{(est.totalAmount - est.finalAmount).toLocaleString()}</p></div>
-                      <div><span style={{ fontSize: 10, color: 'var(--text-dim)' }}>GST (18%)</span><p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-muted)' }}>₹{est.gst.toLocaleString()}</p></div>
-                      <div><span style={{ fontSize: 10, color: '#34D399' }}>GRAND TOTAL</span><p style={{ fontSize: 18, fontWeight: 700, color: '#34D399' }}>₹{est.grandTotal.toLocaleString()}</p></div>
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      <Button variant="outline" size="sm" onClick={() => setPreviewEst(est)}>
+                        <Eye size={14} style={{ marginRight: 4 }} /> Preview & Print
+                      </Button>
+                      <Button variant="outline" size="sm" onClick={() => setBuildEst(est)}>
+                        <Edit2 size={14} style={{ marginRight: 4 }} /> Edit Details
+                      </Button>
                     </div>
                     <div style={{ display: 'flex', gap: 8 }}>
                       {!est.verifiedBy && <Button variant="outline" size="sm" onClick={() => handleVerify(est.id)}><CheckCircle size={14} style={{ marginRight: 4 }} /> Verify</Button>}
                       {est.verifiedBy && !est.authorizedBy && <Button variant="outline" size="sm" onClick={() => handleAuthorize(est.id)}><PenTool size={14} style={{ marginRight: 4 }} /> Authorize & Sign</Button>}
                       {est.authorizedBy && !est.sharedWithCustomer && <Button variant="primary" size="sm" onClick={() => handleShareEst(est.id)}><Send size={14} style={{ marginRight: 4 }} /> Share with Customer</Button>}
                       {est.sharedWithCustomer && <Badge variant="success" style={{ padding: '6px 12px' }}>Shared {formatDate(est.sharedDate)}</Badge>}
-                      <Button variant="ghost" size="sm"><Download size={14} /> Excel</Button>
                     </div>
                   </div>
                 </div>
